@@ -43,6 +43,8 @@ def import_data(data_path=DATA_FILE):
 
     stores = []  # 음식점 테이블
     reviews = []  # 리뷰 테이블
+    menus = [] # 메뉴 테이블
+    users = [] # 유저 테이블
 
     for d in data:
 
