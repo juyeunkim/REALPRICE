@@ -8,11 +8,17 @@ def sort_stores_by_score(dataframes, n=20, min_reviews=30):
     Req. 1-2-1 각 음식점의 평균 평점을 계산하여 높은 평점의 음식점 순으로 `n`개의 음식점을 정렬하여 리턴합니다
     Req. 1-2-2 리뷰 개수가 `min_reviews` 미만인 음식점은 제외합니다.
     """
+
+    # JOIN
     stores_reviews = pd.merge(
         dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
     )
     scores_group = stores_reviews.groupby(["store", "store_name"])
-    scores = scores_group.mean()
+    scores = scores_group.mean().sort_values(by=["score"], ascending=False)
+    # .sort_values(by=["score"], ascending=False) : 평균 평점 순
+    print(scores)
+
+    # reset_index : 기존의 행 인덱스를 제거하고 인덱스를 데이터 열로 추가
     return scores.head(n=n).reset_index()
 
 
