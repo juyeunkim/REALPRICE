@@ -14,9 +14,19 @@ def sort_stores_by_score(dataframes, n=20, min_reviews=30):
         dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
     )
     scores_group = stores_reviews.groupby(["store", "store_name"])
+    print('#### group by 후 상태')
+    print(scores_group.head())
+    
+    tt = scores_group['id_y'].count()
+    tt = tt[tt>min_reviews].reset_index()
+    print('#### count')
+    print(tt)
+
     scores = scores_group.mean().sort_values(by=["score"], ascending=False)
     # .sort_values(by=["score"], ascending=False) : 평균 평점 순
-    print(scores)
+    
+    print('### score')
+    print(scores.head())
 
     # reset_index : 기존의 행 인덱스를 제거하고 인덱스를 데이터 열로 추가
     return scores.head(n=n).reset_index()
@@ -26,7 +36,20 @@ def get_most_reviewed_stores(dataframes, n=20):
     """
     Req. 1-2-3 가장 많은 리뷰를 받은 `n`개의 음식점을 정렬하여 리턴합니다
     """
-    raise NotImplementedError
+
+    # dataframe에서 review테이블 추출
+    stores_reviews = pd.merge(
+        dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
+    )
+
+    scores_group = stores_reviews.groupby(["store", "store_name"]) \
+                                ["store"].count().reset_index(name='cnt') \
+                                .sort_values(by=["cnt"], ascending=False)
+    
+    # 1. store, store_name으로 groupby
+    # 2. store을 기준으로 count(), as cnt
+    # 3. cnt기준으로 내림차순
+    return scores_group.head(n=n).reset_index()
 
 
 def get_most_active_users(dataframes, n=20):
@@ -42,14 +65,26 @@ def main():
     term_w = shutil.get_terminal_size()[0] - 1
     separater = "-" * term_w
 
-    stores_most_scored = sort_stores_by_score(data)
+    # stores_most_scored = sort_stores_by_score(data)
 
-    print("[최고 평점 음식점]")
+    # print("[최고 평점 음식점]")
+    # print(f"{separater}\n")
+    # for i, store in stores_most_scored.iterrows():
+    #     print(
+    #         "{rank}위: {store}({score}점)".format(
+    #             rank=i + 1, store=store.store_name, score=store.score
+    #         )
+    #     )
+    # print(f"\n{separater}\n\n")
+
+    stores_most_reviewed = get_most_reviewed_stores(data)
+
+    print("[리뷰가 많은 음식점]")
     print(f"{separater}\n")
-    for i, store in stores_most_scored.iterrows():
+    for i, store in stores_most_reviewed.iterrows():
         print(
-            "{rank}위: {store}({score}점)".format(
-                rank=i + 1, store=store.store_name, score=store.score
+            "{rank}위: {store}({count}개)".format(
+                rank=i + 1, store=store.store_name, count=store.cnt
             )
         )
     print(f"\n{separater}\n\n")
