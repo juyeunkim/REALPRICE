@@ -1,5 +1,11 @@
 # SSAFY Bigdata project
 
+## 개발 노트
+
+> [SUB1 정리](SUB1정리.md)
+
+
+
 ## How to Run
 
 ### Sub1
