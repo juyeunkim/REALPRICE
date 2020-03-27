@@ -71,6 +71,7 @@ def import_data(data_path=DATA_FILE):
                 [r["id"], d["id"], u["id"], r["score"], r["content"], r["reg_time"]]
             )
 
+        
     store_frame = pd.DataFrame(data=stores, columns=store_columns)
     review_frame = pd.DataFrame(data=reviews, columns=review_columns)
 
