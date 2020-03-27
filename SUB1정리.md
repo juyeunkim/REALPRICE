@@ -23,7 +23,7 @@ python3 -m pip install -r requirements.txt
 python parse.py
 ~~~
 
-
+<hr>
 
 ### parse.py
 
@@ -87,13 +87,19 @@ users = list(set(map(tuple,users)))
 
 
 
+### 결과화면
+
+![스크린샷 2020-03-27 오전 10.53.26](/Users/kimjuyeun/Desktop/pj1/skeleton-project-master/img/sub1/1.png)
+
+![스크린샷 2020-03-27 오전 10.52.14](/Users/kimjuyeun/Desktop/pj1/skeleton-project-master/img/sub1/2.png)
+
 <hr>
 
 ### analyze.py
 
 > 저장한 DataFrame을 통해 필요한 데이터를 가공해서 사용
 
-- 최고 평점 음식점
+1. 최고 평점 음식점
 
 ~~~python
 # review 와 store의 공통된 값(음식점 번호)를 통한 DataFrame 합치기
@@ -110,9 +116,13 @@ scores = scores_group.mean() \
  
 ~~~
 
+- 결과 화면
 
+![스크린샷 2020-03-27 오전 10.55.25](/Users/kimjuyeun/Desktop/pj1/skeleton-project-master/img/sub1/3.png)
 
-- 리뷰 작성순 음식점
+> 최소 리뷰 개수 필터링을 못했음..
+
+2. 리뷰 작성순 음식점
 
 ~~~python
 # line 1. store, store_name으로 groupby
@@ -129,11 +139,21 @@ scores_group = stores_reviews.groupby(["store", "store_name"]) \
 >
 > > count -> cnt로 바꿔서 출력하니 제대로 된 결과가 나왔음
 
-- 리뷰 작성순 유저
+- 결과화면
+
+![스크린샷 2020-03-27 오전 10.57.58](/Users/kimjuyeun/Desktop/pj1/skeleton-project-master/img/sub1/4.png)
+
+3. 리뷰 작성순 유저
 
 ~~~python
 users_group = users_reviews.groupby(["user"]) \
                             ["user"].count().reset_index(name='cnt')\
                             .sort_values(by=["cnt"], ascending=False)
 ~~~
+
+
+
+- 결과화면
+
+![스크린샷 2020-03-27 오전 10.58.15](/Users/kimjuyeun/Desktop/pj1/skeleton-project-master/img/sub1/5.png)
 
