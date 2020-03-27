@@ -89,9 +89,8 @@ users = list(set(map(tuple,users)))
 
 ### 결과화면
 
-![스크린샷 2020-03-27 오전 10.53.26](/Users/kimjuyeun/Desktop/pj1/skeleton-project-master/img/sub1/1.png)
-
-![스크린샷 2020-03-27 오전 10.52.14](/Users/kimjuyeun/Desktop/pj1/skeleton-project-master/img/sub1/2.png)
+![1](img/sub1/1.png)  
+![2](img/sub1/2.png)
 
 <hr>
 
@@ -118,7 +117,7 @@ scores = scores_group.mean() \
 
 - 결과 화면
 
-![스크린샷 2020-03-27 오전 10.55.25](/Users/kimjuyeun/Desktop/pj1/skeleton-project-master/img/sub1/3.png)
+![3](/img/sub1/3.png)
 
 > 최소 리뷰 개수 필터링을 못했음..
 
@@ -141,7 +140,7 @@ scores_group = stores_reviews.groupby(["store", "store_name"]) \
 
 - 결과화면
 
-![스크린샷 2020-03-27 오전 10.57.58](/Users/kimjuyeun/Desktop/pj1/skeleton-project-master/img/sub1/4.png)
+![4](/img/sub1/4.png)
 
 3. 리뷰 작성순 유저
 
@@ -155,5 +154,4 @@ users_group = users_reviews.groupby(["user"]) \
 
 - 결과화면
 
-![스크린샷 2020-03-27 오전 10.58.15](/Users/kimjuyeun/Desktop/pj1/skeleton-project-master/img/sub1/5.png)
-
+![5](/img/sub1/5.png)
