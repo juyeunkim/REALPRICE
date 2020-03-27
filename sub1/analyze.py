@@ -13,20 +13,19 @@ def sort_stores_by_score(dataframes, n=20, min_reviews=30):
     stores_reviews = pd.merge(
         dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
     )
-    scores_group = stores_reviews.groupby(["store", "store_name"])
+    scores_group = stores_reviews.groupby(["store", "store_name"]) 
+
     print('#### group by 후 상태')
     print(scores_group.head())
     
-    tt = scores_group['id_y'].count()
-    tt = tt[tt>min_reviews].reset_index()
-    print('#### count')
-    print(tt)
 
     scores = scores_group.mean().sort_values(by=["score"], ascending=False)
-    # .sort_values(by=["score"], ascending=False) : 평균 평점 순
-    
+
     print('### score')
     print(scores.head())
+    
+    # .sort_values(by=["score"], ascending=False) : 평균 평점 순
+    
 
     # reset_index : 기존의 행 인덱스를 제거하고 인덱스를 데이터 열로 추가
     return scores.head(n=n).reset_index()
@@ -74,17 +73,17 @@ def main():
     term_w = shutil.get_terminal_size()[0] - 1
     separater = "-" * term_w
 
-    # stores_most_scored = sort_stores_by_score(data)
+    stores_most_scored = sort_stores_by_score(data)
 
-    # print("[최고 평점 음식점]")
-    # print(f"{separater}\n")
-    # for i, store in stores_most_scored.iterrows():
-    #     print(
-    #         "{rank}위: {store}({score}점)".format(
-    #             rank=i + 1, store=store.store_name, score=store.score
-    #         )
-    #     )
-    # print(f"\n{separater}\n\n")
+    print("[최고 평점 음식점]")
+    print(f"{separater}\n")
+    for i, store in stores_most_scored.iterrows():
+        print(
+            "{rank}위: {store}({score}점)".format(
+                rank=i + 1, store=store.store_name, score=store.score
+            )
+        )
+    print(f"\n{separater}\n\n")
 
     # stores_most_reviewed = get_most_reviewed_stores(data)
 
@@ -98,17 +97,17 @@ def main():
     #     )
     # print(f"\n{separater}\n\n")
 
-    users_most_reviewed = get_most_active_users(data)
+    # users_most_reviewed = get_most_active_users(data)
 
-    print("[리뷰 많이 작성한 유저]")
-    print(f"{separater}\n")
-    for i, user in users_most_reviewed.iterrows():
-        print(
-            "{rank}위: {user}({count}개)".format(
-                rank=i + 1, user=user.user, count=user.cnt
-            )
-        )
-    print(f"\n{separater}\n\n")
+    # print("[리뷰 많이 작성한 유저]")
+    # print(f"{separater}\n")
+    # for i, user in users_most_reviewed.iterrows():
+    #     print(
+    #         "{rank}위: {user}({count}개)".format(
+    #             rank=i + 1, user=user.user, count=user.cnt
+    #         )
+    #     )
+    # print(f"\n{separater}\n\n")
 
 
 if __name__ == "__main__":
