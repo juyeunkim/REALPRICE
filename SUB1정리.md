@@ -120,7 +120,7 @@ scores = scores_group.mean() \
 # line 3. cnt기준으로 내림차순
 scores_group = stores_reviews.groupby(["store", "store_name"]) \ 
                                 				["store"].count().reset_index(name='cnt') \
-                                .sort_values(by=["cnt"], ascending=False)
+  									.sort_values(by=["cnt"], ascending=False)
 ~~~
 
 > 이때, 발생했던 에러 : count함수를 사용하고 결과 값을 'count'라고 별칭을 지어주고
