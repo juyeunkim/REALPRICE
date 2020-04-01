@@ -11,7 +11,7 @@
                       <v-list-item-group
                         v-model="selected"
                         multiple
-                        active-class="pink--text"
+                        active-class="green--text"
                       >
                         <template v-for="(item, index) in items">
                           <v-list-item :key="item.title">
