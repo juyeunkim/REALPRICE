@@ -50,11 +50,26 @@ def show_store_categories_graph(dataframes, n=100):
     plt.show()
 
 
-def show_store_review_distribution_graph():
+def show_store_review_distribution_graph(dataframes):
     """
     Req. 1-3-1 전체 음식점의 리뷰 개수 분포를 그래프로 나타냅니다. 
     """
-    raise NotImplementedError
+
+    stores_reviews = pd.merge(
+        dataframes['stores'], dataframes['reviews'], left_on="id", right_on="store"
+    )
+    scores_group = stores_reviews.groupby(["store", "store_name"]) \
+                                ["store"].count().reset_index(name='cnt')
+
+    print('######')
+    print(scores_group)
+   
+    
+    chart = sns.barplot(x="store", y="cnt", data=scores_group)
+    chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
+    plt.title("음식점 리뷰수 분포")
+    plt.show()
+
 
 
 def show_store_average_ratings_graph():
@@ -88,7 +103,12 @@ def show_stores_distribution_graph(dataframes):
 def main():
     set_config()
     data = load_dataframes()
-    show_store_categories_graph(data)
+    # show_store_categories_graph(data)
+    show_store_review_distribution_graph(data)
+    # show_store_average_ratings_graph()
+    # show_user_review_distribution_graph(data)
+    # show_user_age_gender_distribution_graph(data)
+    # show_stores_distribution_graph(data)
 
 
 if __name__ == "__main__":
