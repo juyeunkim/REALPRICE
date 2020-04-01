@@ -1,0 +1,161 @@
+<template>
+  <div>
+    회원가입
+    <v-container fluid>
+      <v-layout row wrap>
+        <v-flex xs12 md6 offset-md3>
+          <v-card>
+            <v-toolbar color="indigo" dark>
+              <v-toolbar-title>회원 가입</v-toolbar-title>
+            </v-toolbar>
+            <v-card-text>
+              <span class="title">Personal Info</span>
+
+              <!-- 이메일 -->
+              <v-text-field
+                v-model="email"
+                :rules="emailRules"
+                label="Email을 입력하세요"
+                class="mt-5"
+                required
+              />
+
+              <!-- 비밀번호 -->
+              <v-text-field
+                v-model="password"
+                :rules="[() => password.length > 0 || 'This field is required']"
+                label="Password을 입력하세요"
+                class="mt-5"
+                required
+                type="password"
+              />
+
+              <!-- 비밀번호 다시 -->
+              <v-text-field
+                v-model="password1"
+                :rules="[() => password1.length > 0 || 'This field is required']"
+                label="Password 확인"
+                class="mt-5"
+                required
+                type="password"
+              />
+
+              <!-- 이름 -->
+              <v-text-field
+                v-model="name"
+                :rules="nameRules"
+                label="Name을 입력하세요"
+                class="mt-5"
+                required
+              />
+
+              <!-- 성별 -->
+              성별
+              <v-radio-group v-model="sex" row>
+                <v-radio label="남자" value="M" />
+                <v-radio label="여자" value="F" />
+              </v-radio-group>
+
+              <!-- 태어난날 -->
+              <v-select v-model="born_year" :items="years" label="출생년도" />
+
+              <!-- 휴대폰 번호 -->
+              <v-text-field
+                v-model="phone"
+                :rules="phoneRules"
+                label="010-0000-0000"
+                class="mt-5"
+                required
+              />
+
+              <!-- 취향 -->
+              <v-select
+                v-model="tag"
+                :items="items"
+                label="싫어하는 음식(재료)를 선택해주세요"
+                chips
+                multiple
+                tags
+              />
+               
+              <!-- </v-select> -->
+            </v-card-text>
+
+            <v-divider class="mt-5" />
+            <v-card-actions>
+              <!-- <v-btn flat>Cancel</v-btn> -->
+              <v-spacer />
+              <v-btn color="primary" @click="submit">Submit</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </div>
+</template>
+
+<script>
+export default {
+  data: () => {
+    return {
+      // 기본 정보
+      years: ["1989", "1990", "1991", "1992", "1993", "1994", "1995"],
+      items: ["오이", "고수"],
+
+      // 유효성 검사
+      nameRules: [
+        v => !!v || "Name is required",
+        v => v.length <= 10 || "Name must be less than 10 characters"
+      ],
+      emailRules: [
+        v => !!v || "E-mail is required",
+        v =>
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          "E-mail must be valid"
+      ],
+      phoneRules: [
+        v => !!v || "Phone is required",
+        v =>
+          /^[0-9]{3}-([0-9]{3}|[0-9]{4})-[0-9]{4}$/.test(v) ||
+          "Phone must be valid"
+      ],
+
+      // 회원정보
+      email: "",
+      password: "",
+      password1: "",
+      born_year: "",
+      name: "",
+      phone: "",
+      tag: [], // 배열로 입력받을 예정
+      sex: ""
+    };
+  },
+  watch: {
+    password1: function() {
+      this.checkPw();
+    },
+    tag: function() {
+      this.test();
+    }
+  },
+  methods: {
+    test() {
+      console.log(this.tag);
+    },
+    checkPw() {
+      // 비밀번호 일치하는지 체크
+      if (this.password != this.password1) {
+        this.nameRules;
+        console.log(this.password1);
+      }
+    },
+    submit() {
+      // 회원가입으로 넘어감
+    }
+  }
+};
+</script>
+
+<style>
+</style>

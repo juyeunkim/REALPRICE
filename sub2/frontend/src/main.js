@@ -9,8 +9,8 @@ Vue.config.productionTip = false;
 Vue.use(infiniteScroll);
 
 new Vue({
-  vuetify,
-  router,
-  store,
-  render: h => h(App)
+    vuetify,
+    router,
+    store,
+    render: h => h(App)
 }).$mount("#app");
