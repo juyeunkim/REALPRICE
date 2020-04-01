@@ -8,5 +8,15 @@ export default [
     path: "/search",
     view: "Search",
     name: "search"
+  },
+  {
+    path: "/faq",
+    view: "FAQ",
+    name: "faq"
+  },
+  {
+    path: "/qna",
+    view: "QnA",
+    name: "qna"
   }
 ];

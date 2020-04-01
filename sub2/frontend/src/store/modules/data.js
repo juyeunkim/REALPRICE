@@ -4,6 +4,20 @@ import api from "../../api";
 const state = {
   storeSearchList: [],
   storeSearchPage: "1",
+  faq: [
+    {
+      title: '회원가입은 어떻게 하나요?',
+      subtitle: "우측 상단의 회원가입 버튼을 누르세요. 회원이 되시면 다양한 서비스를 누릴 수 있습니다.",
+    },
+    {
+      title: '로그인은 어떻게 하나요?',
+      subtitle: "우측 상단의 로그인 버튼을 누르세요. 로그인을 하시면 다양한 서비스를 누릴 수 있습니다. 로그인 후 필요한 검색 기능을 활용하세요. 회원이라면 누구나 이용할 수 있는 서비스입니다.",
+    },
+    {
+      title: '회원 탈퇴하고 싶어요.',
+      subtitle: 'ㄹㅇ??',
+    },
+  ],
 
   store: {
     id: "",

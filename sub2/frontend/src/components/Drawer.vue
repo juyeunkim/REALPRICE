@@ -49,6 +49,16 @@ export default {
         to: "/search",
         icon: "mdi-card-search",
         text: "맛집 검색"
+      },
+      {
+        to: "/faq",
+        icon: "fa-question",
+        text: "FAQ"
+      },
+      {
+        to: "/qna",
+        icon: "mdi-forum",
+        text: "QnA"
       }
     ]
   }),
