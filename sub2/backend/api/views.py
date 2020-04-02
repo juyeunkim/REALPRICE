@@ -1,7 +1,7 @@
 from api import models, serializers
 from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
-
+from .models import Faq
 
 class SmallPagination(PageNumberPagination):
     page_size = 10
@@ -19,3 +19,8 @@ class StoreViewSet(viewsets.ModelViewSet):
             models.Store.objects.all().filter(store_name__contains=name).order_by("id")
         )
         return queryset
+
+class FaqViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.FaqSerializer
+    pagination_class = SmallPagination
+    queryset = Faq.objects.all()

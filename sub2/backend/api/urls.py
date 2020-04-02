@@ -5,5 +5,6 @@ from api import views
 
 router = DefaultRouter(trailing_slash=False)
 router.register(r"stores", views.StoreViewSet, basename="stores")
+router.register(r"faqs", views.FaqViewSet, basename="faqs")
 
 urlpatterns = router.urls
