@@ -11,7 +11,6 @@
                       <v-list-item-group
                         v-model="selected"
                         multiple
-                        active-class="green--text"
                       >
                         <template v-for="(item, index) in items">
                           <v-list-item :key="item.title">
@@ -58,7 +57,7 @@ export default {
   }),
   computed: {
     ...mapState({
-      items: state => state.data.faq,
+      items: state => state.data.faqList,
     })
   },
 };

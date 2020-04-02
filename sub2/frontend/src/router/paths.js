@@ -18,5 +18,10 @@ export default [
     path: "/qna",
     view: "QnA",
     name: "qna"
+  },
+  {
+    path: "/test",
+    view: "Test",
+    name: "test"
   }
 ];

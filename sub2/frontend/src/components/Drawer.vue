@@ -59,6 +59,11 @@ export default {
         to: "/qna",
         icon: "mdi-forum",
         text: "QnA"
+      },
+      {
+        to: "/test",
+        icon: "fas fa-circle-notch fa-spin",
+        text: "Test Page (JKY)"
       }
     ]
   }),
