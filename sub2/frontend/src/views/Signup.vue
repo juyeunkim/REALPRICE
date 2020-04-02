@@ -69,6 +69,7 @@
               />
 
               <!-- 취향 -->
+              <!-- TODO : 추가로 입력받을수 있도록 -->
               <v-select
                 v-model="tags"
                 :items="items"
@@ -85,7 +86,7 @@
             <v-card-actions>
               <!-- <v-btn flat>Cancel</v-btn> -->
               <v-spacer />
-              <v-btn color="primary" @click="submit">Submit</v-btn>
+              <v-btn color="primary" @click="submit">회원가입</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -154,7 +155,14 @@ export default {
     },
     submit() {
       // 회원가입으로 넘어감
-      alert('성공');
+
+      if(this.email!='' && this.password!='' && this.born_year!='' && this.name!='' &&
+        this.phone!='' &&  this.sex!='' ){
+          this.$alert("회원가입 성공","Success","success");
+
+      }else{
+        this.$alert("항목을 모두 입력해주세요","Warning","warning");
+      }
 
       // TODO : 어떤 페이지로 넘어가는지
     }

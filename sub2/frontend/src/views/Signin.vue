@@ -31,7 +31,7 @@
             <v-divider class="mt-5" />
             <v-card-actions>
               <v-spacer />
-              <v-btn color="primary" @click="submit">Submit</v-btn>
+              <v-btn color="primary" @click="submit">로그인</v-btn>
             </v-card-actions>
           </v-card>
           <v-card>
@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import Axios from "axios"
+
 export default {
   data: () => {
     return {
@@ -58,11 +60,16 @@ export default {
       password: ""
     };
   },
+  
   methods:{
     submit() {
       // Axios를 통해 유효한 회원인지 판단
-
-      
+      if(this.email!='' && this.password!=''){
+        // TODO : Axios 연경
+        this.$alert("로그인 성공","Success","success");
+      }else{
+        this.$alert("항목을 모두 입력해주세요","Warning","warning");
+      }
     }
   }
 };
