@@ -20,7 +20,6 @@ class StoreViewSet(viewsets.ModelViewSet):
             models.Store.objects.all().filter(store_name__contains=name).order_by("id")
         )
         return queryset
-<<<<<<< HEAD
 
 
 class FaqViewSet(viewsets.ModelViewSet):
@@ -40,7 +39,6 @@ class QnaViewSet(viewsets.ModelViewSet):
     pagination_class = SmallPagination
     queryset = Qna.objects.all()
 
-=======
     def get_permissions(self):
         permission_classes = []
         if self.action == 'create':
@@ -73,4 +71,3 @@ class UserViewSet(viewsets.ModelViewSet):
         elif self.action == 'list' or self.action == 'destroy':
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
->>>>>>> back/login
