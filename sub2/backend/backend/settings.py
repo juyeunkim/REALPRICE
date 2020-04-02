@@ -41,9 +41,11 @@ INSTALLED_APPS = [
     "api",
     'rest_framework.authtoken',
     'rest_auth', 
+    'rest_framework_swagger',
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 10,
     'DEFAULT_PERMISSION_CLASSES': (
