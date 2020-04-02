@@ -16,3 +16,15 @@ class Store(models.Model):
     @property
     def category_list(self):
         return self.category.split("|") if self.category else []
+
+
+class Faq(models.Model):
+    faq_no = models.AutoField(primary_key=True)
+    # faq_group_no = models.IntegerField(null=False)
+    # faq_group_order = models.IntegerField(null=False)
+    # faq_depth = models.IntegerField(null=False)
+    faq_title = models.CharField(max_length=200, null=False)
+    faq_content = models.TextField(null=True)
+    faq_writer = models.CharField(max_length=100, null=False)
+    faq_write_date = models.DateField()
+    faq_count = models.IntegerField(null=False)
