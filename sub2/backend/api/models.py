@@ -28,3 +28,15 @@ class Faq(models.Model):
     faq_writer = models.CharField(max_length=100, null=False)
     faq_write_date = models.DateField()
     faq_count = models.IntegerField(null=False)
+    
+    
+class Qna(models.Model):
+    qna_no = models.AutoField(primary_key=True)
+    # qna_group_no = models.IntegerField(null=False)
+    # qna_group_order = models.IntegerField(null=False)
+    # qna_depth = models.IntegerField(null=False)
+    qna_title = models.CharField(max_length=200, null=False)
+    qna_content = models.TextField(null=True)
+    qna_writer = models.CharField(max_length=100, null=False)
+    qna_write_date = models.DateField()
+    qna_count = models.IntegerField(null=False)

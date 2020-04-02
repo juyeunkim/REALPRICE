@@ -17,5 +17,20 @@ export default [{
         path: "/signin",
         view: "Signin",
         name: "signin"
+    },
+    {
+        path: "/faq",
+        view: "FAQ",
+        name: "faq"
+    },
+    {
+        path: "/qna",
+        view: "QnA",
+        name: "qna"
+    },
+    {
+        path: "/test",
+        view: "Test",
+        name: "test"
     }
 ];
