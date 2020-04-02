@@ -32,11 +32,35 @@ class Faq(models.Model):
     
 class Qna(models.Model):
     qna_no = models.AutoField(primary_key=True)
-    # qna_group_no = models.IntegerField(null=False)
-    # qna_group_order = models.IntegerField(null=False)
-    # qna_depth = models.IntegerField(null=False)
+    qna_group_no = models.IntegerField(null=False)
+    qna_group_order = models.IntegerField(null=False)
+    qna_depth = models.IntegerField(null=False)
     qna_title = models.CharField(max_length=200, null=False)
     qna_content = models.TextField(null=True)
     qna_writer = models.CharField(max_length=100, null=False)
     qna_write_date = models.DateField()
     qna_count = models.IntegerField(null=False)
+# from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
+
+class User(AbstractUser):
+    username = models.CharField(blank=True, null=True,max_length=200)
+    email = models.EmailField(_('email address'), unique=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
+
+    def __str__(self):
+        return "{}".format(self.email)
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
+    gender = models.CharField(max_length=4)
+    born_year = models.CharField(max_length=50, blank=True)
+    name = models.CharField(max_length=100)
+    address = models.CharField(max_length=500, blank=True)
+    phone = models.CharField(max_length=13, blank=True)
+    tag = models.CharField(max_length = 500, blank=True)
+    photo = models.ImageField(upload_to='uploads', blank=True)
