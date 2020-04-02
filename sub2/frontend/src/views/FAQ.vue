@@ -17,8 +17,12 @@
                             <template v-slot:default="{ active }">
                               <v-list-item-content>
                                 <v-list-item-title v-text="item.title"></v-list-item-title>
-                                <div class="text--primary" v-if="active" v-text="item.content"></div>
+                                <div class="my-5 text--primary" v-if="active" v-text="item.content"></div>
                               </v-list-item-content>
+                              <v-list-item-action>
+                                <v-list-item-action-text v-text="item.write_date"></v-list-item-action-text>
+                                <v-list-item-action-text v-text="item.writer"></v-list-item-action-text>
+                              </v-list-item-action>
                             </template>
                           </v-list-item>
 
@@ -68,3 +72,10 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.answer{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+</style>

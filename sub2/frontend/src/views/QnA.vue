@@ -53,7 +53,7 @@
                                   <v-list-item-content>
                                       <v-list-item-title v-text=" item.title"></v-list-item-title>
                                       <div class="text--primary" v-if="active"  v-text="item.question"></div>
-                                      <div class="text--primary" v-if="active"  v-text="item.answer"></div>
+                                      <div class="my-5 text--primary" v-if="active"  v-text="item.answer"></div>
                                   </v-list-item-content>
 
                                   <v-list-item-action>
