@@ -26,13 +26,15 @@ class FaqViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.FaqSerializer
     pagination_class = SmallPagination
     queryset = Faq.objects.all()
-
-
-class FaqViewSet(viewsets.ModelViewSet):
-    serializer_class = serializers.FaqSerializer
-    pagination_class = SmallPagination
-    queryset = Faq.objects.all()
-    
+    def get_permissions(self):
+        permission_classes = []
+        if self.action == 'create':
+            permission_classes = [AllowAny]
+        elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update':
+            permission_classes = [AllowAny]
+        elif self.action == 'list' or self.action == 'destroy':
+            permission_classes = [AllowAny]
+        return [permission() for permission in permission_classes]
     
 class QnaViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.QnaSerializer
