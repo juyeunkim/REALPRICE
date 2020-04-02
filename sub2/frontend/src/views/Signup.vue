@@ -38,7 +38,7 @@
                 class="mt-5"
                 required
                 type="password"
-              /> -->
+              />-->
 
               <!-- 이름 -->
               <v-text-field
@@ -51,7 +51,7 @@
 
               <!-- 성별 -->
               성별
-              <v-radio-group v-model="sex" row>
+              <v-radio-group v-model="gender" row>
                 <v-radio label="남자" value="남" />
                 <v-radio label="여자" value="여" />
               </v-radio-group>
@@ -68,6 +68,15 @@
                 required
               />
 
+              <!-- 주소 -->
+              <v-text-field
+                v-model="address"
+                :rules="[() => password.length > 0 || 'This field is required']"
+                label="주소를 입력하세요"
+                class="mt-5"
+                required
+              />
+
               <!-- 취향 -->
               <!-- TODO : 추가로 입력받을수 있도록 -->
               <v-select
@@ -78,7 +87,7 @@
                 multiple
                 tags
               />
-               
+
               <!-- </v-select> -->
             </v-card-text>
 
@@ -96,6 +105,7 @@
 </template>
 
 <script>
+import Axios from "axios";
 export default {
   data: () => {
     return {
@@ -129,8 +139,9 @@ export default {
       born_year: "",
       name: "",
       phone: "",
-      sex: "",
-      tag: ""
+      gender: "",
+      tag: "",
+      address: ""
     };
   },
   watch: {
@@ -156,12 +167,40 @@ export default {
     submit() {
       // 회원가입으로 넘어감
 
-      if(this.email!='' && this.password!='' && this.born_year!='' && this.name!='' &&
-        this.phone!='' &&  this.sex!='' ){
-          this.$alert("회원가입 성공","Success","success");
+      if (
+        this.email != "" &&
+        this.password != "" &&
+        this.born_year != "" &&
+        this.name != "" &&
+        this.phone != "" &&
+        this.gender != ""
+      ) {
+        var data = {
+          email: this.email,
+          password: this.password,
+          profile: {
+            gender: this.gender,
+            born_year: this.born_year,
+            name: this.name,
+            address: this.address,
+            phone: this.phone,
+            tag: this.tag
+          }
+        };
 
-      }else{
-        this.$alert("항목을 모두 입력해주세요","Warning","warning");
+        console.log(data)
+        // Axios
+        Axios.post("/api/users/",data)
+          .then(res => {
+            console.log(res)
+            this.$alert("회원가입 성공", "Success", "success");
+          })
+          .catch(exp=>{
+            console.log("실패")
+            this.$alert("회원가입 실패", "Warning", "warning");
+          });
+      } else {
+        this.$alert("항목을 모두 입력해주세요", "Warning", "warning");
       }
 
       // TODO : 어떤 페이지로 넘어가는지
