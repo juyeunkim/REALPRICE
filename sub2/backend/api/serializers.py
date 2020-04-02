@@ -20,7 +20,6 @@ class StoreSerializer(serializers.ModelSerializer):
         ]
 
         
-        
 class FaqSerializer(serializers.ModelSerializer):
     class Meta:
         model = Faq
@@ -42,9 +41,9 @@ class QnaSerializer(serializers.ModelSerializer):
         model = Qna
         fields = [
             "qna_no",
-            # "qna_group_no",
-            # "qna_group_order",
-            # "qna_depth",
+            "qna_group_no",
+            "qna_group_order",
+            "qna_depth",
             "qna_title",
             "qna_content",
             "qna_writer",
