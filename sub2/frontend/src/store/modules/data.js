@@ -15,7 +15,7 @@ const state = {
     },
     {
       title: 'Q. 회원 탈퇴하고 싶어요.',
-      subtitle: 'A. ㄹㅇ??',
+      subtitle: 'A. ㄹㅇ?',
     },
   ],
 
@@ -52,40 +52,6 @@ const state = {
       writer: '김주연',
       question: '백만원만 주실 분 구합니다.',
       lock: true,
-    },
-    {
-      title: 'Q. 질문이 떨어졌습니다.',
-      writer: '정구헌',
-      question: '회원가입의 방법에 대해 무척 궁금합니다.',
-      lock: false,
-    },
-    {
-      title: 'Q. 질문을 만들어주세요.',
-      writer: '박정환',
-      question: '로그인 방법에 대해 무척 궁금합니다.',
-      answer: "A. 형식적인 답변입니다.",
-      lock: true,
-    },
-    {
-      title: 'Q. 질문이 없나요?',
-      writer: '김주연',
-      question: '회원 탈퇴를 하고 싶은데 어디서 하는지 찾지 못하겠습니다.',
-      answer: "A. 형식적인 답변입니다.",
-      lock: false,
-    },
-    {
-      title: 'Q. 질문을 올려주세요.',
-      writer: '전경윤',
-      question: '코딩이 싫은데 대신 해주실 분 구합니다.',
-      answer: "A. 형식적인 답변입니다.",
-      lock: true,
-    },
-    {
-      title: 'Q. 여러분의 질문이 필요합니다.',
-      writer: '백창현',
-      question: '백만원만 주실 분 구합니다.',
-      answer: "A. 형식적인 답변입니다.",
-      lock: false,
     },
   ],
 
