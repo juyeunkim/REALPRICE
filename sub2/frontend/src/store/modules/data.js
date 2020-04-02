@@ -15,7 +15,7 @@ const state = {
     },
     {
       title: 'Q. 회원 탈퇴하고 싶어요.',
-      subtitle: 'A. ㄹㅇ??',
+      subtitle: 'A. ㄹㅇ?',
     },
   ],
 
