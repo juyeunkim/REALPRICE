@@ -17,7 +17,7 @@
                             <template v-slot:default="{ active }">
                               <v-list-item-content>
                                 <v-list-item-title v-text="item.title"></v-list-item-title>
-                                <div class="text--primary" v-if="active" v-text="item.subtitle"></div>
+                                <div class="text--primary" v-if="active" v-text="item.content"></div>
                               </v-list-item-content>
                             </template>
                           </v-list-item>
@@ -46,6 +46,9 @@ import Card from "@/components/Card";
 import StoreListCard from "@/components/StoreListCard";
 import { mapState, mapActions } from "vuex";
 export default {
+  created: function(){
+    this.getFaqs();
+  },
   components: {
     Card,
     StoreListCard
@@ -60,5 +63,8 @@ export default {
       items: state => state.data.faqList,
     })
   },
+  methods: {
+    ...mapActions("data", ["getFaqs"]),
+  }
 };
 </script>

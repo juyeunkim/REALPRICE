@@ -7,5 +7,8 @@ export default {
     return axios.get(`${apiUrl}/stores`, {
       params
     });
+  },
+  getFaqs() {
+    return axios.get(`${apiUrl}/faqs`);
   }
 };
