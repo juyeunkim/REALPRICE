@@ -1,6 +1,7 @@
 from api import models, serializers
 from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
+from .models import Qna
 
 
 class SmallPagination(PageNumberPagination):
@@ -19,3 +20,10 @@ class StoreViewSet(viewsets.ModelViewSet):
             models.Store.objects.all().filter(store_name__contains=name).order_by("id")
         )
         return queryset
+
+
+class QnaViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.QnaSerializer
+    pagination_class = SmallPagination
+    queryset = Qna.objects.all()
+
