@@ -20,6 +20,7 @@ class StoreViewSet(viewsets.ModelViewSet):
             models.Store.objects.all().filter(store_name__contains=name).order_by("id")
         )
         return queryset
+<<<<<<< HEAD
 
 
 class FaqViewSet(viewsets.ModelViewSet):
@@ -39,3 +40,37 @@ class QnaViewSet(viewsets.ModelViewSet):
     pagination_class = SmallPagination
     queryset = Qna.objects.all()
 
+=======
+    def get_permissions(self):
+        permission_classes = []
+        if self.action == 'create':
+            permission_classes = [AllowAny]
+        elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update':
+            permission_classes = [AllowAny]
+        elif self.action == 'list' or self.action == 'destroy':
+            permission_classes = [AllowAny]
+        return [permission() for permission in permission_classes]
+        
+# from rest_framework import viewsets
+from rest_framework.permissions import AllowAny
+
+from .models import User
+from .serializers import UserSerializer
+# Also add these imports
+from .permissions import IsLoggedInUserOrAdmin, IsAdminUser
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    # Add this code block
+    def get_permissions(self):
+        permission_classes = []
+        if self.action == 'create':
+            permission_classes = []#[AllowAny]
+        elif self.action == 'retrieve' or self.action == 'update' or self.action == 'partial_update':
+            permission_classes = [IsLoggedInUserOrAdmin]
+        elif self.action == 'list' or self.action == 'destroy':
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+>>>>>>> back/login
