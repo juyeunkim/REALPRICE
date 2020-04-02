@@ -12,5 +12,10 @@ export default [{
         path: "/signup",
         view: "Signup",
         name: "signup"
+    },
+    {
+        path: "/signin",
+        view: "Signin",
+        name: "signin"
     }
 ];

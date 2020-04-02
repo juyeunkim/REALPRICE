@@ -31,14 +31,14 @@
               />
 
               <!-- 비밀번호 다시 -->
-              <v-text-field
+              <!-- <v-text-field
                 v-model="password1"
                 :rules="[() => password1.length > 0 || 'This field is required']"
                 label="Password 확인"
                 class="mt-5"
                 required
                 type="password"
-              />
+              /> -->
 
               <!-- 이름 -->
               <v-text-field
@@ -52,8 +52,8 @@
               <!-- 성별 -->
               성별
               <v-radio-group v-model="sex" row>
-                <v-radio label="남자" value="M" />
-                <v-radio label="여자" value="F" />
+                <v-radio label="남자" value="남" />
+                <v-radio label="여자" value="여" />
               </v-radio-group>
 
               <!-- 태어난날 -->
@@ -70,7 +70,7 @@
 
               <!-- 취향 -->
               <v-select
-                v-model="tag"
+                v-model="tags"
                 :items="items"
                 label="싫어하는 음식(재료)를 선택해주세요"
                 chips
@@ -101,6 +101,7 @@ export default {
       // 기본 정보
       years: ["1989", "1990", "1991", "1992", "1993", "1994", "1995"],
       items: ["오이", "고수"],
+      tags: [], // 선택한 취향
 
       // 유효성 검사
       nameRules: [
@@ -127,20 +128,21 @@ export default {
       born_year: "",
       name: "",
       phone: "",
-      tag: [], // 배열로 입력받을 예정
-      sex: ""
+      sex: "",
+      tag: ""
     };
   },
   watch: {
-    password1: function() {
-      this.checkPw();
-    },
-    tag: function() {
+    // password1: function() {
+    //   this.checkPw();
+    // },
+    tags: function() {
       this.test();
     }
   },
   methods: {
     test() {
+      this.tag = this.tags.toString();
       console.log(this.tag);
     },
     checkPw() {
@@ -152,6 +154,9 @@ export default {
     },
     submit() {
       // 회원가입으로 넘어감
+      alert('성공');
+
+      // TODO : 어떤 페이지로 넘어가는지
     }
   }
 };
