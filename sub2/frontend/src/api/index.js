@@ -10,5 +10,8 @@ export default {
   },
   getFaqs() {
     return axios.get(`${apiUrl}/faqs`);
+  },
+  getQnas() {
+    return axios.get(`${apiUrl}/qnas`);
   }
 };

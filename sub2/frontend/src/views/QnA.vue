@@ -37,6 +37,7 @@
                           multiple
                         >
                         <template v-for="(item, index) in props.items">
+                              
                           <!-- <v-row>
                             <v-col
                               v-for="(item, index) in props.items"
@@ -148,6 +149,9 @@ export default {
     Card,
     StoreListCard
   },
+  created: function(){
+    this.getQnas();
+  },
   data: () => ({
     title: "",
     question: "",
@@ -172,7 +176,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("data", ["postQuestion"]),
+    ...mapActions("data", ["postQuestion", "getQnas"]),
     submit: function() {
       const params = {
         title: "Q " + this.title,

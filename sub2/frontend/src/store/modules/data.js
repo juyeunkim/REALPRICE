@@ -6,41 +6,40 @@ const state = {
   storeSearchPage: "1",
   faqList: [],
 
-  qnaList: [
-    {
-      title: 'Q. 회원가입은 어떻게 하나요?',
-      writer: '전경윤',
-      question: '회원가입의 방법에 대해 무척 궁금합니다.',
-      answer: "A. 우측 상단의 회원가입 버튼을 누르세요. 회원이 되시면 다양한 서비스를 누릴 수 있습니다.",
-      lock: false,
-    },
-    {
-      title: 'Q. 로그인은 어떻게 하나요?',
-      writer: '백창현',
-      question: '로그인 방법에 대해 무척 궁금합니다.',
-      answer: "A. 우측 상단의 로그인 버튼을 누르세요. 로그인을 하시면 다양한 서비스를 누릴 수 있습니다. 로그인 후 필요한 검색 기능을 활용하세요. 회원이라면 누구나 이용할 수 있는 서비스입니다.",
-      lock: false,
-    },
-    {
-      title: 'Q. 회원 탈퇴하고 싶어요.',
-      writer: '정구헌',
-      question: '회원 탈퇴를 하고 싶은데 어디서 하는지 찾지 못하겠습니다.',
-      answer: 'A. ㄹㅇ??',
-      lock: false,
-    },
-    {
-      title: 'Q. 코딩하기 싫어요.',
-      writer: '박정환',
-      question: '코딩이 싫은데 대신 해주실 분 구합니다.',
-      lock: false,
-    },
-    {
-      title: 'Q. 100만원만 주세요.',
-      writer: '김주연',
-      question: '백만원만 주실 분 구합니다.',
-      lock: true,
-    },
-  ],
+  qnaList: [],
+    // {
+    //   title: 'Q. 회원가입은 어떻게 하나요?',
+    //   writer: '전경윤',
+    //   question: '회원가입의 방법에 대해 무척 궁금합니다.',
+    //   answer: "A. 우측 상단의 회원가입 버튼을 누르세요. 회원이 되시면 다양한 서비스를 누릴 수 있습니다.",
+    //   lock: false,
+    // },
+    // {
+    //   title: 'Q. 로그인은 어떻게 하나요?',
+    //   writer: '백창현',
+    //   question: '로그인 방법에 대해 무척 궁금합니다.',
+    //   answer: "A. 우측 상단의 로그인 버튼을 누르세요. 로그인을 하시면 다양한 서비스를 누릴 수 있습니다. 로그인 후 필요한 검색 기능을 활용하세요. 회원이라면 누구나 이용할 수 있는 서비스입니다.",
+    //   lock: false,
+    // },
+    // {
+    //   title: 'Q. 회원 탈퇴하고 싶어요.',
+    //   writer: '정구헌',
+    //   question: '회원 탈퇴를 하고 싶은데 어디서 하는지 찾지 못하겠습니다.',
+    //   answer: 'A. ㄹㅇ??',
+    //   lock: false,
+    // },
+    // {
+    //   title: 'Q. 코딩하기 싫어요.',
+    //   writer: '박정환',
+    //   question: '코딩이 싫은데 대신 해주실 분 구합니다.',
+    //   lock: false,
+    // },
+    // {
+    //   title: 'Q. 100만원만 주세요.',
+    //   writer: '김주연',
+    //   question: '백만원만 주실 분 구합니다.',
+    //   lock: true,
+    // },
 
   store: {
     id: "",
@@ -92,6 +91,20 @@ const actions = {
 
     commit("setFaqList", faqs);
   },
+  async getQnas({ commit }) {
+    const resp = await api.getQnas();
+    const qnas = resp.data.results.map(d => ({
+      no: d.qna_no,
+      title: d.qna_title,
+      question: d.qna_title,
+      answer: d.qna_content,
+      writer: d.qna_writer,
+      write_date: d.qna_write_date,
+      count: d.qna_count,
+      lock: d.qna_lock>0?true:false,
+    }));
+    commit("setQnaList", qnas);
+  },
   postQuestion({ commit }, params){
     const question = params;
     commit("addQnaList", question)
@@ -111,6 +124,9 @@ const mutations = {
   },
   setFaqList(state, faqs) {
     state.faqList = faqs.map(s => s);
+  },
+  setQnaList(state, qnas) {
+    state.qnaList = qnas.map(s => s);
   },
   addQnaList(state, question) {
     state.qnaList = state.qnaList.concat(question);
