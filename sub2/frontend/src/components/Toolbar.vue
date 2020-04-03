@@ -10,11 +10,23 @@
         <v-icon>mdi-dots-vertical </v-icon>
       </v-btn>
     </v-toolbar-items>-->
+
+    <!-- 로그인한 유저 정보 -->
+    <!-- <v-avatar>
+      <img
+        src="https://cdn.vuetifyjs.com/images/john.jpg"
+        alt="John"
+      >
+    </v-avatar> -->
+    
     <v-list rounded>
-      <v-list-item router-link :to="{name: 'signup'}" class="v-list-item ma-3">회원가입</v-list-item>
+      <v-list-item router-link :to="{name: 'signup'}">회원가입</v-list-item>
     </v-list>
     <v-list rounded>
-      <v-list-item router-link :to="{name: 'signin'}" class="v-list-item ma-3">로그인</v-list-item>
+      <v-list-item router-link :to="{name: 'signin'}">로그인</v-list-item>
+    </v-list>
+    <v-list rounded>
+      <v-list-item router-link :to="{name: 'mypage'}">마이페이지</v-list-item>
     </v-list>
   </v-app-bar>
 </template>

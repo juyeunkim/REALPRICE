@@ -10,8 +10,18 @@ export default [{
     },
     {
         path: "/signup",
-        view: "Signup",
+        view: "SignUp",
         name: "signup"
+    },
+    {
+        path: "/mypage",
+        view: "MyPage",
+        name: "mypage"
+    },
+    {
+        path: "/edituser",
+        view: "EditUser",
+        name: "edituser"
     },
     {
         path: "/signin",

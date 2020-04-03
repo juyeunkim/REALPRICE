@@ -1,6 +1,5 @@
 <template>
   <div>
-    회원가입
     <v-container fluid>
       <v-layout row wrap>
         <v-flex xs12 md6 offset-md3>

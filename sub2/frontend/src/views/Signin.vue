@@ -65,7 +65,21 @@ export default {
     submit() {
       // Axios를 통해 유효한 회원인지 판단
       if(this.email!='' && this.password!=''){
-        // TODO : Axios 연경
+        // Axios 연결
+        var data = {
+          email: this.email,
+          password: this.password
+        };
+        Axios.post("/api/auth/login/",data)
+          .then(res => {
+            console.log(res)
+            this.$alert("로그인 성공", "Success", "success");
+          })
+          .catch(exp=>{
+            console.log(exp)
+            console.log("실패")
+            this.$alert("이메일과 비밀번호를 확인해주세요", "Warning", "warning");
+          });
         this.$alert("로그인 성공","Success","success");
       }else{
         this.$alert("항목을 모두 입력해주세요","Warning","warning");
