@@ -49,9 +49,6 @@ export default {
     }
   },
   watch:{
-    // userId: function(){
-    //   return this.$store.getters.userStatus
-    // }
   },
   mounted() {
     this.onResponsiveInverted();

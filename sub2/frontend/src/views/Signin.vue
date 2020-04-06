@@ -72,16 +72,13 @@ export default {
         };
         Axios.post("/api/auth/login/",data)
           .then(res => {
-            console.log("login!!!")
-            console.log(res)
-
             this.$store.dispatch('data/login', res.data);
             this.$alert("로그인 성공", "Success", "success");
             this.$router.push('/')
           })
           .catch(exp=>{
             console.log(exp)
-            console.log("실패")
+            console.log("로그인 실패")
             this.$alert("이메일과 비밀번호를 확인해주세요", "Warning", "warning");
           });
       }else{
