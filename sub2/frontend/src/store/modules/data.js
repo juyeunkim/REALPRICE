@@ -1,5 +1,4 @@
 import api from "../../api";
-
 // initial state
 const state = {
     storeSearchList: [],
@@ -19,17 +18,36 @@ const state = {
         categories: []
     },
 
-    // TODO : user정보 + token값 세션에 저장
-    accessToken: sessionStorage.getItem("userToken"),
-    userEmail: sessionStorage.getItem("userEmail"),
-    userName: sessionStorage.getItem("userName"),
-    userId: sessionStorage.getItem("userId"),
+    userInfo: {
+        token: "",
+        user: {
+            pk: "",
+            email: "",
+            username: "",
+            first_name: "",
+            last_name: ""
+        }
+    },
+    // user정보 + token값 세션에 저장
+    // accessToken: sessionStorage.getItem("userToken"),
+    // userEmail: sessionStorage.getItem("userEmail"),
+    // userName: sessionStorage.getItem("userName"),
+    // userId: sessionStorage.getItem("userId"),
 
 
 };
 
 // actions
 const actions = {
+    // LOGIN, LOGOUT
+    logout({ commit }) {
+        commit('logout')
+    },
+    login({ commit }, payload) {
+        commit('login', payload)
+    },
+
+
     async getStores({ commit }, params) {
         const append = params.append;
         const resp = await api.getStores(params);
@@ -89,6 +107,25 @@ const actions = {
 
 // mutations
 const mutations = {
+    // LOGIN, LOGOUT
+    logout(state) {
+
+        state.userInfo.token = null
+        state.userInfo.user.email = null
+        state.userInfo.user.username = null
+        state.userInfo.user.pk = null
+
+        sessionStorage.clear()
+    },
+    login(state, payload) {
+        console.log("!!!!!!!!")
+        console.log(payload)
+        state.userInfo = payload
+
+    },
+
+
+
     setStoreSearchList(state, stores) {
         state.storeSearchList = stores.map(s => s);
     },
@@ -111,9 +148,18 @@ const mutations = {
     },
 };
 
+// getters
+const getters = {
+    userStatus: (state) => {
+        console.log(state)
+        return state.userInfo.user.pk
+    }
+};
+
 export default {
     namespaced: true,
     state,
     actions,
-    mutations
+    mutations,
+    getters
 };

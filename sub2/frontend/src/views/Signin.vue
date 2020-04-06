@@ -72,14 +72,12 @@ export default {
         };
         Axios.post("/api/auth/login/",data)
           .then(res => {
+            console.log("login!!!")
             console.log(res)
-            // session값 저장
-            sessionStorage.setItem("userToken", res.data.token);
-            sessionStorage.setItem("userEmail", res.data.user.email);
-            sessionStorage.setItem("userName", res.data.user.username);
-            sessionStorage.setItem("userid", res.data.user.pk);
 
+            this.$store.dispatch('data/login', res.data);
             this.$alert("로그인 성공", "Success", "success");
+            this.$router.push('/')
           })
           .catch(exp=>{
             console.log(exp)

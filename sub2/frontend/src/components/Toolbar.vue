@@ -6,7 +6,7 @@
     <v-spacer />
 
     <v-toolbar-items class="hidden-sm-and-down">
-      <template v-if="userid=='' || userid==null || userid==undefined">
+      <template v-if="userId=='' || userId==null || userId==undefined">
         <v-btn text :to="{name: 'signup'}">회원가입</v-btn>
 
         <v-divider inset vertical />
@@ -41,16 +41,17 @@ export default {
   data: () => ({
     responsive: false,
     items: [],
-    userid:''
   }),
   computed: {
     ...mapState("app", ["drawer"]),
-    
+    userId: function(){
+      return this.$store.getters['data/userStatus']
+    }
   },
   watch:{
-    userid: function(){
-      return sessionStorage.getItem("userid")
-    }
+    // userId: function(){
+    //   return this.$store.getters.userStatus
+    // }
   },
   mounted() {
     this.onResponsiveInverted();
@@ -74,11 +75,10 @@ export default {
     },
     logout(){
       console.log("로그아웃!!")
-      sessionStorage.removeItem("userid")
-      sessionStorage.removeItem("userToken")
-      sessionStorage.removeItem("userEmail")
-      sessionStorage.removeItem("userName")
-
+      
+      // dispatch로 action 호출
+      this.$store.dispatch('data/logout');
+      this.$router.push('/')
     }
   }
 };
