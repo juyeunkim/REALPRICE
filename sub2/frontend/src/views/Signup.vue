@@ -177,6 +177,7 @@ export default {
         var data = {
           email: this.email,
           password: this.password,
+          username: this.name,
           profile: {
             gender: this.gender,
             born_year: this.born_year,

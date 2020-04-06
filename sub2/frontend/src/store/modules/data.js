@@ -20,6 +20,11 @@ const state = {
     },
 
     // TODO : user정보 + token값 세션에 저장
+    accessToken: sessionStorage.getItem("userToken"),
+    userEmail: sessionStorage.getItem("userEmail"),
+    userName: sessionStorage.getItem("userName"),
+    userId: sessionStorage.getItem("userId"),
+
 
 };
 

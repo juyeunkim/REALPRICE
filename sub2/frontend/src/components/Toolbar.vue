@@ -4,12 +4,24 @@
       <v-icon>mdi-view-list</v-icon>
     </v-btn>
     <v-spacer />
-    <!-- 더보기 버튼 (미완성) -->
-    <!-- <v-toolbar-items>
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical </v-icon>
-      </v-btn>
-    </v-toolbar-items>-->
+
+    <v-toolbar-items class="hidden-sm-and-down">
+      <template v-if="userid=='' || userid==null || userid==undefined">
+        <v-btn text :to="{name: 'signup'}">회원가입</v-btn>
+
+        <v-divider inset vertical />
+
+        <v-btn text :to="{name: 'signin'}">로그인</v-btn>
+      </template>
+
+      <template v-else>
+        <v-btn @click="logout">로그아웃</v-btn>
+
+        <v-divider inset vertical />
+
+        <v-btn text :to="{name: 'mypage'}">마이페이지</v-btn>
+      </template>
+    </v-toolbar-items>
 
     <!-- 로그인한 유저 정보 -->
     <!-- <v-avatar>
@@ -17,17 +29,8 @@
         src="https://cdn.vuetifyjs.com/images/john.jpg"
         alt="John"
       >
-    </v-avatar> -->
+    </v-avatar>-->
     
-    <v-list rounded>
-      <v-list-item router-link :to="{name: 'signup'}">회원가입</v-list-item>
-    </v-list>
-    <v-list rounded>
-      <v-list-item router-link :to="{name: 'signin'}">로그인</v-list-item>
-    </v-list>
-    <v-list rounded>
-      <v-list-item router-link :to="{name: 'mypage'}">마이페이지</v-list-item>
-    </v-list>
   </v-app-bar>
 </template>
 
@@ -37,12 +40,17 @@ import { mapMutations, mapState } from "vuex";
 export default {
   data: () => ({
     responsive: false,
-    items:[
-      
-    ]
+    items: [],
+    userid:''
   }),
   computed: {
-    ...mapState("app", ["drawer"])
+    ...mapState("app", ["drawer"]),
+    
+  },
+  watch:{
+    userid: function(){
+      return sessionStorage.getItem("userid")
+    }
   },
   mounted() {
     this.onResponsiveInverted();
@@ -63,6 +71,14 @@ export default {
       } else {
         this.responsive = false;
       }
+    },
+    logout(){
+      console.log("로그아웃!!")
+      sessionStorage.removeItem("userid")
+      sessionStorage.removeItem("userToken")
+      sessionStorage.removeItem("userEmail")
+      sessionStorage.removeItem("userName")
+
     }
   }
 };

@@ -73,6 +73,12 @@ export default {
         Axios.post("/api/auth/login/",data)
           .then(res => {
             console.log(res)
+            // session값 저장
+            sessionStorage.setItem("userToken", res.data.token);
+            sessionStorage.setItem("userEmail", res.data.user.email);
+            sessionStorage.setItem("userName", res.data.user.username);
+            sessionStorage.setItem("userid", res.data.user.pk);
+
             this.$alert("로그인 성공", "Success", "success");
           })
           .catch(exp=>{
@@ -80,7 +86,6 @@ export default {
             console.log("실패")
             this.$alert("이메일과 비밀번호를 확인해주세요", "Warning", "warning");
           });
-        this.$alert("로그인 성공","Success","success");
       }else{
         this.$alert("항목을 모두 입력해주세요","Warning","warning");
       }

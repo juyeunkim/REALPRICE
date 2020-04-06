@@ -14,6 +14,11 @@ export default [{
         name: "signup"
     },
     {
+        path: "/signin",
+        view: "SignIn",
+        name: "signin"
+    },
+    {
         path: "/mypage",
         view: "MyPage",
         name: "mypage"
@@ -22,11 +27,6 @@ export default [{
         path: "/edituser",
         view: "EditUser",
         name: "edituser"
-    },
-    {
-        path: "/signin",
-        view: "Signin",
-        name: "signin"
     },
     {
         path: "/faq",
