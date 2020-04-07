@@ -1,11 +1,44 @@
-# SSAFY Bigdata project
+# **Real Price** - SSAFY Bigdata project 
 
-## Develop Notes
+## **INDEX**
+1. [기획 의도](#Planning)
+1. [테스트](#Test)
+1. [사용 메뉴얼](#Manual)
+1. [팀 구성](#Our-Team)
+1. [개발 노트](#Develop-Notes)
+1. [회의록](#Meeting-Logs)
+1. [메타데이터](#MetaData)
+1. [기술스택](#Skill-Stack)
+1. [사용 툴](#Tools)
 
-> [SUB1 정리](SUB1정리.md)  
+## **Planning**
+
+ ### 1. Background
+
+ ### 2. Purpose
+
+ ### 3. Target
+
+ ### 4. Our Service
+
+## **Test**
+
+ - Web Site Address
+   <!-- > http://i02a206.p.ssafy.io -->
+ - User
+   <!-- > ID : tester@gmail.com  
+   > PASSWORD : !1q2w3e4r -->
+
+## **Manual**
+ 
+## **Our Team**
+
+## **Develop Notes**
+
+> [SUB1 정리](sub1/SUB1정리.md)  
 > SUB2 부터는 기본기능을 제외하고는 계획한 프로젝트 설계에 맞게 진행함
 
-## Meeting Logs
+## **Meeting Logs**
 
  - Zoom을 활용해서 회의함
    - 아이디어 회의 및 스켈레톤 코드 체크 **[0323(월)](meetingLog/0323(월).md)**
@@ -14,36 +47,12 @@
    - 데이터 활용 기준 회의 **[0406_월](meetingLog/0406(월).md)** 
    - 현재 진행사항 및 금주 진행 예정 사항 공유 **[0407_화](meetingLog/0407(화).md)**
 
+## **MetaData**
 
-## How to Run
+## **Skill Stack**
 
-### Sub1
+## **Tools**
 
-```sh
-cd sub1
-pip install -r requirements.txt
-python parse.py
-python analyse.py
-python visualize.py
-```
-
-### Sub 2
-
-**Backend**
-
-```sh
-cd sub2/backend
-pip install -r requirements.txt
-python manage.py makemigrations
-python manage.py migrate
-python manage.py initialize
-python manage.py runserver
-```
-
-**Frontend**
-
-```sh
-cd sub2/frontend
-npm install
-npm run serve
-```
+- Visual Studio Code 
+- MySQL Workbench
+- git(git bash) / gitlab(lab.ssafy.com) / jira (jira.ssafy.com)
