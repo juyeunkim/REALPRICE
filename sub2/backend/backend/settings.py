@@ -49,7 +49,8 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 10,
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
+        # 'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
@@ -102,8 +103,8 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "realpricedb",
         "USER": "root",
-        "PASSWORD": "ssafy",
-        "HOST": "13.125.68.33",
+        "PASSWORD": "root",#"ssafy",
+        "HOST": "127.0.0.1",#"13.125.68.33",
         "PORT": "3306",
         "OPTIONS": {"charset": "utf8mb4"},
     }

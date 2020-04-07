@@ -7,7 +7,7 @@ router = DefaultRouter()#(trailing_slash=False)
 router.register(r"stores", views.StoreViewSet, basename="stores")
 router.register(r"faqs", views.FaqViewSet, basename="faqs")
 router.register(r"qnas", views.QnaViewSet, basename="qnas")
-router.register(r'users', UserViewSet)
+router.register(r'users', UserViewSet, basename="users")
 
 # urlpatterns = router.urls
 # urlpatterns = router.urls
