@@ -18,6 +18,7 @@ const state = {
         categories: []
     },
 
+    // user정보
     userInfo: {
         token: "",
         user: {
@@ -28,11 +29,6 @@ const state = {
             last_name: ""
         }
     },
-    // user정보 + token값 세션에 저장
-    // accessToken: sessionStorage.getItem("userToken"),
-    // userEmail: sessionStorage.getItem("userEmail"),
-    // userName: sessionStorage.getItem("userName"),
-    // userId: sessionStorage.getItem("userId"),
 
 
 };
@@ -118,8 +114,6 @@ const mutations = {
         sessionStorage.clear()
     },
     login(state, payload) {
-        console.log("!!!!!!!!")
-        console.log(payload)
         state.userInfo = payload
 
     },
@@ -151,7 +145,6 @@ const mutations = {
 // getters
 const getters = {
     userStatus: (state) => {
-        console.log(state)
         return state.userInfo.user.pk
     }
 };

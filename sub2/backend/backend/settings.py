@@ -103,7 +103,6 @@ DATABASES = {
         "NAME": "realpricedb",
         "USER": "root",
         "PASSWORD": "ssafy",
-        # "HOST": "127.0.0.1", 
         "HOST": "13.125.68.33", #AWS
         "PORT": "3306",
         "OPTIONS": {"charset": "utf8mb4"},
@@ -162,3 +161,4 @@ PASSWORD_HASHERS = (
     "django.contrib.auth.hashers.MD5PasswordHasher",
     "django.contrib.auth.hashers.CryptPasswordHasher",
 )
+#yes
