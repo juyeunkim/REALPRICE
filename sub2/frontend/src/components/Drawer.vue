@@ -51,6 +51,11 @@ export default {
         text: "맛집 검색"
       },
       {
+        to: "/realprice",
+        icon: "fas fa-won-sign fa-spin",
+        text: "Real Price"
+      },
+      {
         to: "/faq",
         icon: "fa-question",
         text: "FAQ"

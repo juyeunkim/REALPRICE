@@ -20,7 +20,7 @@ python visualize.py
 
 ### Sub 2
 
-**Backend**
+**Backend**.
 
 ```sh
 cd sub2/backend
@@ -31,7 +31,7 @@ python manage.py initialize
 python manage.py runserver
 ```
 
-**Frontend**
+**Frontend.**
 
 ```sh
 cd sub2/frontend

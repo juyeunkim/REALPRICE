@@ -9,6 +9,11 @@ export default [{
         name: "search"
     },
     {
+        path: "/realprice",
+        view: "RealPrice",
+        name: "realprice"
+    },
+    {
         path: "/signup",
         view: "Signup",
         name: "signup"
