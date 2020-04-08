@@ -47,7 +47,7 @@
             "vue/max-attributes-per-line": 0,
             "vue/singleline-html-element-content-newline": 0,
             "vue/multiline-html-element-content-newline": 0,
-            "no-console": 1,
+            "no-console": "off",
             "no-unused-vars": 1,
             "no-undef": 0
         },
