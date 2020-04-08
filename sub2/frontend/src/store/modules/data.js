@@ -18,8 +18,8 @@ const state = {
         categories: []
     },
 
-    // user정보
-    userInfo: {
+    // session 정보
+    Session: {
         token: "",
         user: {
             pk: "",
@@ -27,6 +27,22 @@ const state = {
             username: "",
             first_name: "",
             last_name: ""
+        }
+    },
+
+    // user정보
+    userInfo: {
+        email: "",
+        first_name: "",
+        last_name: "",
+        profile: {
+            gender: "",
+            born_year: "",
+            name: "",
+            address: "",
+            phone: "",
+            tag: "",
+            photo: null
         }
     },
 
@@ -41,6 +57,12 @@ const actions = {
     },
     login({ commit }, payload) {
         commit('login', payload)
+    },
+
+    userInfo({ commit }, payload) {
+        const res = api.getUserInfo(payload);
+        console.log(res)
+        commit('login', res)
     },
 
 
@@ -106,16 +128,20 @@ const mutations = {
     // LOGIN, LOGOUT
     logout(state) {
 
-        state.userInfo.token = null
-        state.userInfo.user.email = null
-        state.userInfo.user.username = null
-        state.userInfo.user.pk = null
+        state.Session.token = null
+        state.Session.user.email = null
+        state.Session.user.username = null
+        state.Session.user.pk = null
 
         sessionStorage.clear()
     },
     login(state, payload) {
-        state.userInfo = payload
+        state.Session = payload
+    },
 
+    userInfo(state, payload) {
+        console.log(payload)
+        state.userInfo = payload
     },
 
 
@@ -145,7 +171,10 @@ const mutations = {
 // getters
 const getters = {
     userStatus: (state) => {
-        return state.userInfo.user.pk
+        return state.Session.user.pk
+    },
+    userInfo: (state) => {
+        return state.userInfo
     }
 };
 

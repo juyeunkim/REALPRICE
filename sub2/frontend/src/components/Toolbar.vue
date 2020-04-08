@@ -40,7 +40,6 @@ import { mapMutations, mapState } from "vuex";
 export default {
   data: () => ({
     responsive: false,
-    items: [],
   }),
   computed: {
     ...mapState("app", ["drawer"]),
