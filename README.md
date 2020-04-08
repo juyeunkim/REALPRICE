@@ -13,7 +13,7 @@
 
 ## **Planning**
 
- ### 1. Background
+ ### Background
 
 > - 가성비
 >
@@ -31,16 +31,16 @@
 >
 > > 나의 선호도를 반영한 맞춤형 맛집은 어디일까?
 
- ### 2. Purpose
+ ###  Purpose
 
 > 사용자 **선호**에 맞춘 **가성비** 맛집을 추천하자
 
- ### 3. Target
+ ###  Target
 
 > 1. 약속 잡으려는 사람들
 > 2. 맞춤 음식점을 추천 받고싶은 사람
 
- ### 4. Our Service
+ ###  Our Service
 
 > - 맛집 추천 **(메인 기능)**
 >
@@ -119,9 +119,11 @@
 
 ## **MetaData**
 
-- 다이닝 코드
-
 ## **Skill Stack**
+![vue](https://img.shields.io/badge/vue-4.3.0-blue?logo=Vue.js)![javascript](https://img.shields.io/badge/javascript-es6-yellowgreen?logo=javascript)
+![django](https://img.shields.io/badge/django-2.2.7-yellow?logo=django)
+![html](https://img.shields.io/badge/html-html5-red?logo=html5)![css](https://img.shields.io/badge/css-css3-red?logo=css3)
+![mysql](https://img.shields.io/badge/mysql-8.0.19-success?logo=mysql)
 
 ## **Tools**
 
