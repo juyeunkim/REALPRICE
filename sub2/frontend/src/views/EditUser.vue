@@ -86,6 +86,7 @@
 import Axios from "axios";
 export default {
   data: () => ({
+    tags:[],
     // 회원정보
     email: "test",
     password: "",

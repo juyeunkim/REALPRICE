@@ -14,21 +14,23 @@
                 <!------------------ PROFILE DATA ------------------>
                 <div class="text-center mb-3 title text-secundario font-weight-bold">
                   <span>@</span>
+                  <!-- {{userInfo.profile.name}} -->
                   이름
                 </div>
-                <!-- <div v-if="data.bio" class="text-center mb-3 pr-5 pl-5 font-weight-regular">{{data.bio}}</div> -->
                 <div class="text-center mb-3">
-                  <v-icon>{{svg.location}}</v-icon>
+                  <v-icon>{{ location }}</v-icon>
+                  <!-- <span>{{userInfo.profile.address}}</span> -->
                   <span>주소</span>
                 </div>
                 <div class="text-center">
-                  <v-icon>{{svg.calendar}}</v-icon>
+                  <v-icon>{{ calendar }}</v-icon>
+                  <!-- <span>{{userInfo.profile.born_year}}</span> -->
                   <span>생년월일</span>
                 </div>
                 <!------------------ END PROFILE DATA ------------------>
                 <div class="mt-5">
                   <v-btn color="#32BCC3" to="/edituser" elevation="0" dark>
-                    <v-icon left>{{svg.pencil}}</v-icon>Edit Profile
+                    <v-icon left>{{ pencil }}</v-icon>Edit Profile
                   </v-btn>
                 </div>
               </v-col>
@@ -41,29 +43,28 @@
 </template>
 
 <script>
-// import Profile from "../components/profile/Profile.vue";
 import {
-  mdiMapMarker,
-  mdiWeb,
   mdiCalendar,
   mdiPencil,
   mdiCameraRetakeOutline
 } from "@mdi/js";
 
 export default {
-  components: {
-    // Profile
+  data: () => ({
+    mdiCalendar,
+    mdiPencil,
+    mdiCameraRetakeOutline
+
+
+
+  }),
+  computed: {
+    // userInfo: function() {
+    //   return this.$store.dispatch["data/userInfo"];
+    // }
   },
-  data: () => {
-    return {
-      svg: {
-        location: mdiMapMarker,
-        web: mdiWeb,
-        calendar: mdiCalendar,
-        pencil: mdiPencil,
-        camera: mdiCameraRetakeOutline
-      }
-    };
+  created() {
+    // this.$store.dispatch['data/userInfo']
   },
 
   methods: {}
