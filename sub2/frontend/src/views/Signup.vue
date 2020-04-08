@@ -1,6 +1,5 @@
 <template>
   <div>
-    회원가입
     <v-container fluid>
       <v-layout row wrap>
         <v-flex xs12 md6 offset-md3>
@@ -178,6 +177,7 @@ export default {
         var data = {
           email: this.email,
           password: this.password,
+          username: this.name,
           profile: {
             gender: this.gender,
             born_year: this.born_year,
