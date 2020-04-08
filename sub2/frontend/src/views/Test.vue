@@ -1,62 +1,51 @@
 <template>
   <v-container class="mt-5" fill-height>
-    <v-card-text class="text-center">
+    <Map :restaurants="this.list" :user="this.multicampus"/>
+    <!-- <v-card-text class="text-center">
       <p class="display-2 pa-5">테스트도 식후경</p>
       <p class="display-3 pa-2">🍱🍜🥡</p>
       <p class="display-3 pa-2">🍰🍔</p>
-    </v-card-text>
+    </v-card-text> -->
   </v-container>
 </template>
 
 <script>
-
+import Map from "@/components/Map";
 import { mapState, mapActions } from "vuex";
 export default {
+  components: {
+    Map,
+  },
   data () {
     return {
-      selected: [],
-      itemsPerPageArray: [4, 8, 12],
-      search: '',
-      filter: {},
-      sortDesc: false,
-      page: 1,
-      itemsPerPage: 4,
-      sortBy: 'name',
-      keys: [
-        'Name',
-        'Calories',
-        'Fat',
-        'Carbs',
-        'Protein',
-        'Sodium',
-        'Calcium',
-        'Iron',
+      multicampus: {
+        lat: 37.50128969810118,
+        lng: 127.03960183847694,
+      },
+      list: [
+          {
+              title: '새마을식당 역삼GS점',
+              lat: 37.5029438450506,
+              lng: 127.03713443439975,
+          },
+          {
+              title: '아리네술상', 
+              lat: 37.50255638865731,
+              lng: 127.03721058059857,
+          },
+          {
+              title: '바나프레소 테헤란로점', 
+              lat: 37.50112544622184,
+              lng: 127.03905608614859,
+          },
       ],
     }
   },
   computed: {
-    numberOfPages () {
-      return Math.ceil(this.items.length / this.itemsPerPage)
-    },
-    filteredKeys () {
-      return this.keys.filter(key => key !== `Name`)
-    },
-    ...mapState({
-      items: state => state.data.qnaList,
-    })
+   
   },
   methods: {
-    nextPage () {
-      if (this.page + 1 <= this.numberOfPages) this.page += 1
-      this.selected = []
-    },
-    formerPage () {
-      if (this.page - 1 >= 1) this.page -= 1
-      this.selected = []
-    },
-    updateItemsPerPage (number) {
-      this.itemsPerPage = number
-    },
+    
   },
 }
 </script>
