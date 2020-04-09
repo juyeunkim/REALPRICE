@@ -78,8 +78,8 @@
 
               <!-- 취향 -->
               <!-- TODO : 추가로 입력받을수 있도록 -->
-
-              <v-select
+              <!-- 미완성 -->
+              <!-- <v-select
                 v-model="chips"
                 label="Your favorite hobbies"
                 chips
@@ -89,13 +89,13 @@
                 append-icon
                 clearable
               >
-                <!-- <template slot="selection" slot-scope="data">
+                <template slot="selection" slot-scope="data">
                   <v-chip :selected="data.selected" close @input="remove(data.item)">
                     <strong>{{ data.item }}</strong>&nbsp;
                     <span>(interest)</span>
                   </v-chip>
-                </template> -->
-              </v-select>
+                </template>
+              </v-select> -->
 
               <v-select
                 v-model="tags"
