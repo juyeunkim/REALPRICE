@@ -1,6 +1,6 @@
 <template>
   <v-container class="mt-5">
-    ////// 검색결과로 나온 결과값 <br>
+    <h3>검색결과로 나온 결과값 - 검색결과에따라 다르게 보여줄 예정</h3>
     맛 : {{ RealPrice.taste }} <br>
     거리 : {{ RealPrice.distance }} <br>
     가격 : {{ RealPrice.price }} <br>

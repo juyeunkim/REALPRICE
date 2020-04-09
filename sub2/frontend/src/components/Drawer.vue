@@ -56,6 +56,11 @@ export default {
         text: "Real Price"
       },
       {
+        to: "/meeting",
+        icon: "fas fa-handshake",
+        text: "모임"
+      },
+      {
         to: "/faq",
         icon: "fa-question",
         text: "FAQ"
