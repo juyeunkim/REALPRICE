@@ -1,7 +1,7 @@
 <template>
 <div>
-    <div>안녕하세요 나는 지도에요</div>
-    <div id="map" style="width:500px;height:400px;"></div>
+    <!-- <div>안녕하세요 나는 지도에요</div> -->
+    <div id="map" style="width:700px;height:500px;" />
 </div>
 </template>
 

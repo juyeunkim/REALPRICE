@@ -51,7 +51,12 @@ const state = {
         taste: 0,
         distance: 0,
         price: 0
-    }
+    },
+
+    // Meeting
+    meetings: []
+
+
 
 
 };

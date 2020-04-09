@@ -5,17 +5,21 @@
       <p class="display-2 pa-5">REAL PRICE</p>
       <SEARCH @aa="bb" />
     </v-card>
-    <LIST />
+    <!-- <LIST /> -->
+    <Map />
   </v-container>
 </template>
 
 <script>
 import SEARCH from "@/components/realprice/Search";
-import LIST from "@/components/realprice/List";
+// import LIST from "@/components/realprice/List";
+import Map from "@/components/Map";
+
 export default {
   components: {
     SEARCH,
-    LIST
+    // LIST
+    Map
   },
   
   methods:{
