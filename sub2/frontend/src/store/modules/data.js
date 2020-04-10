@@ -46,6 +46,18 @@ const state = {
         }
     },
 
+    // RealPrice
+    RealPrice: {
+        taste: 0,
+        distance: 0,
+        price: 0
+    },
+
+    // Meeting
+    meetings: []
+
+
+
 
 };
 
@@ -59,11 +71,14 @@ const actions = {
         commit('login', payload)
     },
 
-    userInfo({ commit }, payload) {
-        const res = api.getUserInfo(payload);
+    // 마이페이지
+    async userInfo({ commit }, payload) {
+        const res = await api.getUserInfo(payload);
         console.log(res)
-        commit('login', res)
+        commit('userInfo', res)
     },
+
+
 
 
     async getStores({ commit }, params) {
@@ -136,9 +151,14 @@ const mutations = {
         sessionStorage.clear()
     },
     login(state, payload) {
+        state.Session.token = payload.token
+        state.Session.user.email = payload.user.email
+        state.Session.user.username = payload.user.username
+        state.Session.user.pk = payload.user.token
         state.Session = payload
     },
 
+    // 마이페이지
     userInfo(state, payload) {
         console.log(payload)
         state.userInfo = payload
@@ -175,6 +195,9 @@ const getters = {
     },
     userInfo: (state) => {
         return state.userInfo
+    },
+    RealPrice: (state) => {
+        return state.RealPrice
     }
 };
 

@@ -14,23 +14,23 @@
                 <!------------------ PROFILE DATA ------------------>
                 <div class="text-center mb-3 title text-secundario font-weight-bold">
                   <span>@</span>
-                  <!-- {{userInfo.profile.name}} -->
+                  {{userInfo.profile.name}}
                   이름
                 </div>
                 <div class="text-center mb-3">
-                  <v-icon>{{ location }}</v-icon>
-                  <!-- <span>{{userInfo.profile.address}}</span> -->
+                  <v-icon>{{ mdiCameraRetakeOutline }}</v-icon>
+                  <span>{{userInfo.profile.address}}</span>
                   <span>주소</span>
                 </div>
                 <div class="text-center">
-                  <v-icon>{{ calendar }}</v-icon>
-                  <!-- <span>{{userInfo.profile.born_year}}</span> -->
+                  <v-icon>{{ mdiCalendar }}</v-icon>
+                  <span>{{userInfo.profile.born_year}}</span>
                   <span>생년월일</span>
                 </div>
                 <!------------------ END PROFILE DATA ------------------>
                 <div class="mt-5">
                   <v-btn color="#32BCC3" to="/edituser" elevation="0" dark>
-                    <v-icon left>{{ pencil }}</v-icon>Edit Profile
+                    <v-icon left>{{ mdiPencil }}</v-icon>Edit Profile
                   </v-btn>
                 </div>
               </v-col>
@@ -53,18 +53,15 @@ export default {
   data: () => ({
     mdiCalendar,
     mdiPencil,
-    mdiCameraRetakeOutline
-
-
-
+    mdiCameraRetakeOutline,
   }),
   computed: {
-    // userInfo: function() {
-    //   return this.$store.dispatch["data/userInfo"];
-    // }
+    userInfo: function(){
+      return this.$store.getters['data/userInfo']
+    }
   },
   created() {
-    // this.$store.dispatch['data/userInfo']
+    this.$store.dispatch('data/userInfo', sessionStorage.getItem('pk'))
   },
 
   methods: {}

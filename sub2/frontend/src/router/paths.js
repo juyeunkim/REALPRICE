@@ -9,6 +9,11 @@ export default [{
         name: "search"
     },
     {
+        path: "/realprice",
+        view: "RealPrice",
+        name: "realprice"
+    },
+    {
         path: "/signup",
         view: "Signup",
         name: "signup"
@@ -42,5 +47,10 @@ export default [{
         path: "/test",
         view: "Test",
         name: "test"
-    }
+    },
+    {
+        path: "/meeting",
+        view: "Meeting",
+        name: "meeting"
+    },
 ];
