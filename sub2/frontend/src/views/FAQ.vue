@@ -50,6 +50,10 @@ import Card from "@/components/Card";
 import StoreListCard from "@/components/StoreListCard";
 import { mapState, mapActions } from "vuex";
 export default {
+  components: {
+    Card,
+    StoreListCard
+  },
   created: function(){
     this.getFaqs();
   },
