@@ -72,10 +72,10 @@ const actions = {
     },
 
     // 마이페이지
-    userInfo({ commit }, payload) {
-        const res = api.getUserInfo(payload);
+    async userInfo({ commit }, payload) {
+        const res = await api.getUserInfo(payload);
         console.log(res)
-        commit('login', res)
+        commit('userInfo', res)
     },
 
 
@@ -151,6 +151,10 @@ const mutations = {
         sessionStorage.clear()
     },
     login(state, payload) {
+        state.Session.token = payload.token
+        state.Session.user.email = payload.user.email
+        state.Session.user.username = payload.user.username
+        state.Session.user.pk = payload.user.token
         state.Session = payload
     },
 
