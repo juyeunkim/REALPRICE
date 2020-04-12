@@ -103,14 +103,15 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "realpricedb",
         "USER": "root",
-        "PASSWORD": "root",#"ssafy",
-        "HOST": "127.0.0.1",#"13.125.68.33",
+        "PASSWORD": "ssafy",
+        "HOST": "13.125.68.33", #AWS
         "PORT": "3306",
         "OPTIONS": {"charset": "utf8mb4"},
     }
 }
 
-
+# "PASSWORD": "root",#"ssafy",
+# "HOST": "127.0.0.1",#"13.125.68.33",
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -162,3 +163,4 @@ PASSWORD_HASHERS = (
     "django.contrib.auth.hashers.MD5PasswordHasher",
     "django.contrib.auth.hashers.CryptPasswordHasher",
 )
+#yes

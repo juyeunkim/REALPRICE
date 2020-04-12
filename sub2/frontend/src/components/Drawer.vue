@@ -51,6 +51,16 @@ export default {
         text: "맛집 검색"
       },
       {
+        to: "/realprice",
+        icon: "fas fa-won-sign fa-spin",
+        text: "Real Price"
+      },
+      {
+        to: "/meeting",
+        icon: "fas fa-handshake",
+        text: "모임"
+      },
+      {
         to: "/faq",
         icon: "fa-question",
         text: "FAQ"

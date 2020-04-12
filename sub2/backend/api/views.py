@@ -108,25 +108,27 @@ from .models import User
 from .serializers import UserSerializer
 from .permissions import IsLoggedInUserOrAdmin, IsAdminUser
 from rest_framework.response import Response
-# class UserViewSet(viewsets.ModelViewSet):
-class UserViewSet(viewsets.ViewSet):
-    # serializer_class = UserSerializer
-    # pagination_class = SmallPagination
-    lookup_field = "email"
-    def list(self, request):
-        queryset = self.get_queryset()
-        serializer = UserSerializer(queryset.values(), many=True,context={'request': request})
-        # message ="리스트가 없습니다" if len(queryset) == 0 else "유저 리스트 반환"
-        data = list(serializer.data)
-        print(data)
-        response={
-                    "data": data
-                    ,"message": "message"
-                    ,"status" : status.HTTP_200_OK
-                }
-        return Response(response)
+class UserViewSet(viewsets.ModelViewSet):
+# class UserViewSet(viewsets.ViewSet):
+    serializer_class = UserSerializer
+    pagination_class = SmallPagination
     def get_queryset(self):
         return User.objects.all()
+    # lookup_field = "email"
+    # def list(self, request):
+    #     queryset = self.get_queryset()
+    #     serializer = UserSerializer(queryset.values(), many=True,context={'request': request})
+    #     # message ="리스트가 없습니다" if len(queryset) == 0 else "유저 리스트 반환"
+    #     data = list(serializer.data)
+    #     print(data)
+    #     response={
+    #                 "data": data
+    #                 ,"message": "message"
+    #                 ,"status" : status.HTTP_200_OK
+    #             }
+    #     return Response(response)
+    # def get_queryset(self):
+    #     return User.objects.all()
     # # 1개 가져오는 함수 재정의
     # # 객체를 검색 할 수 있으면 객체 200 OK의 직렬화 된 표현을 응답 본문으로 반환합니다 . 
     # # 그렇지 않으면 404 Not Found를 반환합니다 

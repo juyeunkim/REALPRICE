@@ -9,6 +9,11 @@ export default [{
         name: "search"
     },
     {
+        path: "/realprice",
+        view: "RealPrice",
+        name: "realprice"
+    },
+    {
         path: "/signup",
         view: "Signup",
         name: "signup"
@@ -17,6 +22,16 @@ export default [{
         path: "/signin",
         view: "Signin",
         name: "signin"
+    },
+    {
+        path: "/mypage",
+        view: "MyPage",
+        name: "mypage"
+    },
+    {
+        path: "/edituser",
+        view: "EditUser",
+        name: "edituser"
     },
     {
         path: "/faq",
@@ -32,5 +47,10 @@ export default [{
         path: "/test",
         view: "Test",
         name: "test"
-    }
+    },
+    {
+        path: "/meeting",
+        view: "Meeting",
+        name: "meeting"
+    },
 ];

@@ -1,6 +1,5 @@
 <template>
   <div>
-    회원가입
     <v-container fluid>
       <v-layout row wrap>
         <v-flex xs12 md6 offset-md3>
@@ -79,6 +78,25 @@
 
               <!-- 취향 -->
               <!-- TODO : 추가로 입력받을수 있도록 -->
+              <!-- 미완성 -->
+              <!-- <v-select
+                v-model="chips"
+                label="Your favorite hobbies"
+                chips
+                tags
+                solo
+                prepend-icon="filter_list"
+                append-icon
+                clearable
+              >
+                <template slot="selection" slot-scope="data">
+                  <v-chip :selected="data.selected" close @input="remove(data.item)">
+                    <strong>{{ data.item }}</strong>&nbsp;
+                    <span>(interest)</span>
+                  </v-chip>
+                </template>
+              </v-select> -->
+
               <v-select
                 v-model="tags"
                 :items="items"
@@ -86,6 +104,7 @@
                 chips
                 multiple
                 tags
+                clearable
               />
 
               <!-- </v-select> -->
@@ -113,6 +132,7 @@ export default {
       years: ["1989", "1990", "1991", "1992", "1993", "1994", "1995"],
       items: ["오이", "고수"],
       tags: [], // 선택한 취향
+      chips: ['Programming', 'Playing video games', 'Watching', 'Sleeping'],
 
       // 유효성 검사
       nameRules: [
@@ -178,6 +198,7 @@ export default {
         var data = {
           email: this.email,
           password: this.password,
+          username: this.name,
           profile: {
             gender: this.gender,
             born_year: this.born_year,
@@ -188,22 +209,25 @@ export default {
           }
         };
 
-        console.log(data)
+        console.log(data);
         // Axios
-        Axios.post("/api/users/",data)
+        Axios.post("/api/users/", data)
           .then(res => {
-            console.log(res)
+            console.log(res);
             this.$alert("회원가입 성공", "Success", "success");
+            this.$router.push("/");
           })
-          .catch(exp=>{
-            console.log("실패")
+          .catch(exp => {
+            console.log("실패");
             this.$alert("회원가입 실패", "Warning", "warning");
           });
       } else {
         this.$alert("항목을 모두 입력해주세요", "Warning", "warning");
       }
-
-      // TODO : 어떤 페이지로 넘어가는지
+    },
+    remove(item) {
+      this.chips.splice(this.chips.indexOf(item), 1);
+      this.chips = [...this.chips];
     }
   }
 };
