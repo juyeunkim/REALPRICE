@@ -62,7 +62,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = ('gender', 'born_year', 'name', 'address', 'phone', 'tag','photo')
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+# class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     profile = UserProfileSerializer(required=True)
 
     class Meta:

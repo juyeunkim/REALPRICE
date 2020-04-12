@@ -50,7 +50,6 @@ class User(AbstractUser):
     email = models.EmailField(_('email address'), db_index=True, unique=True, primary_key=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
-    
     def __str__(self):
         return "{}".format(self.email)
 

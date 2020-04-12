@@ -20,6 +20,7 @@ class StoreViewSet(viewsets.ModelViewSet):
             models.Store.objects.all().filter(store_name__contains=name).order_by("id")
         )
         return queryset
+    
 
 
 class FaqViewSet(viewsets.ModelViewSet):
@@ -108,12 +109,87 @@ from .models import User
 from .serializers import UserSerializer
 from .permissions import IsLoggedInUserOrAdmin, IsAdminUser
 from rest_framework.response import Response
-class UserViewSet(viewsets.ModelViewSet):
-# class UserViewSet(viewsets.ViewSet):
+from rest_framework import generics
+# class UserList(generics.ListAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+
+# class UserDetail(generics.RetrieveAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+# from serializers import *
+# from models import *
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+class UserListView(generics.ListCreateAPIView):
+    queryset = User.objects.all()
     serializer_class = UserSerializer
-    pagination_class = SmallPagination
-    def get_queryset(self):
-        return User.objects.all()
+class UserView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()    
+# class UserViewSet(viewsets.ModelViewSet):
+
+#     """
+#     API endpoint that allows users to be viewed or edited.
+#     """
+#     queryset = User.objects.all().select_related('profile').order_by('-date_joined')
+#     serializer_class = UserSerializer
+
+#     # @list_route(methods=['get'], url_path='username/(?P<username>\w+)')
+#     # @a
+#     def getByUsername(self, request, username):
+#         serializer_context = {
+#             'request': request,
+#         }
+#         user = get_object_or_404(User, username=username)
+#         return Response(UserSerializer(user, context=serializer_context).data, status=status.HTTP_200_OK)
+# class UserProfileView(APIView):
+#     """
+#     A class based view for creating and fetching student records
+#     """
+#     def get(self, format=None):
+#         """
+#         Get all the student records
+#         :param format: Format of the student records to return to
+#         :return: Returns a list of student records
+#         """
+#         users = User.objects.all()
+#         serializer = UserSerializer(users, many=True)
+#         context={
+#             'data':serializer.data,
+#         }
+#         return Response(context)
+
+    # def post(self, request):
+    #     """
+    #     Create a student record
+    #     :param format: Format of the student records to return to
+    #     :param request: Request object for creating student
+    #     :return: Returns a student record
+    #     """
+    #     serializer = UserSerializer(data=request.data)
+    #     if serializer.is_valid(raise_exception=ValueError):
+    #         serializer.create(validated_data=request.data)
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.error_messages,
+    #                     status=status.HTTP_400_BAD_REQUEST)
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
+from rest_framework.generics import get_object_or_404
+@api_view(('GET',))
+def api_root(request, format=None):
+    return Response({
+        'users': reverse('user-list', request=request, format=format),
+    })
+# class UserViewSet(viewsets.ModelViewSet):
+# # class UserViewSet(viewsets.ViewSet):
+#     serializer_class = UserSerializer
+#     pagination_class = SmallPagination
+#     # def get_queryset(self):
+#     #     return User.objects.all()
+#     queryset = User.objects.all()
     # lookup_field = "email"
     # def list(self, request):
     #     queryset = self.get_queryset()
