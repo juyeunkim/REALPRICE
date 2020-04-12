@@ -45,11 +45,11 @@ export default {
         icon: "mdi-home",
         text: "Home"
       },
-      {
-        to: "/search",
-        icon: "mdi-card-search",
-        text: "맛집 검색"
-      },
+      // {
+      //   to: "/search",
+      //   icon: "mdi-card-search",
+      //   text: "맛집 검색"
+      // },
       {
         to: "/realprice",
         icon: "fas fa-won-sign fa-spin",
@@ -70,11 +70,11 @@ export default {
         icon: "mdi-forum",
         text: "QnA"
       },
-      {
-        to: "/test",
-        icon: "fas fa-circle-notch fa-spin",
-        text: "Test Page (JKY)"
-      }
+      // {
+      //   to: "/test",
+      //   icon: "fas fa-circle-notch fa-spin",
+      //   text: "Test Page (JKY)"
+      // }
     ]
   }),
   computed: {

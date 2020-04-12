@@ -1,17 +1,17 @@
 # **Real Price** - SSAFY Bigdata project 
 
 ## **INDEX**
-1. [기획 의도](#Planning)
-1. [테스트](#Test)
-1. [사용 메뉴얼](#Manual)
-1. [팀 구성](#Our-Team)
-1. [개발 노트](#Develop-Notes)
-1. [회의록](#Meeting-Logs)
-1. [메타데이터](#MetaData)
-1. [기술스택](#Skill-Stack)
-1. [사용 툴](#Tools)
+1. [기획 의도](#기획-의도)
+1. [테스트](#테스트)
+1. [사용 메뉴얼](#사용-메뉴얼)
+1. [팀 구성](#팀-구성)
+1. [개발 노트](#개발-노트)
+1. [회의록](#회의록)
+1. [메타데이터](#메타데이터)
+1. [기술스택](#기술스택)
+1. [사용 툴](#사용-툴)
 
-## **Planning**
+## **기획 의도**
 
  ### Background
 
@@ -67,7 +67,7 @@
 >   >
 >   > 예상 비용과 실제 비용 비교를 통해 신뢰도를 제공한다.
 
-## **Test** 
+## **테스트** 
 
  - Web Site Address
     http://i02a206.p.ssafy.io 
@@ -79,7 +79,7 @@
 
 
 
-## **Manual**
+## **사용 메뉴얼**
 
 현재 위치를 입력받고 가격, 맛, 거리 별 중요도를 선택한다
 
@@ -106,13 +106,13 @@
 
 >  **백창현** @Baek
 
-## **Develop Notes**
+## **개발 노트**
 
 **Frontend.**
 > [SUB1 정리](sub1/SUB1정리.md)  
 > SUB2 부터는 기본기능을 제외하고는 계획한 프로젝트 설계에 맞게 진행함
 
-## **Meeting Logs**
+## **회의록**
 
  - Zoom을 활용해서 회의함
    - 아이디어 회의 및 스켈레톤 코드 체크 **[0323(월)](meetingLog/0323(월).md)**
@@ -121,15 +121,15 @@
    - 데이터 활용 기준 회의 **[0406_월](meetingLog/0406(월).md)** 
    - 현재 진행사항 및 금주 진행 예정 사항 공유 **[0407_화](meetingLog/0407(화).md)**
 
-## **MetaData**
+## **메타데이터**
 
-## **Skill Stack**
+## **기술스택**
 ![vue](https://img.shields.io/badge/vue-4.3.0-blue?logo=Vue.js)![javascript](https://img.shields.io/badge/javascript-es6-yellowgreen?logo=javascript)
 ![django](https://img.shields.io/badge/django-2.2.7-yellow?logo=django)
 ![html](https://img.shields.io/badge/html-html5-red?logo=html5)![css](https://img.shields.io/badge/css-css3-red?logo=css3)
 ![mysql](https://img.shields.io/badge/mysql-8.0.19-success?logo=mysql)
 
-## **Tools**
+## **사용 툴**
 
 - Visual Studio Code 
 - MySQL Workbench

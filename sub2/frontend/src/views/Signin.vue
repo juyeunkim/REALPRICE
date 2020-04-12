@@ -35,7 +35,7 @@
             </v-card-actions>
           </v-card>
           <v-card>
-            ////// 소셜 로그인 추가
+            <!-- ////// 소셜 로그인 추가 -->
           </v-card>
         </v-flex>
       </v-layout>
