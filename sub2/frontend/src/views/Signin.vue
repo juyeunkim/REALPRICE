@@ -70,7 +70,7 @@ export default {
           email: this.email,
           password: this.password
         };
-        Axios.post("/api/auth/login/",data)
+        Axios.post("http://13.125.68.33:8080/api/auth/login/",data)
           .then(res => {
             this.$store.dispatch('data/login', res.data);
             this.$alert("로그인 성공", "Success", "success");
