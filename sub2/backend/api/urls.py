@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 from rest_framework.routers import DefaultRouter
-from .views import StoreViewSet,UserViewSet, FaqViewSet, QnaViewSet, ReviewViewSet
+from .views import StoreViewSet,UserViewSet, FaqViewSet, QnaViewSet, ReviewViewSet, HistoryViewSet
 
 
 router = DefaultRouter()#(trailing_slash=False)
@@ -9,6 +9,7 @@ router.register(r"faqs", FaqViewSet, basename="faqs")
 router.register(r"qnas", QnaViewSet, basename="qnas")
 router.register(r'users', UserViewSet)
 router.register(r'reviews', ReviewViewSet, basename="reviews")
+router.register(r'histories', HistoryViewSet, basename="histories")
 
 urlpatterns = [
     url(r'^', include(router.urls)),

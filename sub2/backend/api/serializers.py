@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, UserProfile, Store, Faq, Qna, Review
+from .models import User, UserProfile, Store, Faq, Qna, Review, History
 
 class StoreSerializer(serializers.ModelSerializer):
     class Meta:
@@ -56,6 +56,16 @@ class ReviewSerializer(serializers.ModelSerializer):
             "reg_time"
         ]
 
+class HistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = History
+        fields = [
+            "history_no",
+            "time",
+            "expenditure",
+            "user",
+            "store"
+        ]
 
 from rest_framework import serializers
 

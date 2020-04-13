@@ -45,6 +45,13 @@ class Review(models.Model):
     content = models.TextField(null=True)
     reg_time = models.DateField()
 
+class History(models.Model):
+    history_no = models.AutoField(primary_key=True)
+    time = models.DateTimeField(null=False)
+    expenditure = models.IntegerField(null=False)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    store  = models.ForeignKey('Store', on_delete=models.CASCADE)
+
 # from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import ugettext_lazy as _

@@ -2,8 +2,8 @@ from rest_framework import viewsets, status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
 
-from .models import User,Store, Qna, Faq, Review
-from .serializers import UserSerializer,StoreSerializer, QnaSerializer, FaqSerializer, ReviewSerializer
+from .models import User,Store, Qna, Faq, Review, History
+from .serializers import UserSerializer,StoreSerializer, QnaSerializer, FaqSerializer, ReviewSerializer, HistorySerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -53,3 +53,10 @@ class ReviewViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields = ['id','store','user', 'score']
     queryset = Review.objects.all()
+
+class HistoryViewSet(viewsets.ModelViewSet):
+    serializer_class = HistorySerializer
+    pagination_class = SmallPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['history_no']
+    queryset = History.objects.all()
