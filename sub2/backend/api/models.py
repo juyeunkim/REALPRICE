@@ -38,7 +38,7 @@ class Qna(models.Model):
     qna_write_date = models.DateField()
 
 class Review(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     store = models.IntegerField(null=False)
     user = models.IntegerField(null=False)
     score = models.IntegerField(null=False)
