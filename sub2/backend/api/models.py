@@ -37,6 +37,14 @@ class Qna(models.Model):
     qna_writer = models.CharField(max_length=100, null=False)
     qna_write_date = models.DateField()
 
+class Review(models.Model):
+    id = models.IntegerField(primary_key=True)
+    store = models.IntegerField(null=False)
+    user = models.IntegerField(null=False)
+    score = models.IntegerField(null=False)
+    content = models.TextField(null=True)
+    reg_time = models.DateField()
+
 # from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import ugettext_lazy as _
