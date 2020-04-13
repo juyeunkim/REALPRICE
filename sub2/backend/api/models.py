@@ -17,17 +17,14 @@ class Store(models.Model):
     def category_list(self):
         return self.category.split("|") if self.category else []
 
-
 class Faq(models.Model):
     faq_no = models.AutoField(primary_key=True)
-    # faq_group_no = models.IntegerField(null=False)
-    # faq_group_order = models.IntegerField(null=False)
-    # faq_depth = models.IntegerField(null=False)
+    faq_category = models.CharField(max_length=100, null=False, default='other')
     faq_title = models.CharField(max_length=200, null=False)
     faq_content = models.TextField(null=True)
     faq_writer = models.CharField(max_length=100, null=False)
     faq_write_date = models.DateField()
-    faq_count = models.IntegerField(null=False)
+    faq_answer = models.TextField(null=True)
     
     
 class Qna(models.Model):
@@ -39,15 +36,15 @@ class Qna(models.Model):
     qna_content = models.TextField(null=True)
     qna_writer = models.CharField(max_length=100, null=False)
     qna_write_date = models.DateField()
-    qna_count = models.IntegerField(null=False)
+
 # from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
 class User(AbstractUser):
-    
-    email = models.EmailField(_('email address'), db_index=True, unique=True, primary_key=True)
+    username = models.CharField(blank=True, null=True,max_length=200)
+    email = models.EmailField(_('email address'),unique=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
     def __str__(self):
@@ -57,7 +54,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
     gender = models.CharField(max_length=4)
     born_year = models.CharField(max_length=50, blank=True)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100) #nickname or realname
     address = models.CharField(max_length=500, blank=True)
     phone = models.CharField(max_length=13, blank=True)
     tag = models.CharField(max_length = 500, blank=True)
