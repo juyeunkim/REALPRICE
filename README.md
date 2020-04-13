@@ -1,6 +1,27 @@
 # **Real Price** - SSAFY Bigdata project 
 
-## **INDEX**
+## **기술스택**
+
+![vue](https://img.shields.io/badge/vue-4.3.0-blue?logo=Vue.js)![javascript](https://img.shields.io/badge/javascript-es6-yellowgreen?logo=javascript)
+![django](https://img.shields.io/badge/django-2.2.7-yellow?logo=django)
+![html](https://img.shields.io/badge/html-html5-red?logo=html5)![css](https://img.shields.io/badge/css-css3-red?logo=css3)
+![mysql](https://img.shields.io/badge/mysql-8.0.19-success?logo=mysql)
+
+## 테스트 
+
+ - Web Site Address
+   http://i02a206.p.ssafy.io 
+
+ - User
+
+   > ID : tester@gmail.com  
+   >
+   > PASSWORD : !1q2w3e4r
+
+
+
+## INDEX
+
 1. [기획 의도](#기획-의도)
 1. [테스트](#테스트)
 1. [사용 메뉴얼](#사용-메뉴얼)
@@ -67,16 +88,6 @@
 >   >
 >   > 예상 비용과 실제 비용 비교를 통해 신뢰도를 제공한다.
 
-## **테스트** 
-
- - Web Site Address
-    http://i02a206.p.ssafy.io 
- - User
-   
-   > ID : tester@gmail.com  
-   >
-   > PASSWORD : !1q2w3e4r
-
 
 
 ## **사용 메뉴얼**
@@ -87,7 +98,7 @@
 
 **Backend**.
 ## **Manual**
- 
+
 ## **Our Team**
 
 #### [FRONT]
@@ -123,11 +134,7 @@
 
 ## **메타데이터**
 
-## **기술스택**
-![vue](https://img.shields.io/badge/vue-4.3.0-blue?logo=Vue.js)![javascript](https://img.shields.io/badge/javascript-es6-yellowgreen?logo=javascript)
-![django](https://img.shields.io/badge/django-2.2.7-yellow?logo=django)
-![html](https://img.shields.io/badge/html-html5-red?logo=html5)![css](https://img.shields.io/badge/css-css3-red?logo=css3)
-![mysql](https://img.shields.io/badge/mysql-8.0.19-success?logo=mysql)
+
 
 ## **사용 툴**
 
