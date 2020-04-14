@@ -38,13 +38,16 @@ const state = {
         profile: {
             gender: "",
             born_year: "",
-            name: "",
+            name: "", // 이름이 여기에 들어가있음
             address: "",
             phone: "",
             tag: "",
             photo: null
         }
     },
+    // 전체 유저 정보
+    userList: [],
+
 
     // RealPrice
     RealPrice: {
@@ -54,7 +57,8 @@ const state = {
     },
 
     // Meeting
-    meetings: []
+    meetings: [],
+
 
 
 
@@ -72,10 +76,18 @@ const actions = {
     },
 
     // 마이페이지
-    async userInfo({ commit }, payload) {
-        const res = await api.getUserInfo(payload);
-        console.log(res)
-        commit('userInfo', res)
+    userInfo({ commit }, payload) {
+        api.getUserInfo(payload).then(res => {
+            commit('userInfo', res.data)
+        })
+    },
+
+    getUsers({ commit }) {
+        api.getUsers().then(res => {
+            console.log('actions')
+            console.log(res)
+            commit('getUsers', res)
+        })
     },
 
 
@@ -142,7 +154,6 @@ const actions = {
 const mutations = {
     // LOGIN, LOGOUT
     logout(state) {
-
         state.Session.token = null
         state.Session.user.email = null
         state.Session.user.username = null
@@ -151,20 +162,23 @@ const mutations = {
         sessionStorage.clear()
     },
     login(state, payload) {
-        state.Session.token = payload.token
-        state.Session.user.email = payload.user.email
-        state.Session.user.username = payload.user.username
-        state.Session.user.pk = payload.user.token
         state.Session = payload
+
+        sessionStorage.setItem("pk", payload.user.pk)
+        sessionStorage.setItem("email", payload.user.email)
+        sessionStorage.setItem("token", payload.token)
     },
 
     // 마이페이지
     userInfo(state, payload) {
-        console.log(payload)
         state.userInfo = payload
     },
 
-
+    // 모든 유저 불러오기
+    getUsers(state, payload) {
+        console.log(payload)
+        state.userList = payload
+    },
 
     setStoreSearchList(state, stores) {
         state.storeSearchList = stores.map(s => s);
@@ -198,6 +212,9 @@ const getters = {
     },
     RealPrice: (state) => {
         return state.RealPrice
+    },
+    users: (state) => {
+        return state.userList
     }
 };
 

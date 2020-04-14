@@ -3,32 +3,39 @@
     <v-col cols="12" sm="4" order="-1" order-sm="2">
       <v-card min-height="300" min-width="150" elevation="0">
         <v-row class="pa-3">
+          <!-- profile img -->
           <v-col offset="3" cols="20" class="center">
             <v-avatar size="200">
               <v-img class="card-img" src="https://cdn.vuetifyjs.com/images/john.jpg" />
             </v-avatar>
           </v-col>
+          <!-- END : profile img -->
           <v-col offset="1" cols="10" class="background">
             <v-row>
               <v-col>
                 <!------------------ PROFILE DATA ------------------>
                 <div class="text-center mb-3 title text-secundario font-weight-bold">
                   <span>@</span>
-                  {{userInfo.profile.name}}
-                  이름
+                  {{ userInfo.profile.name }}
                 </div>
                 <div class="text-center mb-3">
-                  <v-icon>{{ mdiCameraRetakeOutline }}</v-icon>
-                  <span>{{userInfo.profile.address}}</span>
-                  <span>주소</span>
+                  <v-icon>{{ mdiEmail }}</v-icon>
+                  <span>{{ userInfo.email }}</span>
+                </div>
+                <div class="text-center mb-3">
+                  <v-icon>{{ mdiMapMarker }}</v-icon>
+                  <span>{{ userInfo.profile.address }}</span>
+                </div>
+                <div class="text-center mb-3">
+                  <v-icon>{{ mdiCellphoneIphone }}</v-icon>
+                  <span>{{ userInfo.profile.phone }}</span>
                 </div>
                 <div class="text-center">
                   <v-icon>{{ mdiCalendar }}</v-icon>
-                  <span>{{userInfo.profile.born_year}}</span>
-                  <span>생년월일</span>
+                  <span>{{ userInfo.profile.born_year }}</span>
                 </div>
                 <!------------------ END PROFILE DATA ------------------>
-                <div class="mt-5">
+                <div class="text-center mt-5">
                   <v-btn color="#32BCC3" to="/edituser" elevation="0" dark>
                     <v-icon left>{{ mdiPencil }}</v-icon>Edit Profile
                   </v-btn>
@@ -46,14 +53,18 @@
 import {
   mdiCalendar,
   mdiPencil,
-  mdiCameraRetakeOutline
+  mdiMapMarker,
+  mdiCellphoneIphone,
+  mdiEmail  
 } from "@mdi/js";
 
 export default {
   data: () => ({
     mdiCalendar,
     mdiPencil,
-    mdiCameraRetakeOutline,
+    mdiMapMarker,
+    mdiCellphoneIphone,
+    mdiEmail
   }),
   computed: {
     userInfo: function(){

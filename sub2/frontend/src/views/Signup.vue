@@ -124,7 +124,7 @@
 </template>
 
 <script>
-import Axios from "axios";
+import api from "../api/index";
 export default {
   data: () => {
     return {
@@ -210,15 +210,16 @@ export default {
         };
 
         console.log(data);
-        // Axios
-        Axios.post("/api/users/", data)
+        
+
+        api.signup(data)
           .then(res => {
             console.log(res);
             this.$alert("회원가입 성공", "Success", "success");
             this.$router.push("/");
           })
           .catch(exp => {
-            console.log("실패");
+            console.log(exp);
             this.$alert("회원가입 실패", "Warning", "warning");
           });
       } else {

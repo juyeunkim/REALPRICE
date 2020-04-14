@@ -33,6 +33,14 @@ export default {
     return {
       dialog: false
     };
+  },
+  computed:{
+    userList: function(){
+      return this.$store.getters['data/users']
+    }
+  },
+  created(){
+    this.$store.dispatch('data/getUsers')
   }
 };
 </script>
