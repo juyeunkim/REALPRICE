@@ -60,7 +60,7 @@ import json
 from django.http.response import HttpResponse
 
 '''
-data format
+data format 요청할때 이렇게 넣을 것
 {
 	"curLatitude": "37.503652",
 	"curLongitude": "127.038125",
@@ -76,7 +76,7 @@ def searchRealPrice(request):#, format=None):
 # 맛   : 각 가게의 리뷰점수를 평균내서 순위매긴 값이 유저가 원하는 최소 평점 수치 y보다 높아아야함
 # ---현재 여기까지
 # ---문제 전체 호출 한번해서 너무 느림 - 쿼리로 좀 축소해서 가져오고 싶은데 마음대로 못 다루겠음
-# ---
+# 메뉴가 없어서 진행을 더이상 할 수가 없음!! 어쨌든 현재 할 수 있는 상태에서 효율적인 방법을 찾아보겠음
 # 가격 : 메뉴 추출해서 작업하고 있어야함...
 # 거르는 음식 : 메뉴 이름정도로 거르던지 해야하는 상태...
     storeList = Store.objects.all()
