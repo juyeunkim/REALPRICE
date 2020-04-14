@@ -54,6 +54,30 @@ class QnaSerializer(serializers.ModelSerializer):
             "qna_writer",
             "qna_write_date",
         ]
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = [
+            "id",
+            "store",
+            "user",
+            "score",
+            "content",
+            "reg_time"
+        ]
+
+class HistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = History
+        fields = [
+            "history_no",
+            "time",
+            "expenditure",
+            "user",
+            "store"
+        ]
+
 from rest_framework import serializers
 
 
