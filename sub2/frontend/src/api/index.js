@@ -38,8 +38,8 @@ function deleteUser(params) {
     return axios.delete(`${apiUrl}/users/${params}/`);
 }
 
-function updateUser(params) {
-    return axios.put(`${apiUrl}/users/${params}/`);
+function updateUser(params, data) {
+    return axios.put(`${apiUrl}/users/${params}/`, data);
 }
 
 function signup(data) {
