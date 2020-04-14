@@ -19,16 +19,6 @@ class Store(models.Model):
     def __str__ (self): 
         return "[Store "+ str(self.id) +","+ str(self.store_name) + "," + str(self.branch) + "," + str(self.area) + "," + str(self.tel) + "," + str(self.address) + "," + str(self.latitude) + "," + str(self.longitude) + "," + str(self.category) + "]"
 
-    
-
-class Review(models.Model):
-    id       = models.IntegerField(primary_key=True)
-    store    = models.IntegerField(null=False)
-    user     = models.IntegerField(null=False)
-    score    = models.IntegerField(null=False)
-    content  = models.TextField(null=True)
-    reg_time = models.DateField()
-
 class Faq(models.Model):
     faq_no = models.AutoField(primary_key=True)
     faq_category = models.CharField(max_length=100, null=False, default='other')
