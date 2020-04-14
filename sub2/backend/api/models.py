@@ -16,6 +16,18 @@ class Store(models.Model):
     @property
     def category_list(self):
         return self.category.split("|") if self.category else []
+    def __str__ (self): 
+        return "[Store "+ str(self.id) +","+ str(self.store_name) + "," + str(self.branch) + "," + str(self.area) + "," + str(self.tel) + "," + str(self.address) + "," + str(self.latitude) + "," + str(self.longitude) + "," + str(self.category) + "]"
+
+    
+
+class Review(models.Model):
+    id       = models.IntegerField(primary_key=True)
+    store    = models.IntegerField(null=False)
+    user     = models.IntegerField(null=False)
+    score    = models.IntegerField(null=False)
+    content  = models.TextField(null=True)
+    reg_time = models.DateField()
 
 class Faq(models.Model):
     faq_no = models.AutoField(primary_key=True)
