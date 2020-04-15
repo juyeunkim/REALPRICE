@@ -50,14 +50,26 @@ class UserViewSet(viewsets.ModelViewSet):
     search_fields = ['email']
     
     queryset = User.objects.all()
-    
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    serializer_class = ReviewSerializer
+    pagination_class = SmallPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['id','store','user', 'score']
+    queryset = Review.objects.all()
+
+class HistoryViewSet(viewsets.ModelViewSet):
+    serializer_class = HistorySerializer
+    pagination_class = SmallPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['history_no']
+    queryset = History.objects.all()
+
 from rest_framework.decorators import api_view
 from rest_framework.decorators import parser_classes
 from rest_framework.parsers import JSONParser
 from haversine import haversine
 from django.db.models import Avg
-import json
-from django.http.response import HttpResponse
 
 '''
 data format 요청할때 이렇게 넣을 것
@@ -78,8 +90,10 @@ def searchRealPrice(request):#, format=None):
 # ---문제 전체 호출 한번해서 너무 느림 - 쿼리로 좀 축소해서 가져오고 싶은데 마음대로 못 다루겠음
 # 메뉴가 없어서 진행을 더이상 할 수가 없음!! 어쨌든 현재 할 수 있는 상태에서 효율적인 방법을 찾아보겠음
 # 가격 : 메뉴 추출해서 작업하고 있어야함...
-# 거르는 음식 : 메뉴 이름정도로 거르던지 해야하는 상태...
+# 거르는 음식 : 메뉴 이름정도로 거르던지 해야하는 상태... -> 이걸로 가게를 거르긴 좀..
+# 후에 웨이팅 시간이 추가된다면 
     storeList = Store.objects.all()
+    # 대표 메뉴의 가격 or 평균가격이 매겨지면 filtering 처리하면 좀 더 빠르긴 할 것
     reviewList = Review.objects.values('store').annotate(
         average = Avg('score')
     ).values('average', 'store')
@@ -102,6 +116,9 @@ def searchRealPrice(request):#, format=None):
                     result["id"] = store.id
                     result["store_name"] = store.store_name
                     result["branch"] = store.branch
+                    result["area"] = store.area
+                    result["address"] = store.address
+                    result["tel"] = store.tel
                     result["category_list"] = store.category_list
                     result["rating"] = review[0]['average']
                     if result not in merged_data: 
@@ -120,16 +137,4 @@ def searchRealPrice(request):#, format=None):
 # 최소가격, 최대가격 받고
 # 거르는 음식 기본 null값
 
-class ReviewViewSet(viewsets.ModelViewSet):
-    serializer_class = ReviewSerializer
-    pagination_class = SmallPagination
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['id','store','user', 'score']
-    queryset = Review.objects.all()
 
-class HistoryViewSet(viewsets.ModelViewSet):
-    serializer_class = HistorySerializer
-    pagination_class = SmallPagination
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['history_no']
-    queryset = History.objects.all()
