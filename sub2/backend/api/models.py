@@ -54,6 +54,12 @@ class History(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
     store  = models.ForeignKey('Store', on_delete=models.CASCADE)
 
+class Menu(models.Model):
+    id = models.AutoField(primary_key=True)
+    store = models.IntegerField(null=False)
+    menu_name = models.CharField(max_length=200, null=False)
+    price = models.IntegerField(null=False)
+
 # from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import ugettext_lazy as _

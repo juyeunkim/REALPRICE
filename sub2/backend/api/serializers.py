@@ -15,18 +15,6 @@ class StoreSerializer(serializers.ModelSerializer):
             "longitude",
             "category_list",
         ]
-
-class ReviewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Review
-        fields = [
-            "id",      
-            "store",   
-            "user",    
-            "score",   
-            "content", 
-            "reg_time",
-        ]
         
 class FaqSerializer(serializers.ModelSerializer):
     class Meta:
@@ -59,12 +47,12 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = [
-            "id",
-            "store",
-            "user",
-            "score",
-            "content",
-            "reg_time"
+            "id",      
+            "store",   
+            "user",    
+            "score",   
+            "content", 
+            "reg_time",
         ]
 
 class HistorySerializer(serializers.ModelSerializer):
@@ -77,6 +65,17 @@ class HistorySerializer(serializers.ModelSerializer):
             "user",
             "store"
         ]
+
+class MenuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Menu
+        fields = [
+            "id",      
+            "store",   
+            "menu_name",    
+            "price"
+        ]
+
 
 from rest_framework import serializers
 
