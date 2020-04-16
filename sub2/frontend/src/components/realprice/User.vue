@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import SEARCH from "@/components/realprice/Search";
+import SEARCH from "@/components/realprice/SearchButton";
 export default {
   components: {
     SEARCH

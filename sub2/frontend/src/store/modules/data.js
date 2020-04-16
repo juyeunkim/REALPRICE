@@ -1,6 +1,7 @@
 import api from "../../api";
 // initial state
 const state = {
+    searchRealPrice: [],
     storeSearchList: [],
     storeSearchPage: "1",
     faqList: [],
@@ -149,11 +150,16 @@ const actions = {
         }));
         commit("setQnaList", qnas);
     },
-
-    postQuestion({ commit }, params) {
-        const question = params;
-        commit("addQnaList", question)
-    }
+    async postQuestion({ commit }, params) {
+        // console.log('Im in postQ in data.js');
+        // api.postRealPrice(params);
+        const resp = await api.postRealPrice(params);
+        // console.log("End of postRealPrice");
+        // console.log(resp);
+        const data = resp.data["received_data"];
+        console.log(data);
+        commit("setRealPrice", data.result)
+    },
 };
 
 // mutations
@@ -212,6 +218,12 @@ const mutations = {
     addQnaList(state, question) {
         state.qnaList = state.qnaList.concat(question);
     },
+    setRealPrice(state, list) {
+        state.searchRealPrice = list;
+    },
+    clearRealPrice(state) {
+        state.searchRealPrice = [];
+    }
 };
 
 // getters
