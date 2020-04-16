@@ -16,6 +16,8 @@ class Store(models.Model):
     @property
     def category_list(self):
         return self.category.split("|") if self.category else []
+    def __str__ (self): 
+        return "[Store "+ str(self.id) +","+ str(self.store_name) + "," + str(self.branch) + "," + str(self.area) + "," + str(self.tel) + "," + str(self.address) + "," + str(self.latitude) + "," + str(self.longitude) + "," + str(self.category) + "]"
 
 class Faq(models.Model):
     faq_no = models.AutoField(primary_key=True)
@@ -36,6 +38,27 @@ class Qna(models.Model):
     qna_content = models.TextField(null=True)
     qna_writer = models.CharField(max_length=100, null=False)
     qna_write_date = models.DateField()
+
+class Review(models.Model):
+    id = models.AutoField(primary_key=True)
+    store = models.IntegerField(null=False)
+    user = models.IntegerField(null=False)
+    score = models.IntegerField(null=False)
+    content = models.TextField(null=True)
+    reg_time = models.DateField()
+
+class History(models.Model):
+    history_no = models.AutoField(primary_key=True)
+    time = models.DateTimeField(null=False)
+    expenditure = models.IntegerField(null=False)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    store  = models.ForeignKey('Store', on_delete=models.CASCADE)
+
+class Menu(models.Model):
+    id = models.AutoField(primary_key=True)
+    store = models.IntegerField(null=False)
+    menu_name = models.CharField(max_length=200, null=False)
+    price = models.IntegerField(null=False)
 
 # from django.db import models
 from django.contrib.auth.models import AbstractUser

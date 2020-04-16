@@ -74,7 +74,7 @@ export default {
       
       // dispatch로 action 호출
       this.$store.dispatch('data/logout');
-      this.$router.push('/')
+      if(this.$route.path !== `/`) this.$router.push('home')
     }
   }
 };

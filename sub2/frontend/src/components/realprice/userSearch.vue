@@ -12,14 +12,31 @@
         <v-container grid-list-md>
           <v-layout wrap>
             <v-flex xs12>
-              <v-text-field label="Email" />
+              <v-text-field v-model="email" label="Email을 입력해주세요" />
             </v-flex>
+            <div v-if="email != ''">
+              <div v-for="e in filteredList" :key="e.email" class="card">
+                <button @click="addChips(e.email)">{{ e.email }}</button>
+              </div>
+            </div>
           </v-layout>
         </v-container>
       </v-card-text>
+      {{ chips }}
       <v-card-actions>
         <v-spacer />
-        <v-btn large color="blue lighten-1 white--text ma-5" rounded @click.native="dialog = false">닫기</v-btn>
+        <v-btn
+          large
+          color="blue lighten-1 white--text ma-5"
+          rounded
+          @click="addUser"
+        >추가</v-btn>
+        <v-btn
+          large
+          color="blue lighten-1 white--text ma-5"
+          rounded
+          @click.native="dialog = false"
+        >닫기</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -31,8 +48,40 @@
 export default {
   data() {
     return {
-      dialog: false
+      dialog: false,
+      email: "",
+      chips:[]
     };
+  },
+  computed: {
+    userList: function() {
+      return this.$store.getters["data/users"];
+    },
+    filteredList() {
+      return this.userList.filter(list => {
+        return list.email.toLowerCase().includes(this.email.toLowerCase());
+      });
+    }
+  },
+  created() {
+    this.$store.dispatch("data/getUsers");
+  },
+  methods:{
+    addUser(){
+      this.$store.dispatch("data/selectedUser", this.chips)
+      // this.$store.state.selectedUser  = this.chips
+      // console.log(this.$store.state.selectedUser)
+      this.$alert("유저 추가 성공", "Success", "success");
+      this.dialog = false;
+      //// 유저가 추가 될 수 있도록
+    },
+    addChips(email){
+      if(!this.chips.includes(email)) this.chips.push(email)
+      else {
+        var index = this.chips.indexOf(email);
+        if (index !== -1) this.chips.splice(index, 1);
+      }
+    }
   }
 };
 </script>

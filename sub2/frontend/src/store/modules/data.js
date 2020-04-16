@@ -1,6 +1,7 @@
 import api from "../../api";
 // initial state
 const state = {
+    searchRealPrice: [],
     storeSearchList: [],
     storeSearchPage: "1",
     faqList: [],
@@ -38,13 +39,16 @@ const state = {
         profile: {
             gender: "",
             born_year: "",
-            name: "",
+            name: "", // 이름이 여기에 들어가있음
             address: "",
             phone: "",
             tag: "",
             photo: null
         }
     },
+    // 전체 유저 정보
+    userList: [],
+    selectedUser: [],
 
     // RealPrice
     RealPrice: {
@@ -54,7 +58,8 @@ const state = {
     },
 
     // Meeting
-    meetings: []
+    meetings: [],
+
 
 
 
@@ -72,10 +77,24 @@ const actions = {
     },
 
     // 마이페이지
-    async userInfo({ commit }, payload) {
-        const res = await api.getUserInfo(payload);
-        console.log(res)
-        commit('userInfo', res)
+    userInfo({ commit }, payload) {
+        api.getUserInfo(payload).then(res => {
+            commit('userInfo', res.data)
+        })
+    },
+
+    getUsers({ commit }) {
+        api.getUsers().then(res => {
+            console.log('actions')
+            console.log(res.data.results)
+            commit('getUsers', res.data.results)
+        })
+    },
+
+    selectedUser({ commit }, payload) {
+        console.log('action')
+        console.log(payload)
+        commit('selectedUser', payload)
     },
 
 
@@ -131,18 +150,22 @@ const actions = {
         }));
         commit("setQnaList", qnas);
     },
-
-    postQuestion({ commit }, params) {
-        const question = params;
-        commit("addQnaList", question)
-    }
+    async postQuestion({ commit }, params) {
+        // console.log('Im in postQ in data.js');
+        // api.postRealPrice(params);
+        const resp = await api.postRealPrice(params);
+        // console.log("End of postRealPrice");
+        // console.log(resp);
+        const data = resp.data["received_data"];
+        console.log(data);
+        commit("setRealPrice", data.result)
+    },
 };
 
 // mutations
 const mutations = {
     // LOGIN, LOGOUT
     logout(state) {
-
         state.Session.token = null
         state.Session.user.email = null
         state.Session.user.username = null
@@ -151,20 +174,29 @@ const mutations = {
         sessionStorage.clear()
     },
     login(state, payload) {
-        state.Session.token = payload.token
-        state.Session.user.email = payload.user.email
-        state.Session.user.username = payload.user.username
-        state.Session.user.pk = payload.user.token
         state.Session = payload
+
+        sessionStorage.setItem("pk", payload.user.pk)
+        sessionStorage.setItem("email", payload.user.email)
+        sessionStorage.setItem("token", payload.token)
     },
 
     // 마이페이지
     userInfo(state, payload) {
-        console.log(payload)
         state.userInfo = payload
     },
 
+    // 모든 유저 불러오기
+    getUsers(state, payload) {
+        console.log(payload)
+        state.userList = payload
+    },
 
+    selectedUser(state, payload) {
+        console.log('mutation')
+        console.log(payload)
+        state.selectedUser = payload
+    },
 
     setStoreSearchList(state, stores) {
         state.storeSearchList = stores.map(s => s);
@@ -186,6 +218,12 @@ const mutations = {
     addQnaList(state, question) {
         state.qnaList = state.qnaList.concat(question);
     },
+    setRealPrice(state, list) {
+        state.searchRealPrice = list;
+    },
+    clearRealPrice(state) {
+        state.searchRealPrice = [];
+    }
 };
 
 // getters
@@ -198,6 +236,12 @@ const getters = {
     },
     RealPrice: (state) => {
         return state.RealPrice
+    },
+    users: (state) => {
+        return state.userList
+    },
+    selectedUser: (state) => {
+        return state.selectedUser
     }
 };
 

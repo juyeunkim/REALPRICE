@@ -10,70 +10,68 @@
             <v-card-text>
               <span class="title">Personal Info</span>
 
-              <!-- 이메일 -->
-              <v-text-field
-                v-model="email"
-                :rules="emailRules"
-                class="mt-5"
-                label="Email"
-                required
-                readonly
-              />
-
-              <!-- 비밀번호 -->
-              <v-text-field
-                v-model="password"
-                :rules="[() => password.length > 0 || 'This field is required']"
-                label="Password"
-                class="mt-5"
-                required
-                type="password"
-              />
-
-              <!-- 비밀번호 다시 -->
-              <!-- <v-text-field
-                v-model="password1"
-                :rules="[() => password1.length > 0 || 'This field is required']"
-                label="Password 확인"
-                class="mt-5"
-                required
-                type="password"
-              />-->
+              <!-- 이메일 수정 불가능 -->
+              <v-text-field v-model="userInfo.email" class="mt-5" label="Email" required readonly disabled />
 
               <!-- 이름 -->
-              <v-text-field v-model="name" :rules="nameRules" label="Name" class="mt-5" required />
+              <v-text-field
+                v-model="userInfo.profile.name"
+                :rules="nameRules"
+                label="Name"
+                class="mt-5"
+                required
+              />
 
               <!-- 휴대폰 번호 -->
-              <v-text-field v-model="phone" :rules="phoneRules" label="휴대폰" class="mt-5" required />
+              <v-text-field
+                v-model="userInfo.profile.phone"
+                :rules="phoneRules"
+                label="휴대폰"
+                class="mt-5"
+                required
+              />
 
               <!-- 주소 -->
               <v-text-field
-                v-model="address"
-                :rules="[() => address.length > 0 || 'This field is required']"
+                v-model="userInfo.profile.address"
+                :rules="[() => userInfo.profile.address.length > 0 || 'This field is required']"
                 label="주소"
                 class="mt-5"
                 required
               />
 
               <!-- 취향 -->
-              <!-- TODO : 추가로 입력받을수 있도록 -->
-              <v-select
+              <v-combobox
                 v-model="tags"
                 :items="items"
+                hide-selected
+                hint="리스트에 없다면 추가해주세요"
                 label="싫어하는 음식(재료)를 선택해주세요"
-                chips
                 multiple
-                tags
-              />
-
-              <!-- </v-select> -->
+                persistent-hint
+                small-chips
+              >
+                <template v-slot:no-data>
+                  <v-list-item>
+                    <v-list-item-content>
+                      <v-list-item-title>
+                        음식을 추가하고
+                        <kbd>enter</kbd> 를 눌러주세요
+                      </v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                </template>
+              </v-combobox>
+              
             </v-card-text>
 
             <v-divider class="mt-5" />
             <v-card-actions>
               <!-- <v-btn flat>Cancel</v-btn> -->
               <v-spacer />
+              <v-btn color="primary" to="/mypage">취소</v-btn>
               <v-btn color="primary" @click="submit">수정</v-btn>
+              <v-btn color="primary" @click="secession">삭제</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -83,60 +81,83 @@
 </template>
 
 <script>
-import Axios from "axios";
+import api from "../api/index";
+
 export default {
   data: () => ({
+    items: ["오이", "고수", "민트"],
     tags:[],
-    // 회원정보
-    email: "test",
-    password: "",
-    password1: "",
-    name: "test",
-    phone: "010-000-0000",
-    tag: "",
-    address: ""
+
+    // 유효성 검사
+    nameRules: [
+      v => !!v || "Name is required",
+      v => v.length <= 10 || "Name must be less than 10 characters"
+    ],
+    phoneRules: [
+      v => !!v || "Phone is required",
+      v =>
+        /^[0-9]{3}-([0-9]{3}|[0-9]{4})-[0-9]{4}$/.test(v) ||
+        "Phone must be valid"
+    ]
   }),
+  computed: {
+    userInfo: function() {
+      return this.$store.getters["data/userInfo"];
+    }
+  },
+  created() {
+    this.$store.dispatch("data/userInfo", sessionStorage.getItem("pk"));
+    this.tags = this.userInfo.profile.tag.split(",")
+  },
   methods: {
     submit() {
-      // 회원가입으로 넘어감
-
-      if (
-        this.email != "" &&
-        this.password != "" &&
-        this.born_year != "" &&
-        this.name != "" &&
-        this.phone != "" &&
-        this.gender != ""
-      ) {
+      console.log(this.userInfo)
+      if (this.userInfo.profile.name != "" && this.userInfo.profile.phone != "") {
+        this.userInfo.profile.tag = this.tags.toString();
+        console.log(this.userInfo);
         var data = {
-          email: this.email,
-          password: this.password,
-          profile: {
-            gender: this.gender,
-            born_year: this.born_year,
-            name: this.name,
-            address: this.address,
-            phone: this.phone,
-            tag: this.tag
-          }
+          email: this.userInfo.email,
+          profile:this.userInfo.profile
         };
-
-        console.log(data);
+        api.updateUser(sessionStorage.getItem("pk"), data)
+          .then(res=>{
+            console.log(res);
+            this.$alert("정보수정 성공", "Success", "success");
+            this.$router.push('/mypage')
+          })
+          .catch(exp => {
+            console.log(exp);
+            this.$alert("정보수정 실패", "Warning", "warning");
+          });
         // Axios
-    //     Axios.post("/api/users/", data)
-    //       .then(res => {
-    //         console.log(res);
-    //         this.$alert("회원가입 성공", "Success", "success");
-    //       })
-    //       .catch(exp => {
-    //         console.log("실패");
-    //         this.$alert("회원가입 실패", "Warning", "warning");
-    //       });
-    //   } else {
-    //     this.$alert("항목을 모두 입력해주세요", "Warning", "warning");
+        //     Axios.post("/api/users/", data)
+        //       .then(res => {
+        //         console.log(res);
+        //         this.$alert("회원가입 성공", "Success", "success");
+        //       })
+        //       .catch(exp => {
+        //         console.log("실패");
+        //         this.$alert("회원가입 실패", "Warning", "warning");
+        //       });
+        //   } else {
+        //     this.$alert("항목을 모두 입력해주세요", "Warning", "warning");
+        // 마이페이지로 이동
+        
+      }else{
+        this.$alert("항목을 모두 입력해주세요","Warning","warning");
       }
 
-      // TODO : 어떤 페이지로 넘어가는지
+    },
+    secession() {
+      // alert로 정말 탈퇴할건지 묻고, 맞으면 탈퇴
+      this.$confirm("정말 탈퇴하시겠습니까?").then(
+        () => {
+          api.deleteUser(sessionStorage.getItem("pk"))
+          this.$alert("삭제 완료", "Success", "success");
+          sessionStorage.clear()
+          this.$router.push('/')
+      });
+      
     }
   }
 };

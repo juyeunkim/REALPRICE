@@ -52,7 +52,7 @@ export default {
       // },
       {
         to: "/realprice",
-        icon: "fas fa-won-sign fa-spin",
+        icon: "fas fa-won-sign",
         text: "Real Price"
       },
       {

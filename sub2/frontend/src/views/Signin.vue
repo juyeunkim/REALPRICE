@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import Axios from "axios"
+import api from "../api/index";
 
 export default {
   data: () => {
@@ -70,9 +70,11 @@ export default {
           email: this.email,
           password: this.password
         };
-        Axios.post("http://13.125.68.33:8080/api/auth/login/",data)
+
+        api.login(data)
           .then(res => {
-            this.$store.dispatch('data/login', res.data);
+            console.log(res)
+            this.$store.dispatch('data/login', res.data)
             this.$alert("로그인 성공", "Success", "success");
             this.$router.push('/')
           })
