@@ -27,7 +27,7 @@ function getQnas() {
 }
 
 function getUsers() {
-    return axios.get(`${apiUrl}/users/`, header);
+    return axios.get(`${apiUrl}/users/`);
 }
 
 function getUserInfo(params) {

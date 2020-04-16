@@ -47,7 +47,7 @@ const state = {
     },
     // 전체 유저 정보
     userList: [],
-
+    selectedUser: [],
 
     // RealPrice
     RealPrice: {
@@ -85,9 +85,15 @@ const actions = {
     getUsers({ commit }) {
         api.getUsers().then(res => {
             console.log('actions')
-            console.log(res)
-            commit('getUsers', res)
+            console.log(res.data.results)
+            commit('getUsers', res.data.results)
         })
+    },
+
+    selectedUser({ commit }, payload) {
+        console.log('action')
+        console.log(payload)
+        commit('selectedUser', payload)
     },
 
 
@@ -180,6 +186,12 @@ const mutations = {
         state.userList = payload
     },
 
+    selectedUser(state, payload) {
+        console.log('mutation')
+        console.log(payload)
+        state.selectedUser = payload
+    },
+
     setStoreSearchList(state, stores) {
         state.storeSearchList = stores.map(s => s);
     },
@@ -215,6 +227,9 @@ const getters = {
     },
     users: (state) => {
         return state.userList
+    },
+    selectedUser: (state) => {
+        return state.selectedUser
     }
 };
 
