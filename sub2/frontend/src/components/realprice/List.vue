@@ -4,20 +4,23 @@
     맛 : {{ RealPrice.taste }} <br>
     거리 : {{ RealPrice.distance }} <br>
     가격 : {{ RealPrice.price }} <br> -->
-    <v-flex v-for="store in stores" :key="store.id">
+    <v-flex v-for="store in RealPrice" :key="store.id">
       <store-list-card
         :id="store.id"
-        :name="store.name"
+        :name="store.store_name"
         :categories="store.categories"
-        :address="store.address"
+        :address="store.area"
         :tel="store.tel"
+        percent=50
+        realprice=20963
       />
     </v-flex>
   </v-container>
 </template>
 
 <script>
-import StoreListCard from "@/components/StoreListCard";
+import StoreListCard from "@/components/realprice/StoreListCard";
+import { mapState, mapActions } from "vuex";
 export default {
   components: {
     StoreListCard

@@ -5,7 +5,7 @@
         <v-card class="text-center">
           <p class="display-3 pa-2">💸💵💰</p>
           <p class="display-2 pa-5">REAL PRICE</p>
-          <SEARCH @aa="bb" />
+          <SEARCH />
         </v-card>
       </v-flex>
       <v-flex>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import SEARCH from "@/components/realprice/Search";
+import SEARCH from "@/components/realprice/SearchButton";
 import LIST from "@/components/realprice/List";
 import Map from "@/components/Map";
 
@@ -35,6 +35,14 @@ export default {
   },
   data() {
     return {
+      param: {
+        "curLatitude":"37.503652",
+        "curLongitude":"127.038125",
+        "maxDistance":"0.2",
+        "minPoint":"4",
+        "maxPrice":"15000",
+        "foodfilter":""
+      },
       multicampus: {
         lat: 37.50128969810118,
         lng: 127.03960183847694,
@@ -58,13 +66,13 @@ export default {
       ],
     }
   },
+  computed:{
+
+  },
   methods:{
-    bb(){
-      console.log('B')
-    },
     search(){
       console.log(realPrice)
     }
-  }
+  },
 };
 </script>
