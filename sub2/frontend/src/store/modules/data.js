@@ -150,15 +150,15 @@ const actions = {
         }));
         commit("setQnaList", qnas);
     },
-    async postQuestion({ commit }, params) {
-        // console.log('Im in postQ in data.js');
-        // api.postRealPrice(params);
-        const resp = await api.postRealPrice(params);
-        // console.log("End of postRealPrice");
-        // console.log(resp);
-        const data = resp.data["received_data"];
-        console.log(data);
-        commit("setRealPrice", data.result)
+    postQuestion({ commit }, params) {
+        console.log('postQuestion')
+        console.log(params)
+        api.postQna(params)
+            .then(res => {
+                console.log(res)
+                    // commit("postQuestion", res.data)
+            })
+
     },
 };
 
@@ -223,7 +223,7 @@ const mutations = {
     },
     clearRealPrice(state) {
         state.searchRealPrice = [];
-    }
+    },
 };
 
 // getters
@@ -242,6 +242,9 @@ const getters = {
     },
     selectedUser: (state) => {
         return state.selectedUser
+    },
+    qnaList: (state) => {
+        return state.qnaList
     }
 };
 

@@ -24,6 +24,9 @@ function postRealPrice(params) {
     // });
 }
 
+function postQna(params) {
+    return axios.post(`${apiUrl}/qnas/`, params);
+}
 
 function getStores(params) {
     return axios.get(`${apiUrl}/stores`, {
@@ -69,6 +72,7 @@ const Api = {
     getStores,
     getFaqs,
     getQnas,
+    postQna,
 
     ////// users
     signup,

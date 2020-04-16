@@ -44,7 +44,7 @@ export default {
   computed: {
     ...mapState("app", ["drawer"]),
     userId: function(){
-      return this.$store.getters['data/userStatus']
+      return sessionStorage.getItem('pk')
     }
   },
   watch:{
