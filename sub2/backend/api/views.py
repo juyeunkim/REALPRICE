@@ -120,6 +120,8 @@ def searchRealPrice(request):#, format=None):
                     result["address"] = store.address
                     result["tel"] = store.tel
                     result["category_list"] = store.category_list
+                    result["latitude"] = store.latitude
+                    result["longitude"] = store.longitude
                     result["rating"] = review[0]['average']
                     if result not in merged_data: 
                         merged_data.append(result)
@@ -129,7 +131,7 @@ def searchRealPrice(request):#, format=None):
         'result':merged_data,
     }
     response['message']='검색된 맛집 추천 리스트입니다.' if response['count'] > 0 else '검색된 결과가 없습니다'
-    return Response({'received data':response})
+    return Response({'received_data':response})
     # response = json.dumps(response)
     # return HttpResponse(response, mimetype="application/json")
 # 사용자 위치부터 최대반경 거리
