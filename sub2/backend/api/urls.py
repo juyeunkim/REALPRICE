@@ -11,6 +11,7 @@ router.register(r"qnas", QnaViewSet, basename="qnas")
 router.register(r'users', UserViewSet)
 router.register(r'reviews', ReviewViewSet, basename="reviews")
 router.register(r'histories', HistoryViewSet, basename="histories")
+router.register(r'menus', MenuViewSet, basename="menus")
 
 urlpatterns = [
     url(r'^', include(router.urls)),
