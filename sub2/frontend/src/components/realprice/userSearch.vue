@@ -25,12 +25,12 @@
       {{ chips }}
       <v-card-actions>
         <v-spacer />
-        <!-- <v-btn
+        <v-btn
           large
           color="blue lighten-1 white--text ma-5"
           rounded
           @click="addUser"
-        >추가</v-btn> -->
+        >추가</v-btn>
         <v-btn
           large
           color="blue lighten-1 white--text ma-5"
@@ -67,14 +67,14 @@ export default {
     this.$store.dispatch("data/getUsers");
   },
   methods:{
-    // addUser(){
-    //   this.$store.dispatch("data/selectedUser", this.chips)
-    //   // this.$store.state.selectedUser  = this.chips
-    //   // console.log(this.$store.state.selectedUser)
-    //   this.$alert("유저 추가 성공", "Success", "success");
-    //   this.dialog = false;
-    //   //// 유저가 추가 될 수 있도록
-    // },
+    addUser(){
+      this.$store.dispatch("data/selectedUser", this.chips)
+      // this.$store.state.selectedUser  = this.chips
+      // console.log(this.$store.state.selectedUser)
+      this.$alert("유저 추가 성공", "Success", "success");
+      this.dialog = false;
+      //// 유저가 추가 될 수 있도록
+    },
     addChips(email){
       if(!this.chips.includes(email)) this.chips.push(email)
       else {
