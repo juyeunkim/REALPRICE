@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, UserProfile, Store, Faq, Qna
+from .models import *
 
 class StoreSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,7 +15,6 @@ class StoreSerializer(serializers.ModelSerializer):
             "longitude",
             "category_list",
         ]
-
         
 class FaqSerializer(serializers.ModelSerializer):
     class Meta:
@@ -43,6 +42,41 @@ class QnaSerializer(serializers.ModelSerializer):
             "qna_writer",
             "qna_write_date",
         ]
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = [
+            "id",      
+            "store",   
+            "user",    
+            "score",   
+            "content", 
+            "reg_time",
+        ]
+
+class HistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = History
+        fields = [
+            "history_no",
+            "time",
+            "expenditure",
+            "user",
+            "store"
+        ]
+
+class MenuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Menu
+        fields = [
+            "id",      
+            "store",   
+            "menu_name",    
+            "price"
+        ]
+
+
 from rest_framework import serializers
 
 
