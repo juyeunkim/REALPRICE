@@ -32,12 +32,13 @@ export default {
     ...mapActions("data", ["postQuestion"]),
     Search: function() {
       const params = {
-        "curLatitude":"37.503652",
-        "curLongitude":"127.038125",
-        "maxDistance":"0.2",
-        "minPoint":"4",
-        "maxPrice":"15000",
-        "foodfilter":""
+        "curLatitude": "37.503652",
+        "curLongitude": "127.038125",
+        "maxDistance": "0.3",
+        "minPoint": "3",
+        "maxPrice": "20000",
+        "foodfilter": "",
+        "orderby": "distance"
       };
       this.postQuestion(params);
     },

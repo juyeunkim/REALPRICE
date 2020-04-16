@@ -36,15 +36,6 @@ export default {
   },
   data() {
     return {
-      param: {
-        "curLatitude":"37.503652",
-        "curLongitude":"127.038125",
-        "maxDistance":"0.2",
-        "minPoint":"4",
-        "maxPrice":"15000",
-        "foodfilter":"",
-        "orderby": "distance"
-      },
       multicampus: {
         latitude: 37.50128969810118,
         longitude: 127.03960183847694,
