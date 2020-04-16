@@ -43,7 +43,7 @@ export default {
         "minPoint":"4",
         "maxPrice":"15000",
         "foodfilter":"",
-        "orderby": "distance",
+        "orderby": "distance"
       },
       multicampus: {
         latitude: 37.50128969810118,
