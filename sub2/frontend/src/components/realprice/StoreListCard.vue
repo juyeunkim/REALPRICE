@@ -23,7 +23,8 @@
 
           <v-card-subtitle class="yellow--text text--accent-4 font-weight-bold" v-text="'가성비 ' + percent + '%'"></v-card-subtitle>
           <v-card-text class="blue--text text--darken-4 font-weight-bold">
-            {{realprice}} <v-icon class="fas fa-won-sign"></v-icon>
+            {{realprice}} 원
+            <v-icon class="fas fa-won-sign"></v-icon>
           </v-card-text>
         </div>
         <v-avatar

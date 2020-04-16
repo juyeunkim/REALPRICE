@@ -11,10 +11,10 @@
       <v-flex>
         <v-layout row>
           <v-flex xs8>
-            <Map :restaurants="this.list" :user="this.multicampus"/>
+            <Map :restaurants="this.RealPrice" :user="this.multicampus"/>
           </v-flex>
           <v-flex xs4>
-            <LIST />
+            <LIST :restaurants="this.RealPrice"/>
           </v-flex>
         </v-layout>
       </v-flex>
@@ -26,6 +26,7 @@
 import SEARCH from "@/components/realprice/SearchButton";
 import LIST from "@/components/realprice/List";
 import Map from "@/components/Map";
+import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
   components: {
@@ -44,8 +45,8 @@ export default {
         "foodfilter":""
       },
       multicampus: {
-        lat: 37.50128969810118,
-        lng: 127.03960183847694,
+        latitude: 37.50128969810118,
+        longitude: 127.03960183847694,
       },
       list: [
           {
@@ -53,23 +54,29 @@ export default {
               lat: 37.5029438450506,
               lng: 127.03713443439975,
           },
-          {
-              title: '아리네술상', 
-              lat: 37.50255638865731,
-              lng: 127.03721058059857,
-          },
-          {
-              title: '바나프레소 테헤란로점', 
-              lat: 37.50112544622184,
-              lng: 127.03905608614859,
-          },
+          // {
+          //     title: '아리네술상', 
+          //     lat: 37.50255638865731,
+          //     lng: 127.03721058059857,
+          // },
+          // {
+          //     title: '바나프레소 테헤란로점', 
+          //     lat: 37.50112544622184,
+          //     lng: 127.03905608614859,
+          // },
       ],
     }
   },
-  computed:{
-
+  destroyed() {
+      this.clearRealPrice();
+  },
+  computed: {
+    RealPrice: function() {
+      return this.$store.getters["data/RealPrice"];
+    }
   },
   methods:{
+    ...mapMutations("data", ["clearRealPrice"]),
     search(){
       console.log(realPrice)
     }

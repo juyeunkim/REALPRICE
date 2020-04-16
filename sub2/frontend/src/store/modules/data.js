@@ -138,7 +138,7 @@ const actions = {
         const resp = await api.postRealPrice(params);
         // console.log("End of postRealPrice");
         // console.log(resp);
-        const data = resp.data["received data"];
+        const data = resp.data["received_data"];
         console.log(data);
         commit("setRealPrice", data.result)
     },
@@ -192,6 +192,9 @@ const mutations = {
     },
     setRealPrice(state, list) {
         state.searchRealPrice = list;
+    },
+    clearRealPrice(state) {
+        state.searchRealPrice = [];
     }
 };
 

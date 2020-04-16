@@ -4,15 +4,15 @@
     맛 : {{ RealPrice.taste }} <br>
     거리 : {{ RealPrice.distance }} <br>
     가격 : {{ RealPrice.price }} <br> -->
-    <v-flex v-for="store in RealPrice" :key="store.id">
+    <v-flex v-for="store in restaurants" :key="store.id">
       <store-list-card
         :id="store.id"
         :name="store.store_name"
         :categories="store.categories"
         :address="store.area"
         :tel="store.tel"
-        percent=50
-        realprice=20963
+        :percent=50
+        :realprice=20963
       />
     </v-flex>
   </v-container>
@@ -20,10 +20,18 @@
 
 <script>
 import StoreListCard from "@/components/realprice/StoreListCard";
-import { mapState, mapActions } from "vuex";
+// import { mapState, mapActions } from "vuex";
 export default {
   components: {
     StoreListCard
+  },
+  props: {
+      restaurants: {
+          type: Array,
+          default: function(){
+              return []
+          },
+      },
   },
   data() {
     return {
@@ -52,11 +60,11 @@ export default {
       ]
     }
   },
-  computed: {
-    RealPrice: function() {
-      return this.$store.getters["data/RealPrice"];
-    }
-  },
+  // computed: {
+  //   RealPrice: function() {
+  //     return this.$store.getters["data/RealPrice"];
+  //   }
+  // },
 }
 </script>
 
