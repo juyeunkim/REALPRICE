@@ -66,11 +66,11 @@ class HistoryViewSet(viewsets.ModelViewSet):
     queryset = History.objects.all()
 
 class MenuViewSet(viewsets.ModelViewSet):
-    serializer_class = ReviewSerializer
+    serializer_class = MenuSerializer
     pagination_class = SmallPagination
     filter_backends = [filters.SearchFilter]
     search_fields = ['id','store','menu_name', 'price']
-    queryset = Review.objects.all()
+    queryset = Menu.objects.all()
 
 from rest_framework.decorators import api_view
 from rest_framework.decorators import parser_classes
