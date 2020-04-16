@@ -1,7 +1,7 @@
 <template>
 <div>
     <!-- <div>안녕하세요 나는 지도에요</div> -->
-    <div id="map" style="width:700px;height:500px;" />
+    <div id="map"/>
 </div>
 </template>
 
@@ -110,6 +110,16 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+#map {
+    height: calc(60vw - 260px);
+    width: 100%;
+    // height: calc(60vw - 260px);
+    // width: calc(100vw - 260px);
+    @media screen and (max-width: 900px) {
+        height: 60vw;
+        width: 100%;
+    }
+}
 
 </style>

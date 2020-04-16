@@ -1,12 +1,24 @@
 <template>
   <v-container class="mt-5" fill-height>
-    <v-card class="text-center">
-      <p class="display-3 pa-2">💸💵💰</p>
-      <p class="display-2 pa-5">REAL PRICE</p>
-      <SEARCH @aa="bb" />
-    </v-card>
-    <LIST />
-    <Map />
+    <v-layout column>
+      <v-flex>
+        <v-card class="text-center">
+          <p class="display-3 pa-2">💸💵💰</p>
+          <p class="display-2 pa-5">REAL PRICE</p>
+          <SEARCH @aa="bb" />
+        </v-card>
+      </v-flex>
+      <v-flex>
+        <v-layout row>
+          <v-flex xs8>
+            <Map :restaurants="this.list" :user="this.multicampus"/>
+          </v-flex>
+          <v-flex xs4>
+            <LIST />
+          </v-flex>
+        </v-layout>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 
@@ -21,7 +33,31 @@ export default {
     LIST,
     Map
   },
-  
+  data() {
+    return {
+      multicampus: {
+        lat: 37.50128969810118,
+        lng: 127.03960183847694,
+      },
+      list: [
+          {
+              title: '새마을식당 역삼GS점',
+              lat: 37.5029438450506,
+              lng: 127.03713443439975,
+          },
+          {
+              title: '아리네술상', 
+              lat: 37.50255638865731,
+              lng: 127.03721058059857,
+          },
+          {
+              title: '바나프레소 테헤란로점', 
+              lat: 37.50112544622184,
+              lng: 127.03905608614859,
+          },
+      ],
+    }
+  },
   methods:{
     bb(){
       console.log('B')
