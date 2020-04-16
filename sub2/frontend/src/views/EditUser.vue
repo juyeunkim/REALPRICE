@@ -11,7 +11,7 @@
               <span class="title">Personal Info</span>
 
               <!-- 이메일 수정 불가능 -->
-              <v-text-field v-model="userInfo.email" class="mt-5" label="Email" required readonly />
+              <v-text-field v-model="userInfo.email" class="mt-5" label="Email" required readonly disabled />
 
               <!-- 이름 -->
               <v-text-field
@@ -41,23 +41,35 @@
               />
 
               <!-- 취향 -->
-              <!-- TODO : 추가로 입력받을수 있도록 -->
-              <v-select
-                v-model="userInfo.profile.tag"
+              <v-combobox
+                v-model="tags"
                 :items="items"
+                hide-selected
+                hint="리스트에 없다면 추가해주세요"
                 label="싫어하는 음식(재료)를 선택해주세요"
-                chips
                 multiple
-                tags
-              />
-
-              <!-- </v-select> -->
+                persistent-hint
+                small-chips
+              >
+                <template v-slot:no-data>
+                  <v-list-item>
+                    <v-list-item-content>
+                      <v-list-item-title>
+                        음식을 추가하고
+                        <kbd>enter</kbd> 를 눌러주세요
+                      </v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                </template>
+              </v-combobox>
+              
             </v-card-text>
 
             <v-divider class="mt-5" />
             <v-card-actions>
               <!-- <v-btn flat>Cancel</v-btn> -->
               <v-spacer />
+              <v-btn color="primary" to="/mypage">취소</v-btn>
               <v-btn color="primary" @click="submit">수정</v-btn>
               <v-btn color="primary" @click="secession">삭제</v-btn>
             </v-card-actions>
@@ -73,7 +85,8 @@ import api from "../api/index";
 
 export default {
   data: () => ({
-    items: ["오이", "고수"],
+    items: ["오이", "고수", "민트"],
+    tags:[],
 
     // 유효성 검사
     nameRules: [
@@ -94,13 +107,28 @@ export default {
   },
   created() {
     this.$store.dispatch("data/userInfo", sessionStorage.getItem("pk"));
+    this.tags = this.userInfo.profile.tag.split(",")
   },
   methods: {
     submit() {
-      console.log(userInfo)
-      if (userInfo.profile.name != "" && userInfo.profile.phone != "") {
-        console.log(userInfo);
-        // api.updateUser(sessionStorage.getItem("pk"), userInfo)
+      console.log(this.userInfo)
+      if (this.userInfo.profile.name != "" && this.userInfo.profile.phone != "") {
+        this.userInfo.profile.tag = this.tags.toString();
+        console.log(this.userInfo);
+        var data = {
+          email: this.userInfo.email,
+          profile:this.userInfo.profile
+        };
+        api.updateUser(sessionStorage.getItem("pk"), data)
+          .then(res=>{
+            console.log(res);
+            this.$alert("정보수정 성공", "Success", "success");
+            this.$router.push('/mypage')
+          })
+          .catch(exp => {
+            console.log(exp);
+            this.$alert("정보수정 실패", "Warning", "warning");
+          });
         // Axios
         //     Axios.post("/api/users/", data)
         //       .then(res => {
@@ -113,8 +141,8 @@ export default {
         //       });
         //   } else {
         //     this.$alert("항목을 모두 입력해주세요", "Warning", "warning");
-        // TODO : 마이페이지로 이동
-        this.$router.push('/mypage')
+        // 마이페이지로 이동
+        
       }else{
         this.$alert("항목을 모두 입력해주세요","Warning","warning");
       }

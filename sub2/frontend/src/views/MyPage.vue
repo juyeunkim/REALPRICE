@@ -39,6 +39,9 @@
                   <v-btn color="#32BCC3" to="/edituser" elevation="0" dark>
                     <v-icon left>{{ mdiPencil }}</v-icon>Edit Profile
                   </v-btn>
+                  <v-btn color="#32BCC3" to="/editpw" elevation="0" dark>
+                    <v-icon left>{{ mdiLockCheck }}</v-icon> Edit Password
+                  </v-btn>
                 </div>
               </v-col>
             </v-row>
@@ -55,7 +58,8 @@ import {
   mdiPencil,
   mdiMapMarker,
   mdiCellphoneIphone,
-  mdiEmail  
+  mdiEmail,
+  mdiLockCheck
 } from "@mdi/js";
 
 export default {
@@ -64,7 +68,8 @@ export default {
     mdiPencil,
     mdiMapMarker,
     mdiCellphoneIphone,
-    mdiEmail
+    mdiEmail,
+    mdiLockCheck
   }),
   computed: {
     userInfo: function(){

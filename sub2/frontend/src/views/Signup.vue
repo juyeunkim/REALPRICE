@@ -77,37 +77,28 @@
               />
 
               <!-- 취향 -->
-              <!-- TODO : 추가로 입력받을수 있도록 -->
-              <!-- 미완성 -->
-              <!-- <v-select
-                v-model="chips"
-                label="Your favorite hobbies"
-                chips
-                tags
-                solo
-                prepend-icon="filter_list"
-                append-icon
-                clearable
-              >
-                <template slot="selection" slot-scope="data">
-                  <v-chip :selected="data.selected" close @input="remove(data.item)">
-                    <strong>{{ data.item }}</strong>&nbsp;
-                    <span>(interest)</span>
-                  </v-chip>
-                </template>
-              </v-select> -->
-
-              <v-select
+              <v-combobox
                 v-model="tags"
                 :items="items"
+                hide-selected
+                hint="리스트에 없다면 추가해주세요"
                 label="싫어하는 음식(재료)를 선택해주세요"
-                chips
                 multiple
-                tags
-                clearable
-              />
+                persistent-hint
+                small-chips
+              >
+                <template v-slot:no-data>
+                  <v-list-item>
+                    <v-list-item-content>
+                      <v-list-item-title>
+                        음식을 추가하고
+                        <kbd>enter</kbd> 를 눌러주세요
+                      </v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                </template>
+              </v-combobox>
 
-              <!-- </v-select> -->
             </v-card-text>
 
             <v-divider class="mt-5" />
@@ -129,10 +120,10 @@ export default {
   data: () => {
     return {
       // 기본 정보
-      years: ["1989", "1990", "1991", "1992", "1993", "1994", "1995"],
-      items: ["오이", "고수"],
+      years: ["1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997"],
+      items: ["오이", "고수", "민트"],
       tags: [], // 선택한 취향
-      chips: ['Programming', 'Playing video games', 'Watching', 'Sleeping'],
+      chips: ["Programming", "Playing video games", "Watching", "Sleeping"],
 
       // 유효성 검사
       nameRules: [
@@ -186,7 +177,7 @@ export default {
     },
     submit() {
       // 회원가입으로 넘어감
-
+      this.tag = this.tags.toString();
       if (
         this.email != "" &&
         this.password != "" &&
@@ -210,9 +201,9 @@ export default {
         };
 
         console.log(data);
-        
 
-        api.signup(data)
+        api
+          .signup(data)
           .then(res => {
             console.log(res);
             this.$alert("회원가입 성공", "Success", "success");
