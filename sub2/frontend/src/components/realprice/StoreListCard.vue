@@ -32,7 +32,8 @@
           size="125"
           tile
         >
-          <v-img src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"></v-img>
+          <v-img src="https://teamtech24.com/foodhati/foodhatiAdmin/assets/img/foodimg/default-food-image.jpg"></v-img>
+          <!-- <v-img src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"></v-img> -->
         </v-avatar>
 
       </div>
