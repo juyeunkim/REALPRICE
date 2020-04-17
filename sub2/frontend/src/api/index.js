@@ -14,7 +14,7 @@ let header = {
 
 function postRealPrice(params) {
     // console.log('Im in postQ in api/index.js');
-    return axios.post(`${apiUrl}/realprice/`, params);
+    return axios.post(`${apiUrl}/realprice/`, params, header);
     // axios.post(`${apiUrl}/realprice/`, params)
     // .then(function (response) {
     //     console.log(response);
@@ -25,21 +25,21 @@ function postRealPrice(params) {
 }
 
 function postQna(params) {
-    return axios.post(`${apiUrl}/qnas/`, params);
+    return axios.post(`${apiUrl}/qnas/`, params, header);
 }
 
 function getStores(params) {
     return axios.get(`${apiUrl}/stores`, {
         params
-    });
+    }, header);
 }
 
 function getFaqs() {
-    return axios.get(`${apiUrl}/faqs`);
+    return axios.get(`${apiUrl}/faqs/`);
 }
 
 function getQnas() {
-    return axios.get(`${apiUrl}/qnas`);
+    return axios.get(`${apiUrl}/qnas/`);
 }
 
 function getUsers() {
