@@ -9,6 +9,19 @@
         </v-card>
       </v-flex>
       <v-flex>
+        <v-btn
+          color="primary"
+          dark
+          @click.stop="dialog = true"
+        >
+          Open Dialog
+        </v-btn>
+        <v-dialog
+          v-model="dialog"
+          max-width="290"
+        >
+          <STOREDETAIL v-on:close="dialog = false"/>
+        </v-dialog>
         <v-layout row>
           <v-flex xs8>
             <Map :restaurants="this.RealPrice" :user="this.multicampus"/>
@@ -23,6 +36,7 @@
 </template>
 
 <script>
+import STOREDETAIL from '@/components/realprice/StoreDetail';
 import SEARCH from "@/components/realprice/SearchButton";
 import LIST from "@/components/realprice/List";
 import Map from "@/components/Map";
@@ -30,12 +44,14 @@ import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
   components: {
+    STOREDETAIL,
     SEARCH,
     LIST,
     Map
   },
   data() {
     return {
+      dialog: false,
       multicampus: {
         latitude: 37.50128969810118,
         longitude: 127.03960183847694,
