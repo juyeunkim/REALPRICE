@@ -14,14 +14,14 @@
 <script>
 import { mapState, mapActions } from "vuex";
 export default {
-  data(){
-    return{
-    //   RealPrice: {
-    //     taste: 0,
-    //     distance: 0,
-    //     price: 0
-    // }
-    }
+  data() {
+    return {
+      //   RealPrice: {
+      //     taste: 0,
+      //     distance: 0,
+      //     price: 0
+      // }
+    };
   },
   computed: {
     RealPrice: function() {

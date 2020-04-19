@@ -34,6 +34,11 @@ export default [{
         name: "edituser"
     },
     {
+        path: "/editpw",
+        view: "EditPw",
+        name: "editpw"
+    },
+    {
         path: "/faq",
         view: "FAQ",
         name: "faq"

@@ -11,14 +11,13 @@
           <v-col>
             <!------------------ PROFILE DATA ------------------>
             <div class="text-center mb-3 title text-secundario font-weight-bold">
-              <span>@</span>
-              <!-- {{userInfo.profile.name}} -->
-              이름
+              <span>{{ user }}</span>
             </div>
           </v-col>
         </v-row>
       </v-col>
     </v-card>
+    <!-- TODO : 자기 자신일때만 search 버튼이 나오도록 -->
     <SEARCH />
   </v-col>
 </template>
@@ -29,6 +28,9 @@ export default {
   components: {
     SEARCH
   },
+  props: {
+    user: String
+  }
 };
 </script>
 
