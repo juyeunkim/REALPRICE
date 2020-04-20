@@ -56,8 +56,7 @@ def searchRealPrice(request):#, format=None):
     }
     response['message']='검색된 맛집 추천 리스트입니다.' if response['count'] > 0 else '검색된 결과가 없습니다'
     return Response({'received_data':response})
-    # response = json.dumps(response)
-    # return HttpResponse(response, mimetype="application/json")
+
 # 사용자 위치부터 최대반경 거리
 # 최소별점
 # 최소가격, 최대가격 받고
@@ -89,3 +88,68 @@ def searchRealPrice(request):#, format=None):
 	"foodfilter": ""
 }
 ```
+
+
+2. 개인 User Version
+
+```python
+# 개인유저 버전
+@api_view(['POST'])
+def searchRealPrice(request):
+    data = request.data
+    orderby = "distance" if(data["orderby"] == "") else data["orderby"]
+    if orderby == "avg_score":
+        orderby += " desc"
+    if request.method =='POST':
+        curLatitude = str(data["curLatitude"])
+        curLongitude = str(data["curLongitude"])
+        maxDistance = str(data["maxDistance"])
+        minPoint = str(data["minPoint"])
+        maxPrice = str(data["maxPrice"])
+        sql = "SELECT s.*, ROUND(AVG(m.price),0) AS avg_price\
+                FROM\
+                    (SELECT\
+                    s.*,\
+                    AVG(r.score) AS avg_score,\
+                    COUNT(r.id) AS cnt_review,\
+                    round((6371\
+                        *acos(\
+                        (cos(radians("+curLatitude+"))*cos(radians(s.latitude))*cos(radians(s.longitude)-radians("+curLongitude+")))+\
+                        (sin(radians("+curLatitude+"))*sin(radians(s.latitude)))\
+                        )\
+                    ),3) AS distance\
+                    FROM api_store AS s\
+                    JOIN api_review AS r\
+                    ON s.id = r.store\
+                    GROUP BY s.id\
+                    HAVING distance < "+maxDistance+" AND avg_score > "+minPoint+") s\
+                JOIN api_menu m\
+                ON s.id = m.store\
+                GROUP BY m.store\
+                HAVING avg_price <= "+maxPrice +" order by "+orderby+";"
+        mariadb_connection = mariadb.connect(user='root', password='ssafy', database='realpricedb', host="13.125.68.33")
+        cursor = mariadb_connection.cursor()
+        cursor.execute(sql)
+        # fetchall = cursor.fetchall()
+        columns = [col[0] for col in cursor.description]
+        merged_data =[
+            dict(zip(columns, row))
+            for row in cursor.fetchall()
+        ]
+        mariadb_connection.close()       
+    response = {
+        'count':len(merged_data),
+        'result':merged_data,
+    }
+    response['message']='검색된 맛집 추천 리스트입니다.' if response['count'] > 0 else '검색된 결과가 없습니다'
+    return Response({'received_data':response})
+    #     # 여기서 숫자가 1명이면 그대로 진행하면 되고 1지역이면 네이버api를 이용해서 curLatitude, curLongitude 변경해줘야함
+    #     # 여기서 숫자가 여러명이면 평균값 구하기. 일부 사람 수 제외 시는 프론트에서 제어해주는게 좋을듯
+    #     #              여러지역이면 각 지역별로 네이버 api 이용해서 구한 뒤, 평균값인데
+    #     # 실제로 사용자가 이용한다고 했을때,
+    #     #        다른 유저들의 위치정보를 상세하게는 알 수 없을 것인데, 네이버api가 가능해지면 전부다 주소로 입력받아서 할지
+    #     #        각자 자신 위치를 설정할 수 있게 할 것인지. 미리 각자 주소를 등록해두게 할 것인지 결정해야함
+    #     # 따라서 일단 네이버api로 주소를 좌표값으로 바꾸는 geocoding 하도록 할 것
+        # print(curLatitude, curLongitude)
+```
+    
