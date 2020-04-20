@@ -66,11 +66,11 @@ class HistoryViewSet(viewsets.ModelViewSet):
     queryset = History.objects.all()
 
 class MenuViewSet(viewsets.ModelViewSet):
-    serializer_class = MenuSerializer
+    serializer_class = ReviewSerializer
     pagination_class = SmallPagination
     filter_backends = [filters.SearchFilter]
     search_fields = ['id','store','menu_name', 'price']
-    queryset = Menu.objects.all()
+    queryset = Review.objects.all()
 
 from rest_framework.decorators import api_view
 from rest_framework.decorators import parser_classes
@@ -91,6 +91,22 @@ data format 요청할때 이렇게 넣을 것
 '''
 from .openapis import *
 import mysql.connector as mariadb
+
+@api_view(['GET'])
+def checkUsedEmail(request, email):
+    response = {}
+    if request.method == 'GET':
+        try:
+            queryset = User.objects.get(email=email)
+            response["message"] = "User Email is Duplicated."
+            response["status"] = status.HTTP_200_OK
+        except User.DoesNotExist:  
+            response["message"] = "User Email isn't Duplicated. You can use this email ["+str(email)+"]"
+            response["status"] = status.HTTP_204_NO_CONTENT
+    return Response(response)
+
+@api_view(['POST'])
+def searchRealPrice(request):#, format=None):
 # 거리 : 반경 x km 이내 (현재 위치든 다른 곳이든 위치를 받아야함)
 # 맛   : 각 가게의 리뷰점수를 평균내서 순위매긴 값이 유저가 원하는 최소 평점 수치 y보다 높아아야함
 # 가격 : 각 가게들의 메뉴 평균인데, 메뉴가 없는가게도 많아서 0원 처리되는 곳이 꽤 많음
