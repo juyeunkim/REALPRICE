@@ -13,8 +13,8 @@
         :categories="store.categories"
         :address="store.area"
         :tel="store.tel"
-        :percent=50
-        :realprice=20963
+        :avg_score="store.avg_score"
+        :avg_price="store.avg_price"
       />
     </v-flex>
   </v-container>

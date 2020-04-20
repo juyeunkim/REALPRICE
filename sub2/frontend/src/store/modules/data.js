@@ -1,7 +1,7 @@
 import api from "../../api";
 // initial state
 const state = {
-    searchRealPrice: [{
+    realPriceList: [{
         "id": 161602,
         "store_name": "민들레",
         "branch": "",
@@ -180,6 +180,14 @@ const actions = {
         console.log(resp);
         commit("addQnaList", p)
     },
+    async postRealPrice({ commit }, params) {
+        console.log('postRealPrice')
+        console.log(params);
+        const resp = await api.postRealPrice(params);    
+        console.log(resp);
+        commit("setRealPrice", resp.data.received_data.result);
+    },
+    
 };
 
 // mutations
@@ -240,10 +248,10 @@ const mutations = {
         console.log(state.qnaList);
     },
     setRealPrice(state, list) {
-        state.searchRealPrice = list;
+        state.realPriceList = list;
     },
     clearRealPrice(state) {
-        state.searchRealPrice = [];
+        state.realPriceList = [];
     },
 };
 

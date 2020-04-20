@@ -22,9 +22,9 @@
             v-text="name"
           ></v-card-title>
 
-          <v-card-subtitle class="yellow--text text--accent-4 font-weight-bold" v-text="'가성비 ' + percent + '%'"></v-card-subtitle>
+          <v-card-subtitle class="yellow--text text--accent-4 font-weight-bold" v-text="'평점 ' + avg_score"></v-card-subtitle>
           <v-card-text class="blue--text text--darken-4 font-weight-bold">
-            {{realprice}} 
+            {{avg_price}} 
             <v-icon small>fas fa-won-sign</v-icon>
           </v-card-text>
         </div>
@@ -64,11 +64,11 @@ export default {
       type: String,
       default: ""
     },
-    percent: {
+    avg_score: {
       type: Number,
       default: 0,
     },
-    realprice: {
+    avg_price: {
       type: Number,
       default: 0,
     },

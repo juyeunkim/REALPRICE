@@ -24,10 +24,10 @@
         </v-dialog>
         <v-layout row>
           <v-flex xs8>
-            <Map :restaurants="this.SearchRealPrice" :user="this.multicampus"/>
+            <Map :restaurants="this.RealPriceList" :user="this.multicampus"/>
           </v-flex>
           <v-flex xs4>
-            <LIST :restaurants="this.SearchRealPrice" :foo="selectedNum" @update:foo="val=> selectedNum = val"/>
+            <LIST :restaurants="this.RealPriceList" :foo="selectedNum" @update:foo="val=> selectedNum = val"/>
           </v-flex>
         </v-layout>
       </v-flex>
@@ -64,7 +64,7 @@ export default {
   },
   computed: {
     ...mapState({
-      SearchRealPrice: state => state.data.searchRealPrice,
+      RealPriceList: state => state.data.realPriceList,
     })
   },
   methods:{
