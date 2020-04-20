@@ -3,6 +3,7 @@
     <v-card-text class="text-center">
       <p class="display-3 pa-2">💸💵💰</p>
       <p class="display-2 pa-5">REAL PRICE</p>
+      <v-btn color="primary" @click="test">State값 확인</v-btn>
     </v-card-text>
   </v-container>
 </template>

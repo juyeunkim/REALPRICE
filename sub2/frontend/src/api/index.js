@@ -55,6 +55,8 @@ function deleteUser(params) {
 }
 
 function updateUser(params, data) {
+    console.log('API')
+    console.log(data)
     return axios.put(`${apiUrl}/users/${params}/`, data);
 }
 

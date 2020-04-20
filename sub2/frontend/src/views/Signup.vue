@@ -17,7 +17,9 @@
                 label="Email을 입력하세요"
                 class="mt-5"
                 required
+                @keyup.enter="submit"
               />
+              <v-btn color="primary" @click="checkEmail">이메일 중복체크</v-btn>
 
               <!-- 비밀번호 -->
               <v-text-field
@@ -27,6 +29,7 @@
                 class="mt-5"
                 required
                 type="password"
+                @keyup.enter="submit"
               />
 
               <!-- 비밀번호 다시 -->
@@ -46,17 +49,18 @@
                 label="Name을 입력하세요"
                 class="mt-5"
                 required
+                @keyup.enter="submit"
               />
 
               <!-- 성별 -->
               성별
               <v-radio-group v-model="gender" row>
-                <v-radio label="남자" value="남" />
+                <v-radio label="남자" value="남" @keyup.enter="submit" />
                 <v-radio label="여자" value="여" />
               </v-radio-group>
 
               <!-- 태어난날 -->
-              <v-select v-model="born_year" :items="years" label="출생년도" />
+              <v-select v-model="born_year" :items="years" label="출생년도" @keyup.enter="submit" />
 
               <!-- 휴대폰 번호 -->
               <v-text-field
@@ -65,6 +69,7 @@
                 label="010-0000-0000"
                 class="mt-5"
                 required
+                @keyup.enter="submit"
               />
 
               <!-- 주소 -->
@@ -74,6 +79,7 @@
                 label="주소를 입력하세요"
                 class="mt-5"
                 required
+                @keyup.enter="submit"
               />
 
               <!-- 취향 -->
@@ -123,8 +129,7 @@ export default {
       years: ["1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997"],
       items: ["오이", "고수", "민트"],
       tags: [], // 선택한 취향
-      chips: ["Programming", "Playing video games", "Watching", "Sleeping"],
-
+      
       // 유효성 검사
       nameRules: [
         v => !!v || "Name is required",
@@ -217,9 +222,8 @@ export default {
         this.$alert("항목을 모두 입력해주세요", "Warning", "warning");
       }
     },
-    remove(item) {
-      this.chips.splice(this.chips.indexOf(item), 1);
-      this.chips = [...this.chips];
+    checkEmail(){
+      
     }
   }
 };
