@@ -66,11 +66,11 @@ class HistoryViewSet(viewsets.ModelViewSet):
     queryset = History.objects.all()
 
 class MenuViewSet(viewsets.ModelViewSet):
-    serializer_class = MenuSerializer
+    serializer_class = ReviewSerializer
     pagination_class = SmallPagination
     filter_backends = [filters.SearchFilter]
     search_fields = ['id','store','menu_name', 'price']
-    queryset = Menu.objects.all()
+    queryset = Review.objects.all()
 
 from rest_framework.decorators import api_view
 from rest_framework.decorators import parser_classes
@@ -90,6 +90,19 @@ data format 요청할때 이렇게 넣을 것
 '''
 
 import mysql.connector as mariadb
+
+@api_view(['GET'])
+def checkUsedEmail(request, email):
+    response = {}
+    if request.method == 'GET':
+        try:
+            queryset = User.objects.get(email=email)
+            response["message"] = "User Email is Duplicated."
+            response["status"] = status.HTTP_200_OK
+        except User.DoesNotExist:  
+            response["message"] = "User Email isn't Duplicated. You can use this email ["+str(email)+"]"
+            response["status"] = status.HTTP_204_NO_CONTENT
+    return Response(response)
 
 @api_view(['POST'])
 def searchRealPrice(request):#, format=None):
