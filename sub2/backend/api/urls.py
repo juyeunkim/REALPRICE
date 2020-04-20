@@ -1,4 +1,6 @@
 from django.conf.urls import url, include
+from django.urls import path
+from . import views
 from rest_framework.routers import DefaultRouter
 from .views import *
 
@@ -17,6 +19,7 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^auth/', include('rest_auth.urls')),
     url(r'^realprice/', searchRealPrice),
-    url(r'^checkUsedEmail/(?P<email>[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$',checkUsedEmail)
+    url(r'^checkUsedEmail/(?P<email>[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$',checkUsedEmail),
+    path('<int:user_id>/follow/', views.follow, name='follow')
 ]
 #(?P)이 영역의 문자열에 정규표현식을 적용해서 data 라는 변수명으로 인자를 view로 넘기겠다.

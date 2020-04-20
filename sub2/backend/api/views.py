@@ -7,6 +7,12 @@ from .serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404, redirect
+from .models import User
+
 class SmallPagination(PageNumberPagination):
     page_size = 10
     page_size_query_param = "page_size"
@@ -104,6 +110,16 @@ def checkUsedEmail(request, email):
             response["status"] = status.HTTP_204_NO_CONTENT
     return Response(response)
 
+@api_view(['PUT'])
+def follow(request, user_id):
+    people = get_object_or_404(get_user_model(), id=user_id)
+    if request.user in people.followers.all():
+        people.followers.remove(request.user)
+    else :
+        people.followers.add(request.user)
+    return redirect('api/users', request.user)
+
+
 @api_view(['POST'])
 def searchRealPrice(request):#, format=None):
 # 거리 : 반경 x km 이내 (현재 위치든 다른 곳이든 위치를 받아야함)
@@ -158,7 +174,7 @@ def searchRealPrice(request):#, format=None):
     }
     response['message']='검색된 맛집 추천 리스트입니다.' if response['count'] > 0 else '검색된 결과가 없습니다'
     return Response({'received_data':response})
-    
+
 
 # 원본
 # @api_view(['POST'])
