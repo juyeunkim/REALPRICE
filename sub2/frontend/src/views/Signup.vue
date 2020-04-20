@@ -223,7 +223,16 @@ export default {
       }
     },
     checkEmail(){
-      
+      api.checkUsedEmail(this.email)
+        .then(res=>{
+          if(res.data.status=='204')
+            this.$alert("사용가능한 이메일입니다", "Success", "success");
+          else if(res.data.status=='200')
+            this.$alert("이미 사용중인 이메일입니다", "Warning", "warning");
+        })
+        .catch(exp=>{
+          this.$alert("올바른 이메일을 작성해주세요", "Warning", "warning");
+        })
     }
   }
 };
