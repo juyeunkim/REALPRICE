@@ -7,6 +7,7 @@
     가격 : {{ RealPrice.price }} <br> -->
     <v-flex v-for="store in restaurants" :key="store.id">
       <store-list-card
+        @clickItem="selectItem"
         :id="store.id"
         :name="store.store_name"
         :categories="store.categories"
@@ -34,10 +35,11 @@ export default {
           },
       },
   },
-  data() {
-    return {
-    }
-  },
+  methods: {
+    selectItem: function(id){
+      console.log(id);
+    },
+  }
 }
 </script>
 

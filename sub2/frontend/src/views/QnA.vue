@@ -39,7 +39,7 @@
                               md="4"
                               lg="3"
                           >-->
-                          <v-list-item :key="item.title">
+                          <v-list-item :key="item.no">
                             <template v-slot:default="{ active }">
                               <v-list-item-content>
                                 <v-list-item-title v-text=" item.title" />
@@ -48,6 +48,7 @@
                               </v-list-item-content>
 
                               <v-list-item-action>
+                                <v-list-item-action-text v-text="item.write_date" />
                                 <v-list-item-action-text v-text="item.writer" />
                                 <v-row justify="space-around">
                                   <v-icon v-if="item.answer" color="green">mdi-message-reply-text</v-icon>
@@ -144,16 +145,26 @@ export default {
   created: function() {
     this.getQnas();
   },
+  watch: {
+    page: function(){
+      this.selected = [];
+    }
+  },
   methods: {
     ...mapActions("data", ["postQuestion", "getQnas"]),
     submit: function() {
+      console.log(this.items.length);
+      var today = new Date();
+      var writedate = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
       const params = {
-        qna_title: "Q " + this.title,
-        qna_writer: "이용자",
-        qna_content: this.question,
+        no: this.items.length+100,
+        title: "Q " + this.title,
+        writer: "이용자",
+        question: this.question,
         // lock: this.lock
         // 임시로 값넣어놈 ----start
-        qna_write_date: "2020-04-17", 
+        write_date: writedate, 
+        // write_date: "2020-04-17", 
         qna_group_no: 0,
         qna_group_order: 0,
         qna_depth: 0

@@ -35,7 +35,7 @@ export default {
         },
     },
     mounted(){
-        this.drawMap();
+        this.drawMap(this.positions);
     },
     updated(){
         this.drawMap(this.positions);

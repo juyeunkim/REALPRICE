@@ -13,6 +13,7 @@
    -->
     <v-card
       color="white"
+      @click="clickItem()"
     >
       <div class="d-flex flex-no-wrap justify-space-between">
         <div>
@@ -23,8 +24,8 @@
 
           <v-card-subtitle class="yellow--text text--accent-4 font-weight-bold" v-text="'가성비 ' + percent + '%'"></v-card-subtitle>
           <v-card-text class="blue--text text--darken-4 font-weight-bold">
-            {{realprice}} 원
-            <v-icon class="fas fa-won-sign"></v-icon>
+            {{realprice}} 
+            <v-icon small>fas fa-won-sign</v-icon>
           </v-card-text>
         </div>
         <v-avatar
@@ -77,6 +78,11 @@ export default {
       return this.categories.reduce((acc, v) => {
         return `${acc} #${v}`;
       }, "");
+    }
+  },
+  methods: {
+    clickItem(){
+      this.$emit('clickItem',this.id);
     }
   }
 };

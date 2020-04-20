@@ -1,7 +1,21 @@
 import api from "../../api";
 // initial state
 const state = {
-    searchRealPrice: [],
+    searchRealPrice: [{
+        "id": 161602,
+        "store_name": "민들레",
+        "branch": "",
+        "area": "역삼",
+        "tel": "02-566-8070",
+        "address": "서울특별시 강남구 역삼동 669-16 2층",
+        "latitude": 37.502589,
+        "longitude": 127.037222,
+        "category": "즉석떡볶이|수제튀김\r",
+        "avg_score": 4.5,
+        "cnt_review": 2,
+        "distance": 0.143,
+        "avg_price": 5400.0
+    },],
     storeSearchList: [],
     storeSearchPage: "1",
     faqList: [],
@@ -145,20 +159,26 @@ const actions = {
             answer: d.qna_content,
             writer: d.qna_writer,
             write_date: d.qna_write_date,
-            count: d.qna_count,
             lock: d.qna_lock > 0 ? true : false,
         }));
         commit("setQnaList", qnas);
     },
-    postQuestion({ commit }, params) {
+    async postQuestion({ commit }, p) {
         console.log('postQuestion')
-        console.log(params)
-        api.postQna(params)
-            .then(res => {
-                console.log(res)
-                    // commit("postQuestion", res.data)
-            })
-
+        // console.log(p)
+        const resp = await api.postQna({
+            qna_title: p.title,
+            qna_writer: p.writer,
+            qna_content: p.question,
+            // lock: this.lock
+            // 임시로 값넣어놈 ----start
+            qna_write_date: p.write_date, 
+            qna_group_no: p.qna_group_no,
+            qna_group_order: p.qna_group_order,
+            qna_depth: p.qna_depth,
+        });    
+        console.log(resp);
+        commit("addQnaList", p)
     },
 };
 
@@ -217,6 +237,7 @@ const mutations = {
 
     addQnaList(state, question) {
         state.qnaList = state.qnaList.concat(question);
+        console.log(state.qnaList);
     },
     setRealPrice(state, list) {
         state.searchRealPrice = list;
