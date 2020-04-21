@@ -11,7 +11,14 @@
               <span class="title">Personal Info</span>
 
               <!-- 이메일 수정 불가능 -->
-              <v-text-field v-model="userInfo.email" class="mt-5" label="Email" required readonly disabled />
+              <v-text-field
+                v-model="userInfo.email"
+                class="mt-5"
+                label="Email"
+                required
+                readonly
+                disabled
+              />
 
               <!-- 이름 -->
               <v-text-field
@@ -20,6 +27,7 @@
                 label="Name"
                 class="mt-5"
                 required
+                @keyup.enter="submit"
               />
 
               <!-- 휴대폰 번호 -->
@@ -29,6 +37,7 @@
                 label="휴대폰"
                 class="mt-5"
                 required
+                @keyup.enter="submit"
               />
 
               <!-- 주소 -->
@@ -38,6 +47,7 @@
                 label="주소"
                 class="mt-5"
                 required
+                @keyup.enter="submit"
               />
 
               <!-- 취향 -->
@@ -62,7 +72,6 @@
                   </v-list-item>
                 </template>
               </v-combobox>
-              
             </v-card-text>
 
             <v-divider class="mt-5" />
@@ -86,7 +95,7 @@ import api from "../api/index";
 export default {
   data: () => ({
     items: ["오이", "고수", "민트"],
-    tags:[],
+    tags: [],
 
     // 유효성 검사
     nameRules: [
@@ -107,57 +116,52 @@ export default {
   },
   created() {
     this.$store.dispatch("data/userInfo", sessionStorage.getItem("pk"));
-    this.tags = this.userInfo.profile.tag.split(",")
+    this.tags = this.userInfo.profile.tag.split(",");
   },
   methods: {
     submit() {
-      console.log(this.userInfo)
-      if (this.userInfo.profile.name != "" && this.userInfo.profile.phone != "") {
+      console.log(this.userInfo);
+      if (
+        this.userInfo.profile.name != "" &&
+        this.userInfo.profile.phone != ""
+      ) {
         this.userInfo.profile.tag = this.tags.toString();
         console.log(this.userInfo);
         var data = {
           email: this.userInfo.email,
-          profile:this.userInfo.profile
+          password: "string",
+          profile: {
+            address: this.userInfo.profile.address,
+            born_year: this.userInfo.profile.born_year,
+            gender: this.userInfo.profile.gender,
+            name: this.userInfo.profile.name,
+            phone: this.userInfo.profile.phone,
+            tag: this.userInfo.profile.tag
+          }
         };
-        api.updateUser(sessionStorage.getItem("pk"), data)
-          .then(res=>{
+        api
+          .updateUser(sessionStorage.getItem("pk"), data)
+          .then(res => {
             console.log(res);
             this.$alert("정보수정 성공", "Success", "success");
-            this.$router.push('/mypage')
+            this.$router.push("/mypage");
           })
           .catch(exp => {
             console.log(exp);
             this.$alert("정보수정 실패", "Warning", "warning");
           });
-        // Axios
-        //     Axios.post("/api/users/", data)
-        //       .then(res => {
-        //         console.log(res);
-        //         this.$alert("회원가입 성공", "Success", "success");
-        //       })
-        //       .catch(exp => {
-        //         console.log("실패");
-        //         this.$alert("회원가입 실패", "Warning", "warning");
-        //       });
-        //   } else {
-        //     this.$alert("항목을 모두 입력해주세요", "Warning", "warning");
-        // 마이페이지로 이동
-        
-      }else{
-        this.$alert("항목을 모두 입력해주세요","Warning","warning");
+      } else {
+        this.$alert("항목을 모두 입력해주세요", "Warning", "warning");
       }
-
     },
     secession() {
       // alert로 정말 탈퇴할건지 묻고, 맞으면 탈퇴
-      this.$confirm("정말 탈퇴하시겠습니까?").then(
-        () => {
-          api.deleteUser(sessionStorage.getItem("pk"))
-          this.$alert("삭제 완료", "Success", "success");
-          sessionStorage.clear()
-          this.$router.push('/')
+      this.$confirm("정말 탈퇴하시겠습니까?").then(() => {
+        api.deleteUser(sessionStorage.getItem("pk"));
+        this.$alert("삭제 완료", "Success", "success");
+        sessionStorage.clear();
+        this.$router.push("/");
       });
-      
     }
   }
 };

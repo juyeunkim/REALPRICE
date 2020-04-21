@@ -59,6 +59,8 @@ function deleteUser(params) {
 }
 
 function updateUser(params, data) {
+    console.log('API')
+    console.log(data)
     return axios.put(`${apiUrl}/users/${params}/`, data);
 }
 
@@ -69,8 +71,12 @@ function signup(data) {
 
 function login(data) {
     return axios.post(`${apiUrl}/auth/login/`, data)
-
 }
+
+function checkUsedEmail(params) {
+    return axios.get(`${apiUrl}/checkUsedEmail/${params}/`)
+}
+
 const Api = {
     postRealPrice,
     getStores,
@@ -84,7 +90,9 @@ const Api = {
     getUsers,
     getUserInfo,
     deleteUser,
-    updateUser
+    updateUser,
+
+    checkUsedEmail
 }
 
 
