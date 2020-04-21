@@ -16,7 +16,7 @@
             </v-flex>
             <div v-if="email != ''">
               <div v-for="e in filteredList" :key="e.email" class="card">
-                <button @click="addChips(e.email)">{{ e.email }}</button>
+                <button @click="addChips(e)">{{ e.email }}</button>
               </div>
             </div>
           </v-layout>
@@ -50,7 +50,8 @@ export default {
     return {
       dialog: false,
       email: "",
-      chips:[]
+      chips:[],
+      selected:[],
     };
   },
   computed: {
@@ -68,18 +69,24 @@ export default {
   },
   methods:{
     addUser(){
-      this.$store.dispatch("data/selectedUser", this.chips)
+      this.$store.dispatch("data/selectedUser", this.selected)
       // this.$store.state.selectedUser  = this.chips
       // console.log(this.$store.state.selectedUser)
       this.$alert("유저 추가 성공", "Success", "success");
       this.dialog = false;
       //// 유저가 추가 될 수 있도록
     },
-    addChips(email){
-      if(!this.chips.includes(email)) this.chips.push(email)
+    addChips(e){
+      if(!this.chips.includes(e.email)) {
+        this.chips.push(e.email)
+        this.selected.push(e)
+      }
       else {
-        var index = this.chips.indexOf(email);
-        if (index !== -1) this.chips.splice(index, 1);
+        var index = this.chips.indexOf(e.email);
+        if (index !== -1) {
+          this.chips.splice(index, 1);
+          this.selected.splice(index, 1);
+        }
       }
     }
   }
