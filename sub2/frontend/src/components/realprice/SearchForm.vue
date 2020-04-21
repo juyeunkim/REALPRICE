@@ -90,7 +90,7 @@
         </v-layout>
         <v-slider v-model="Options.maxDistance" min="0" max="50" label="최대거리(km)" thumb-label />
         <v-slider v-model="Options.minPoint" min="0" max="5" label="최소평점(점)" thumb-label />
-        <v-slider v-model="Options.maxPrice" min="5000" max="100000" label="최대가격(원)" thumb-label />
+        <v-slider v-model="Options.maxPrice" min="1000" max="50000" label="최대가격(원)" thumb-label />
         <v-btn large color="blue lighten-1 white--text ma-5" rounded @click="Search">검색하기</v-btn>
       </v-card-text>
     </v-card>
@@ -151,7 +151,7 @@ export default {
         ],
         maxDistance: 1,
         minPoint: 3,
-        maxPrice: 20000,
+        maxPrice: 10,
         foodfilter: ""
       },
     };
@@ -164,9 +164,10 @@ export default {
   methods: {
     ...mapActions("data", ["postRealPrice"]),
     Search: function() {
-      console.log(this.Options);
-      var params = this.Options;
-      this.postRealPrice(params);
+      // params.maxPrice = this.Options.maxPrice * 1000;
+      // console.log(this.Options);
+      // console.log(params);
+      this.postRealPrice(this.Options);
     },
     plusUser: function() {
       var tmp = [{
