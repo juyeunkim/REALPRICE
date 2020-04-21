@@ -15,7 +15,7 @@ const state = {
         "cnt_review": 2,
         "distance": 0.143,
         "avg_price": 5400.0
-    },],
+    }, ],
     storeSearchList: [],
     storeSearchPage: "1",
     faqList: [],
@@ -33,17 +33,7 @@ const state = {
         categories: []
     },
 
-    // session 정보
-    Session: {
-        token: "",
-        user: {
-            pk: "",
-            email: "",
-            username: "",
-            first_name: "",
-            last_name: ""
-        }
-    },
+
 
     // user정보
     userInfo: {
@@ -82,13 +72,7 @@ const state = {
 
 // actions
 const actions = {
-    // LOGIN, LOGOUT
-    logout({ commit }) {
-        commit('logout')
-    },
-    login({ commit }, payload) {
-        commit('login', payload)
-    },
+
 
     // 마이페이지
     userInfo({ commit }, payload) {
@@ -165,49 +149,34 @@ const actions = {
     },
     async postQuestion({ commit }, p) {
         console.log('postQuestion')
-        // console.log(p)
+            // console.log(p)
         const resp = await api.postQna({
             qna_title: p.title,
             qna_writer: p.writer,
             qna_content: p.question,
             // lock: this.lock
             // 임시로 값넣어놈 ----start
-            qna_write_date: p.write_date, 
+            qna_write_date: p.write_date,
             qna_group_no: p.qna_group_no,
             qna_group_order: p.qna_group_order,
             qna_depth: p.qna_depth,
-        });    
+        });
         console.log(resp);
         commit("addQnaList", p)
     },
     async postRealPrice({ commit }, params) {
         console.log('postRealPrice')
         console.log(params);
-        const resp = await api.postRealPrice(params);    
+        const resp = await api.postRealPrice(params);
         console.log(resp);
         commit("setRealPrice", resp.data.received_data.result);
     },
-    
+
 };
 
 // mutations
 const mutations = {
-    // LOGIN, LOGOUT
-    logout(state) {
-        state.Session.token = null
-        state.Session.user.email = null
-        state.Session.user.username = null
-        state.Session.user.pk = null
 
-        sessionStorage.clear()
-    },
-    login(state, payload) {
-        state.Session = payload
-
-        sessionStorage.setItem("pk", payload.user.pk)
-        sessionStorage.setItem("email", payload.user.email)
-        sessionStorage.setItem("token", payload.token)
-    },
 
     // 마이페이지
     userInfo(state, payload) {
@@ -257,9 +226,7 @@ const mutations = {
 
 // getters
 const getters = {
-    userStatus: (state) => {
-        return state.Session.user.pk
-    },
+
     userInfo: (state) => {
         return state.userInfo
     },
