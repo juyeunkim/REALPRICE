@@ -56,6 +56,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
     pagination_class = SmallPagination
     filter_backends = [filters.SearchFilter]
     search_fields = ['id','store','user', 'score']
+    # search_fileds를 store만 남겨두고 했는데 ?search=15 -> store에 15만 들어가면 나왔음. 15, 150 ,,,
     queryset = Review.objects.all()
 
 class HistoryViewSet(viewsets.ModelViewSet):
@@ -78,6 +79,56 @@ from rest_framework.parsers import JSONParser
 
 from .openapis import *
 import mysql.connector as mariadb
+
+@api_view(['GET'])
+def detailStore(request, id):
+    response = {}
+    message = ""
+    # 중간에 foreign key를 업데이트 하는게 쉽지않은듯,, 어차피 1개짜리에 대한 정보니까 그냥 직접뽑아서 한번에 합치는게 나은듯
+    # access db, excute sql and fetch data 
+    sql = "SELECT * FROM api_store WHERE id = "+id+";"
+    mariadbConnection = mariadb.connect(user='root', password='ssafy', database='realpricedb', host="13.125.68.33")
+    cursor = mariadbConnection.cursor()
+    sql = "SELECT * FROM api_store WHERE id = "+id+";"
+    cursor.execute(sql)
+    columns = [col[0] for col in cursor.description]
+    store =[
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]
+    if(len(store) > 0):
+        message = store[0]["store_name"]+"에 관련된 정보입니다."
+        sql = "SELECT * FROM api_menu WHERE store = "+id+";"
+        cursor.execute(sql)
+        columns = [col[0] for col in cursor.description]
+        menus =[
+            dict(zip(columns, row))
+            for row in cursor.fetchall()
+        ]
+        
+        sql = "SELECT * FROM api_review WHERE store = "+id+";"
+        cursor.execute(sql)
+        columns = [col[0] for col in cursor.description]
+        reviews =[
+            dict(zip(columns, row))
+            for row in cursor.fetchall()
+        ]
+        
+    else:
+        message ="검색된 결과가 없습니다."
+        menus = []
+        reviews =[]
+    mariadbConnection.close()
+
+    response = {
+        'message':message,
+        'store':store,
+        'menuCnt':len(menus),
+        'menu':menus,
+        'reviewCnt':len(reviews),
+        'review': reviews
+    }   
+    return Response({'received_data':response})
 
 @api_view(['GET'])
 def checkUsedEmail(request, email):
