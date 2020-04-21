@@ -14,20 +14,20 @@
           dark
           @click.stop="dialog = true"
         >
-          Open Dialog {{selectedNum}}
+          Open Dialog
         </v-btn>
         <v-dialog
           v-model="dialog"
           max-width="290"
         >
-          <STOREDETAIL @close="dialog = false"/>
+          <STOREDETAIL @close="dialog = false" :store="this.selectedStore"/>
         </v-dialog>
         <v-layout row>
           <v-flex xs8>
             <Map :restaurants="this.RealPriceList" :user="this.multicampus"/>
           </v-flex>
           <v-flex xs4>
-            <LIST :restaurants="this.RealPriceList" :foo="selectedNum" @update:foo="val=> selectedNum = val"/>
+            <LIST :restaurants="this.RealPriceList" @clickItem="selectItem"/>
           </v-flex>
         </v-layout>
       </v-flex>
@@ -51,7 +51,7 @@ export default {
   },
   data() {
     return {
-      selectedNum: 0,
+      selectedStore: {},
       dialog: false,
       multicampus: {
         latitude: 37.50128969810118,
@@ -69,8 +69,15 @@ export default {
   },
   methods:{
     ...mapMutations("data", ["clearRealPrice"]),
-    search(){
-      console.log(realPrice)
+    selectItem: function(id){
+      
+      this.RealPriceList.forEach(el => {
+        if(el.id == id){
+          this.selectedStore = el;
+        }
+      });
+      
+      this.dialog = true;
     }
   },
 };

@@ -37,7 +37,8 @@ export default {
   },
   methods: {
     selectItem: function(id){
-      console.log(id);
+      // console.log(id);
+      this.$emit('clickItem', id);
     },
   }
 }
