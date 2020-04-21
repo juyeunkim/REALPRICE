@@ -6,6 +6,13 @@ import router from "./router";
 import store from "./store";
 import VueSimpleAlert from "vue-simple-alert";
 import VueSession from 'vue-session'
+import '@lbzui/vue/lib/lbzui.css';
+import LBZUI from '@lbzui/vue';
+
+import 'bootstrap-css-only/css/bootstrap.min.css'
+import 'mdbvue/lib/css/mdb.min.css'
+import '@fortawesome/fontawesome-free/css/all.min.css'
+
 
 var sessionOptions = {
     persist: true
@@ -21,3 +28,9 @@ new Vue({
     store,
     render: h => h(App)
 }).$mount("#app");
+
+
+Vue.use(LBZUI, {
+    dense: false,
+    ripple: true,
+});

@@ -70,6 +70,11 @@ export default {
         icon: "mdi-forum",
         text: "QnA"
       },
+      {
+        to: "/landing",
+        icon: "mdi-forum",
+        text: "Landing"
+      },
       // {
       //   to: "/test",
       //   icon: "fas fa-circle-notch fa-spin",

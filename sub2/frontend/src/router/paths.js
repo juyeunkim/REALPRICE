@@ -58,4 +58,9 @@ export default [{
         view: "Meeting",
         name: "meeting"
     },
+    {
+        path: "/landing",
+        view: "Landing",
+        name: "landing"
+    },
 ];

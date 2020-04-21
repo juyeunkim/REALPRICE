@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^auth/', include('rest_auth.urls')),
     url(r'^realprice/', searchRealPrice),
+    url(r'^getStores/', getStores)
 ]

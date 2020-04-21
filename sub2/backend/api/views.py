@@ -72,6 +72,43 @@ class MenuViewSet(viewsets.ModelViewSet):
     search_fields = ['id','store','menu_name', 'price']
     queryset = Menu.objects.all()
 
+
+@api_view(['GET'])
+def getStores(request):
+    data = {
+        "stores": [{
+                "id":1,
+                "srcUrl": "https://lh3.googleusercontent.com/proxy/8w5ZGjdDSzq6TuQV9_H2NRyu32kvoAuPKZvTUMa59md9QacXywMw-47IaMDhwF3KsalgXUNWp-4m8I5Jba8vbc70Ue2oH5qpsf7uq3G4e0RYq--jtyQPIXsTzGSJDQ3hOgZNb_UAehmRzTydmXh3zXC3HovU-FkxO4WvVJMdVRo5ypNDytswZHH7hmfu58FLoDGcfmVUg-BEGzcnlv2ayl7xoFT0lY2GfyOFwRsJ5XMVT3VlyKmqM6dJuXPJ0bGeeNQJcO4AuUglnTVK_RiEaUoLAUU",
+                "storeName": "이오카츠",
+                "price": "12000"
+            },
+            {
+                "id":2,
+                "srcUrl": "https://lh3.googleusercontent.com/proxy/VJdAk0t70g0YEhydpOzfwUILPsVxRd2K_4RKAOtrudi3mFYEz2OVshEpO-nRcNaZ6xwJ4GsqBf2Vw07IBwSamykDKXEQwsAcAtCgw3afXp-BzSvJUK8im7WygvvbtlRQe18-GQc5Lm4Q-ZM7g9qm8yB9DLEcxdHSRsW3-7KYuOI7i4UFMx4ho3d8bnOXLAuswdUiQCVUbBp-jzNVmFFoJGpYQ4H1SPCPlqSp1etwSc2QJ8lEVAbRY9UdmWMRk9qT8yP2Tm6DFcKu8zEXILISgqlEL5vkgg712hgkvNmP0wPfPUzDPjoaQd0awFqFAL0NB9qVd92Zl4ipthiffSvs9MCv",
+                "storeName": "강남 돈까스",
+                "price": "19870"
+            },
+            {
+                "id":3,
+                "srcUrl": "https://t1.daumcdn.net/liveboard/dispatch/6301b06e0bf04496aa2b5d3a980d551c.JPG",
+                "storeName": "가나돈까스의 집",
+                "price": "8000"
+            },
+            {
+                "id":4,
+                "srcUrl": "https://lh3.googleusercontent.com/proxy/cagMmlUJNsM3LedW84sTaw9BC4oVZjnM3HQW3PY8lQ95eRKS4EfOxzNXNCaQRTV3FtxfqmkMOL-6YHJhAxdIAtDE9yDmCfLjXd6XvwNsg9p3Fr4DOU0HYAmNlirdRa1quhogKOWcurTAVbYSro-KabBVPE3sXE0D-48kkSWRA2Ht-btQ8YmdEbr5SkM",
+                "storeName": "미나미야마",
+                "price": "21080"
+            },
+            {
+                "id":5,
+                "srcUrl": "https://i.pinimg.com/originals/51/6f/51/516f51f23c31837500e6518cd2e00b52.jpg",
+                "storeName": "한성돈까스",
+                "price": "9500"
+            }]
+    }
+    return Response(data)
+
 from rest_framework.decorators import api_view
 from rest_framework.decorators import parser_classes
 from rest_framework.parsers import JSONParser
