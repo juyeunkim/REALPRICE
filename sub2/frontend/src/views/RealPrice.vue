@@ -5,7 +5,7 @@
         <v-card class="text-center">
           <p class="display-3 pa-2">💸💵💰</p>
           <p class="display-2 pa-5">REAL PRICE</p>
-          <SEARCH />
+          <SEARCHFORM />
         </v-card>
       </v-flex>
       <v-flex>
@@ -37,7 +37,7 @@
 
 <script>
 import STOREDETAIL from '@/components/realprice/StoreDetail';
-import SEARCH from "@/components/realprice/SearchButton";
+import SEARCHFORM from "@/components/realprice/SearchForm";
 import LIST from "@/components/realprice/List";
 import Map from "@/components/Map";
 import { mapState, mapActions, mapMutations } from "vuex";
@@ -45,7 +45,7 @@ import { mapState, mapActions, mapMutations } from "vuex";
 export default {
   components: {
     STOREDETAIL,
-    SEARCH,
+    SEARCHFORM,
     LIST,
     Map
   },

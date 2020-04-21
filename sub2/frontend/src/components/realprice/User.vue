@@ -18,15 +18,15 @@
       </v-col>
     </v-card>
     <!-- TODO : 자기 자신일때만 search 버튼이 나오도록 -->
-    <SEARCH />
+    <SEARCHFORM />
   </v-col>
 </template>
 
 <script>
-import SEARCH from "@/components/realprice/SearchButton";
+import SEARCHFORM from "@/components/realprice/SearchForm";
 export default {
   components: {
-    SEARCH
+    SEARCHFORM
   },
   props: {
     user: String
