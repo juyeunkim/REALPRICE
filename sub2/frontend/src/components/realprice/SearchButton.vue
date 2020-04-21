@@ -3,7 +3,7 @@
     <v-card class="mx-auto" max-width="500">
       <v-card-text class="text-center">
         <v-slider v-model="RealPrice.taste" min="0" max="5" label="맛" thumb-label />
-        <v-slider v-model="RealPrice.distance" min="0" max="5" label="거리" thumb-label />
+        <v-slider v-model="RealPrice.distance" :tick-labels="distanceLabels" min="0" max="5" label="거리" />
         <v-slider v-model="RealPrice.price" min="0" max="5" label="가격" thumb-label />
         <v-btn large color="blue lighten-1 white--text ma-5" rounded @click="Search">검색하기</v-btn>
       </v-card-text>
@@ -16,11 +16,14 @@ import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
-      //   RealPrice: {
-      //     taste: 0,
-      //     distance: 0,
-      //     price: 0
-      // }
+      distanceLabels: [
+        '100m',
+        '300m',
+        '500m',
+        '1km',
+        '3km',
+        '5km',
+      ],
     };
   },
   computed: {
