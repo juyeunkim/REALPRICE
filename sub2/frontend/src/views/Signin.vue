@@ -79,7 +79,7 @@ export default {
           .login(data)
           .then(res => {
             console.log(res);
-            this.$store.dispatch("data/login", res.data);
+            this.$store.dispatch("session/login", res.data);
             this.$alert("로그인 성공", "Success", "success");
             this.$router.push("/");
           })
