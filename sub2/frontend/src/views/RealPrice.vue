@@ -20,7 +20,7 @@
           v-model="dialog"
           max-width="700"
         >
-          <STOREDETAIL :store="selectedStore" @close="dialog = false" />
+          <STOREDETAIL :store="selectedStore" @close="closeDetail" />
         </v-dialog>
         <v-layout row>
           <v-flex xs8>
@@ -51,7 +51,7 @@ export default {
   },
   data() {
     return {
-      selectedStore: {},
+      selectedStore: null,
       dialog: false,
       multicampus: {
         latitude: 37.50128969810118,
@@ -82,6 +82,10 @@ export default {
     getReviews(){
       consol.log('!!!')
       this.$store.dispatch("data/getReviews", this.selectedStore.id);
+    },
+    closeDetail(){
+      dialog = false;
+      this.selectedStore = null;
     }
   },
 };
