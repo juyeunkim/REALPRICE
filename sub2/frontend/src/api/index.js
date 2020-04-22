@@ -59,8 +59,6 @@ function deleteUser(params) {
 }
 
 function updateUser(params, data) {
-    console.log('API')
-    console.log(data)
     return axios.put(`${apiUrl}/users/${params}/`, data);
 }
 
@@ -75,6 +73,10 @@ function login(data) {
 
 function checkUsedEmail(params) {
     return axios.get(`${apiUrl}/checkUsedEmail/${params}/`)
+}
+
+function detailStore(params) {
+    return axios.get(`${apiUrl}/detailStore/${params}/`)
 }
 
 const Api = {
@@ -92,7 +94,10 @@ const Api = {
     deleteUser,
     updateUser,
 
-    checkUsedEmail
+    // 이메일 중복체크
+    checkUsedEmail,
+    // 음식점 상세정보 + 리뷰
+    detailStore
 }
 
 
