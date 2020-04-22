@@ -9,13 +9,6 @@
         </v-card>
       </v-flex>
       <v-flex>
-        <v-btn
-          color="primary"
-          dark
-          @click.stop="dialog = true"
-        >
-          Open Dialog
-        </v-btn>
         <v-dialog
           v-model="dialog"
           max-width="700"
