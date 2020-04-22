@@ -18,16 +18,16 @@
         </v-btn>
         <v-dialog
           v-model="dialog"
-          max-width="290"
+          max-width="700"
         >
-          <STOREDETAIL @close="dialog = false" :store="this.selectedStore"/>
+          <STOREDETAIL :store="selectedStore" @close="dialog = false" />
         </v-dialog>
         <v-layout row>
           <v-flex xs8>
-            <Map :restaurants="this.RealPriceList" :user="this.multicampus"/>
+            <Map :restaurants="RealPriceList" :user="multicampus" />
           </v-flex>
           <v-flex xs4>
-            <LIST :restaurants="this.RealPriceList" @clickItem="selectItem"/>
+            <LIST :restaurants="RealPriceList" @clickItem="selectItem" />
           </v-flex>
         </v-layout>
       </v-flex>
@@ -59,13 +59,13 @@ export default {
       }
     }
   },
-  destroyed() {
-      this.clearRealPrice();
-  },
   computed: {
     ...mapState({
       RealPriceList: state => state.data.realPriceList,
     })
+  },
+  destroyed() {
+      this.clearRealPrice();
   },
   methods:{
     ...mapMutations("data", ["clearRealPrice"]),
@@ -78,6 +78,10 @@ export default {
       });
       
       this.dialog = true;
+    },
+    getReviews(){
+      consol.log('!!!')
+      this.$store.dispatch("data/getReviews", this.selectedStore.id);
     }
   },
 };

@@ -33,6 +33,8 @@ const state = {
         categories: []
     },
 
+    // 음식점 리뷰
+    storeReview: [],
 
 
     // user정보
@@ -90,9 +92,14 @@ const actions = {
     },
 
     selectedUser({ commit }, payload) {
-        console.log('action')
-        console.log(payload)
         commit('selectedUser', payload)
+    },
+
+    // 음식점 리뷰들
+    getReviews({ commit }, payload) {
+        api.detailStore(payload).then(res => {
+            commit('getReviews', res.data.received_data.review)
+        })
     },
 
 
@@ -190,9 +197,11 @@ const mutations = {
     },
 
     selectedUser(state, payload) {
-        console.log('mutation')
-        console.log(payload)
         state.selectedUser = payload
+    },
+
+    getReviews(state, payload) {
+        state.storeReview = payload
     },
 
     setStoreSearchList(state, stores) {
@@ -241,7 +250,10 @@ const getters = {
     },
     qnaList: (state) => {
         return state.qnaList
-    }
+    },
+    reviews: (state) => {
+        return state.storeReview
+    },
 };
 
 export default {
