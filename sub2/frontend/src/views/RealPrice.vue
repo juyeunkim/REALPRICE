@@ -11,6 +11,7 @@
       <v-flex>
         <v-dialog
           v-model="dialog"
+          persistent
           max-width="700"
         >
           <STOREDETAIL :store="selectedStore" @close="closeDetail" />
@@ -77,8 +78,9 @@ export default {
       this.$store.dispatch("data/getReviews", this.selectedStore.id);
     },
     closeDetail(){
-      dialog = false;
-      this.selectedStore = null;
+      console.log("closeDetail");
+      this.dialog = false;
+      // this.selectedStore = null;
     }
   },
 };

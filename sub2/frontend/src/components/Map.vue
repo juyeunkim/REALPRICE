@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div v-if="this.positions">{{this.positions.length}}</div>
+    <div v-show="false">{{this.positions.length}}</div>
     <div id="map"/>
 </div>
 </template>

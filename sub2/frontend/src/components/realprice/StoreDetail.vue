@@ -30,7 +30,7 @@
       <DoughnutChart :percent="percent" :visible-value="true" />
       <v-divider />
       <v-chip class="ma-2" color="primary">Review</v-chip>
-      <REVIEW v-for="review in reviews" :key="review.id" :review="review" />
+      <REVIEW v-for="review in dataReviews" :key="review.id" :review="review" />
       <v-card-actions>
         <v-spacer />
         <v-btn color="blue darken-1" text @click="emitClose">닫기</v-btn>
@@ -57,6 +57,7 @@ export default {
   data() {
     return {
       percent: "25",
+      dataReviews: [],
     };
   },
   computed: {
@@ -72,6 +73,9 @@ export default {
   watch: {
     store: function() {
       this.getReviews();
+    },
+    reviews: function() {
+      this.dataReviews = this.reviews;
     }
   },
   created() {
@@ -84,6 +88,7 @@ export default {
     },
     emitClose: function() {
       this.$emit("close");
+      this.dataReviews = null;
     }
   }
 };
