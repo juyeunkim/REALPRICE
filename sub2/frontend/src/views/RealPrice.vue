@@ -24,7 +24,7 @@
         </v-dialog>
         <v-layout row>
           <v-flex xs8>
-            <Map :restaurants="this.RealPriceList" :user="this.multicampus"/>
+            <Map :restaurants="this.RealPriceList" :user="this.multicampus" @clickItem="selectItem"/>
           </v-flex>
           <v-flex xs4>
             <LIST :restaurants="this.RealPriceList" @clickItem="selectItem"/>

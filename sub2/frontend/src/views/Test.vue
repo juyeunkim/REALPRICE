@@ -5,9 +5,9 @@
       <p class="display-3 pa-2">🍱🍜🥡</p>
       <p class="display-3 pa-2">🍰🍔</p>
     </v-card-text> -->
-    <!-- <VUEMAP /> -->
+    <VUEMAP />
     <!-- <VUEMAP2  :restaurants="this.RealPriceList" :user="this.multicampus"/> -->
-    <VUEMAP2 />
+    <!-- <VUEMAP2 /> -->
     
   </v-container>
 </template>
