@@ -3,7 +3,7 @@ import api from "../../api";
 const state = {
     realPriceList: [{
         "id": 161602,
-        "store_name": "민들레",
+        "store_name": "Vuex디폴트",
         "branch": "",
         "area": "역삼",
         "tel": "02-566-8070",
