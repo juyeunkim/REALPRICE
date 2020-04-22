@@ -11,7 +11,8 @@
           <v-col>
             <!------------------ PROFILE DATA ------------------>
             <div class="text-center mb-3 title text-secundario font-weight-bold">
-              <span>{{ user }}</span>
+              <p>{{ user.email }}</p>
+              <p>{{ user.profile.name }}</p>
             </div>
           </v-col>
         </v-row>
@@ -29,7 +30,7 @@ export default {
     SEARCHFORM
   },
   props: {
-    user: String
+    user: Object
   }
 };
 </script>
