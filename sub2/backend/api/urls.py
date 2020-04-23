@@ -5,6 +5,7 @@ from .views import *
 
 router = DefaultRouter()#(trailing_slash=False)
 router.register(r"stores", StoreViewSet, basename="stores")
+router.register(r"storeDetail", StoreDetailViewSet, basename="storedetails")
 router.register(r"review", ReviewViewSet, basename="review")
 router.register(r"faqs", FaqViewSet, basename="faqs")
 router.register(r"qnas", QnaViewSet, basename="qnas")
