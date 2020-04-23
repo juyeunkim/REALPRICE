@@ -14,23 +14,23 @@
       </v-card-title>
 
       <v-card-text>
-        주소: {{ store.address }}
-        <br />
-        전화번호: {{ store.tel }}
-        <br />
-        카테고리: {{ store.category }}
-        <br />
-        평균가격: {{ store.avg_price }} <v-icon small>fas fa-won-sign</v-icon>
-        <br />
-        평균평점: {{ store.avg_score }}
-        <br />
+        <p>주소: {{ store.address }}</p>
+        <p>전화번호: {{ store.tel }}</p>
+        <p>카테고리: {{ store.category }}</p>
+        <p>
+          평균가격: {{ store.avg_price }}
+          <v-icon small>fas fa-won-sign</v-icon>
+        </p>
+        <p>평균평점: {{ store.avg_score }}</p>
       </v-card-text>
       <v-divider />
       <v-chip class="ma-2" color="primary">리뷰 만족 그래프</v-chip>
       <DoughnutChart :percent="percent" :visible-value="true" />
       <v-divider />
       <v-chip class="ma-2" color="primary">Review</v-chip>
-      <REVIEW v-for="review in dataReviews" :key="review.id" :review="review" />
+      <v-container fluid>
+        <REVIEW v-for="review in dataReviews" :key="review.id" :review="review" />
+      </v-container>
       <v-card-actions>
         <v-spacer />
         <v-btn color="blue darken-1" text @click="emitClose">닫기</v-btn>
@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       percent: "25",
-      dataReviews: [],
+      dataReviews: []
     };
   },
   computed: {
