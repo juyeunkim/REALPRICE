@@ -18,4 +18,7 @@ urlpatterns = [
     url(r'^auth/', include('rest_auth.urls')),
     url(r'^realprice/', searchRealPrice),
     url(r'^getStores/', getStores)
+    url(r'^checkUsedEmail/(?P<email>[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$',checkUsedEmail),
+    url(r'^detailStore/(?P<id>[^/.]+)/$',detailStore)
 ]
+#(?P)이 영역의 문자열에 정규표현식을 적용해서 data 라는 변수명으로 인자를 view로 넘기겠다.

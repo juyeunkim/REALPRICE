@@ -11,25 +11,26 @@
           <v-col>
             <!------------------ PROFILE DATA ------------------>
             <div class="text-center mb-3 title text-secundario font-weight-bold">
-              <span>{{ user }}</span>
+              <p>{{ user.email }}</p>
+              <p>{{ user.profile.name }}</p>
             </div>
           </v-col>
         </v-row>
       </v-col>
     </v-card>
     <!-- TODO : 자기 자신일때만 search 버튼이 나오도록 -->
-    <SEARCH />
+    <SEARCHFORM />
   </v-col>
 </template>
 
 <script>
-import SEARCH from "@/components/realprice/SearchButton";
+import SEARCHFORM from "@/components/realprice/SearchForm";
 export default {
   components: {
-    SEARCH
+    SEARCHFORM
   },
   props: {
-    user: String
+    user: Object
   }
 };
 </script>

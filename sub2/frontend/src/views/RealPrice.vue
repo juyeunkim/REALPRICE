@@ -5,16 +5,23 @@
         <v-card class="text-center">
           <p class="display-3 pa-2">💸💵💰</p>
           <p class="display-2 pa-5">REAL PRICE</p>
-          <SEARCH />
+          <SEARCHFORM />
         </v-card>
       </v-flex>
       <v-flex>
+        <v-dialog
+          v-model="dialog"
+          persistent
+          max-width="700"
+        >
+          <STOREDETAIL :store="selectedStore" @close="closeDetail" />
+        </v-dialog>
         <v-layout row>
           <v-flex xs8>
-            <Map :restaurants="this.RealPrice" :user="this.multicampus"/>
+            <Map :restaurants="RealPriceList" :user="multicampus" @clickItem="selectItem"/>
           </v-flex>
           <v-flex xs4>
-            <LIST :restaurants="this.RealPrice"/>
+            <LIST :restaurants="RealPriceList" @clickItem="selectItem" />
           </v-flex>
         </v-layout>
       </v-flex>
@@ -23,54 +30,57 @@
 </template>
 
 <script>
-import SEARCH from "@/components/realprice/SearchButton";
+import STOREDETAIL from '@/components/realprice/StoreDetail';
+import SEARCHFORM from "@/components/realprice/SearchForm";
 import LIST from "@/components/realprice/List";
 import Map from "@/components/Map";
 import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
   components: {
-    SEARCH,
+    STOREDETAIL,
+    SEARCHFORM,
     LIST,
     Map
   },
   data() {
     return {
+      selectedStore: null,
+      dialog: false,
       multicampus: {
         latitude: 37.50128969810118,
         longitude: 127.03960183847694,
-      },
-      list: [
-          {
-              title: '새마을식당 역삼GS점',
-              lat: 37.5029438450506,
-              lng: 127.03713443439975,
-          },
-          // {
-          //     title: '아리네술상', 
-          //     lat: 37.50255638865731,
-          //     lng: 127.03721058059857,
-          // },
-          // {
-          //     title: '바나프레소 테헤란로점', 
-          //     lat: 37.50112544622184,
-          //     lng: 127.03905608614859,
-          // },
-      ],
+      }
     }
+  },
+  computed: {
+    ...mapState({
+      RealPriceList: state => state.data.realPriceList,
+    })
   },
   destroyed() {
       this.clearRealPrice();
   },
-  computed: {
-    RealPrice: function() {
-      return this.$store.getters["data/RealPrice"];
-    }
-  },
   methods:{
     ...mapMutations("data", ["clearRealPrice"]),
-    search(){
-      console.log(realPrice)
+    selectItem: function(id){
+      
+      this.RealPriceList.forEach(el => {
+        if(el.id == id){
+          this.selectedStore = el;
+        }
+      });
+      
+      this.dialog = true;
+    },
+    getReviews(){
+      consol.log('!!!')
+      this.$store.dispatch("data/getReviews", this.selectedStore.id);
+    },
+    closeDetail(){
+      console.log("closeDetail");
+      this.dialog = false;
+      // this.selectedStore = null;
     }
   },
 };

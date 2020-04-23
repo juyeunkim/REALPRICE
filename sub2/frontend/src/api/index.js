@@ -1,20 +1,22 @@
 // import axios from "./http-common";
 import axios from 'axios'
 
-const apiUrl = "http://13.125.68.33:8080/api";
-// const apiUrl = "http://127.0.0.1:8000/api";
+// const apiUrl = "http://13.125.68.33:8080/api";
+const apiUrl = "http://127.0.0.1:8000/api";
 // const apiUrl = "/api";
-let header = {
-    headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Content-Type': 'application/json',
-    }
-}
+
+// let header = {
+//     headers: {
+//         'Access-Control-Allow-Origin': '*',
+//         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+//         'Content-Type': 'application/json',
+//     }
+//      headers: {'Content-Type': 'application/json; charset=utf-8', "mimetype" : "applications/json"}
+// }
 
 function postRealPrice(params) {
     // console.log('Im in postQ in api/index.js');
-    return axios.post(`${apiUrl}/realprice/`, params, header);
+    return axios.post(`${apiUrl}/realprice/`, params);
     // axios.post(`${apiUrl}/realprice/`, params)
     // .then(function (response) {
     //     console.log(response);
@@ -25,7 +27,9 @@ function postRealPrice(params) {
 }
 
 function postQna(params) {
-    return axios.post(`${apiUrl}/qnas/`, params, header);
+    // console.log(params);
+    // return axios.post(`${apiUrl}/qnas/`, params, header);
+    return axios.post(`${apiUrl}/qnas/`, params);
 }
 
 function getStores(params) {
@@ -65,8 +69,16 @@ function signup(data) {
 
 function login(data) {
     return axios.post(`${apiUrl}/auth/login/`, data)
-
 }
+
+function checkUsedEmail(params) {
+    return axios.get(`${apiUrl}/checkUsedEmail/${params}/`)
+}
+
+function detailStore(params) {
+    return axios.get(`${apiUrl}/detailStore/${params}/`)
+}
+
 const Api = {
     postRealPrice,
     getStores,
@@ -80,7 +92,12 @@ const Api = {
     getUsers,
     getUserInfo,
     deleteUser,
-    updateUser
+    updateUser,
+
+    // 이메일 중복체크
+    checkUsedEmail,
+    // 음식점 상세정보 + 리뷰
+    detailStore
 }
 
 

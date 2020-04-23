@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div v-if="this.positions">{{this.positions.length}}</div>
+    <div v-show="false">{{this.positions.length}}</div>
     <div id="map"/>
 </div>
 </template>
@@ -35,13 +35,15 @@ export default {
         },
     },
     mounted(){
-        this.drawMap();
+        this.drawMap(this.positions);
     },
     updated(){
         this.drawMap(this.positions);
     },
     methods: {
         drawMap(positions){
+            const vm = this;
+
             var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
             var options = { //지도를 생성할 때 필요한 기본 옵션
                 center: new kakao.maps.LatLng(this.point.latitude, this.point.longitude), //지도의 중심좌표.
@@ -67,14 +69,44 @@ export default {
                 
                 // 마커 이미지를 생성합니다    
                 var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-                
+
                 // 마커를 생성합니다
                 var marker = new kakao.maps.Marker({
                     map: map, // 마커를 표시할 지도
                     position: new kakao.maps.LatLng(positions[i].latitude, positions[i].longitude), // 마커를 표시할 위치
-                    title : positions[i].store_name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
                     image : markerImage // 마커 이미지 
                 });
+
+                // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+                var iwContent =
+                `<div id="small"><div>${positions[i].store_name}</div><div class="price-font">${positions[i].avg_price}</div></div>`;
+
+                // 인포윈도우를 생성합니다
+                var infoWindow = new kakao.maps.InfoWindow({
+                    content : iwContent,
+                    disableAutoPan : true,
+                });
+                
+                kakao.maps.event.addListener(marker, 'click', makeClickListener(positions[i].id));
+                kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infoWindow));
+                kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(map, marker, infoWindow));
+            }
+
+            function makeClickListener(id) {
+                return function() {
+                    vm.$emit('clickItem', id);
+                    // console.log('mouseClick ' + i)
+                };
+            }
+            function makeOverListener(map, marker, infowindow) {
+                return function() {
+                    infowindow.open(map, marker);
+                };
+            }
+            function makeOutListener(map, marker, infowindow) {
+                return function() {
+                    infowindow.close();
+                };
             }
         }
     }
@@ -82,6 +114,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
+@font-face { font-family: 'TmonMonsori'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/TmonMonsori.woff') format('woff'); font-weight: normal; font-style: normal; }
 #map {
     height: calc(60vw - 260px);
     width: 100%;
@@ -92,5 +126,29 @@ export default {
         width: 100%;
     }
 }
-
+.price-font {
+    font-family: 'TmonMonsori';
+}
+#small{
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    // border: solid 1px red;
+    width: 150px;
+    text-align: center;
+}
+.wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+.wrap * {padding: 0;margin: 0;}
+.wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+.wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+.info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+.info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+.info .close:hover {cursor: pointer;}
+.info .body {position: relative;overflow: hidden;}
+.info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
+.desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
+.info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+.info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+.info .link {color: #5085BB;}
 </style>

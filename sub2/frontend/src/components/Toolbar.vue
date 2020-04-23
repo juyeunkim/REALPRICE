@@ -44,10 +44,8 @@ export default {
   computed: {
     ...mapState("app", ["drawer"]),
     userId: function(){
-      return this.$store.getters['data/userStatus']
+      return this.$store.getters['session/userStatus']
     }
-  },
-  watch:{
   },
   mounted() {
     this.onResponsiveInverted();
@@ -71,9 +69,9 @@ export default {
     },
     logout(){
       console.log("로그아웃!!")
-      
+      this.$alert("로그아웃 완료", "Success", "success");
       // dispatch로 action 호출
-      this.$store.dispatch('data/logout');
+      this.$store.dispatch('session/logout');
       if(this.$route.path !== `/`) this.$router.push('home')
     }
   }
