@@ -1,21 +1,22 @@
 import api from "../../api";
 // initial state
 const state = {
-    realPriceList: [{
-        "id": 161602,
-        "store_name": "민들레",
-        "branch": "",
-        "area": "역삼",
-        "tel": "02-566-8070",
-        "address": "서울특별시 강남구 역삼동 669-16 2층",
-        "latitude": 37.502589,
-        "longitude": 127.037222,
-        "category": "즉석떡볶이|수제튀김\r",
-        "avg_score": 4.5,
-        "cnt_review": 2,
-        "distance": 0.143,
-        "avg_price": 5400.0
-    }, ],
+    realPriceList: [],
+    // {
+    //     "id": 161602,
+    //     "store_name": "Vuex디폴트",
+    //     "branch": "",
+    //     "area": "역삼",
+    //     "tel": "02-566-8070",
+    //     "address": "서울특별시 강남구 역삼동 669-16 2층",
+    //     "latitude": 37.502589,
+    //     "longitude": 127.037222,
+    //     "category": "즉석떡볶이|수제튀김\r",
+    //     "avg_score": 4.5,
+    //     "cnt_review": 2,
+    //     "distance": 0.143,
+    //     "avg_price": 5400.0
+    // }, 
     storeSearchList: [],
     storeSearchPage: "1",
     faqList: [],
