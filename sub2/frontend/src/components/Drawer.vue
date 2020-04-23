@@ -71,6 +71,16 @@ export default {
         text: "QnA"
       },
       {
+        to: "/landing",
+        icon: "mdi-forum",
+        text: "Landing"
+      },
+      {
+        to: "/searchmap",
+        icon: "mdi-map",
+        text: "SearchMap"
+      },
+      {
         to: "/test",
         icon: "fas fa-circle-notch fa-spin",
         text: "Test Page (JKY)"
