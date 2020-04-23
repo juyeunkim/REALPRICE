@@ -19,6 +19,15 @@ class Store(models.Model):
     def __str__ (self): 
         return "[Store "+ str(self.id) +","+ str(self.store_name) + "," + str(self.branch) + "," + str(self.area) + "," + str(self.tel) + "," + str(self.address) + "," + str(self.latitude) + "," + str(self.longitude) + "," + str(self.category) + "]"
 
+class StoreDetail(models.Model):
+    id = models.IntegerField(primary_key=True)
+    store = models.IntegerField()#models.ForeignKey('Store', on_delete=models.CASCADE)
+    store_name = models.CharField(max_length=50)
+    address = models.CharField(max_length=200)
+    img_src = models.CharField(max_length=1000, null=True)
+    tag = models.CharField(max_length=200, null=True)
+    char = models.CharField(max_length=200, null=True)
+
 class Faq(models.Model):
     faq_no = models.AutoField(primary_key=True)
     faq_category = models.CharField(max_length=100, null=False, default='other')
@@ -27,7 +36,6 @@ class Faq(models.Model):
     faq_writer = models.CharField(max_length=100, null=False)
     faq_write_date = models.DateField()
     faq_answer = models.TextField(null=True)
-    
     
 class Qna(models.Model):
     qna_no = models.AutoField(primary_key=True)
@@ -42,6 +50,7 @@ class Qna(models.Model):
 class Review(models.Model):
     id = models.AutoField(primary_key=True)
     store = models.IntegerField(null=False)
+    # store  = models.ForeignKey('Store', on_delete=models.CASCADE)
     user = models.IntegerField(null=False)
     score = models.IntegerField(null=False)
     content = models.TextField(null=True)
@@ -57,6 +66,7 @@ class History(models.Model):
 class Menu(models.Model):
     id = models.AutoField(primary_key=True)
     store = models.IntegerField(null=False)
+    # store  = models.ForeignKey('Store', on_delete=models.CASCADE)
     menu_name = models.CharField(max_length=200, null=False)
     price = models.IntegerField(null=False)
 
