@@ -92,7 +92,7 @@ def detailStore(request, id):
     message = ""
     # 중간에 foreign key를 업데이트 하는게 쉽지않은듯,, 어차피 1개짜리에 대한 정보니까 그냥 직접뽑아서 한번에 합치는게 나은듯
     # access db, excute sql and fetch data 
-    sql = "SELECT * FROM api_store WHERE id = "+id+";"
+    # sql = "SELECT * FROM api_store WHERE id = "+id+";"
     mariadbConnection = mariadb.connect(user='root', password='ssafy', database='realpricedb', host="13.125.68.33")
     cursor = mariadbConnection.cursor()
     sql = "SELECT * FROM api_store WHERE id = "+id+";"
@@ -104,6 +104,19 @@ def detailStore(request, id):
     ]
     if(len(store) > 0):
         message = store[0]["store_name"]+"에 관련된 정보입니다."
+        try:
+            storedetail = StoreDetail.objects.get(store=id)
+            detail = {
+                'img_src':storedetail.img_src,
+                'tag':storedetail.tag,
+                'char':storedetail.char
+            }
+        except StoreDetail.DoesNotExist:
+            detail = {
+                'img_src':"",
+                'tag':"",
+                'char':""
+            }
         sql = "SELECT * FROM api_menu WHERE store = "+id+";"
         cursor.execute(sql)
         columns = [col[0] for col in cursor.description]
@@ -122,6 +135,7 @@ def detailStore(request, id):
         
     else:
         message ="검색된 결과가 없습니다."
+        detail={}
         menus = []
         reviews =[]
     mariadbConnection.close()
@@ -129,6 +143,7 @@ def detailStore(request, id):
     response = {
         'message':message,
         'store':store,
+        'storeDetail':detail,
         'menuCnt':len(menus),
         'menu':menus,
         'reviewCnt':len(reviews),
