@@ -13,7 +13,7 @@
 			StoreCard
         },
         props: {
-            stores: {
+            stores2: {
                 type: Array
             }
         },
