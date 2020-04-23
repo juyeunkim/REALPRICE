@@ -79,13 +79,13 @@ def getStores(request):
     data = {
         "stores": [{
                 "id":1,
-                "srcUrl": "https://lh3.googleusercontent.com/proxy/8w5ZGjdDSzq6TuQV9_H2NRyu32kvoAuPKZvTUMa59md9QacXywMw-47IaMDhwF3KsalgXUNWp-4m8I5Jba8vbc70Ue2oH5qpsf7uq3G4e0RYq--jtyQPIXsTzGSJDQ3hOgZNb_UAehmRzTydmXh3zXC3HovU-FkxO4WvVJMdVRo5ypNDytswZHH7hmfu58FLoDGcfmVUg-BEGzcnlv2ayl7xoFT0lY2GfyOFwRsJ5XMVT3VlyKmqM6dJuXPJ0bGeeNQJcO4AuUglnTVK_RiEaUoLAUU",
+                "srcUrl": "https://lh3.googleusercontent.com/proxy/-oyyAgFrUNxAafWB9DU0UhQOaSsj5xK9-3_RlCAyNrChORri7y7HWNPysCRqA8yLcSbWFgzvgqgF7pR60yZZTvcr5xMImbo_4Zr2b1LnHbGmEzlh1h0t6mLwssBr9vQoQELpi-nnzS-IZEpgUcdrnKUHLtYVL_C-Z4pMNmIFO4bsXO7gCFiqvZMTby61exbtq0CNUDqjRofJim0fMsO-Bm4mt6poD4_dM-3dTH87myNa8BtjWQPgxS6fVGDodCZ1in2zjKZIWiC6cEgl1KmTEpHLiVg",
                 "storeName": "이오카츠",
                 "price": "12000"
             },
             {
                 "id":2,
-                "srcUrl": "https://lh3.googleusercontent.com/proxy/VJdAk0t70g0YEhydpOzfwUILPsVxRd2K_4RKAOtrudi3mFYEz2OVshEpO-nRcNaZ6xwJ4GsqBf2Vw07IBwSamykDKXEQwsAcAtCgw3afXp-BzSvJUK8im7WygvvbtlRQe18-GQc5Lm4Q-ZM7g9qm8yB9DLEcxdHSRsW3-7KYuOI7i4UFMx4ho3d8bnOXLAuswdUiQCVUbBp-jzNVmFFoJGpYQ4H1SPCPlqSp1etwSc2QJ8lEVAbRY9UdmWMRk9qT8yP2Tm6DFcKu8zEXILISgqlEL5vkgg712hgkvNmP0wPfPUzDPjoaQd0awFqFAL0NB9qVd92Zl4ipthiffSvs9MCv",
+                "srcUrl": "https://lh3.googleusercontent.com/proxy/jS4i5cCRSEEU74hs1nExlt22sBl4pikpf8dhc8rjoLWwwZNbzpsHWCdQCYKTzddIbwWJH1P7eu0WJ94hHe9WwdqrQwCzy3sOd12t9aS-EPoqV2cwg_T19EO8s011dj4R-F5Sxna0ML6UkOqEvSKVDpFhr9cLxKoGmdb7OT1mCM0g1hFVKY2pR97xAIpPk7uRYXPxNKlhm9e-ah_uP3doNTr16lg15FhchLtwH5RIRo0Egv1hjIqdX67sz6B5jqjvvC8QnnFV_pyQWr62LwfgKvL6RL76BgxTlL-dDyffSR-CIfjScxHkRHlQFiVFmH1JJtsZ5srFT8LJSwj38b1JNChLOQMeAQkzbSTz6QyEKXngMc8bFx5ahommRJhI06limBLQxe23OR4kyFxicMF8JV0",
                 "storeName": "강남 돈까스",
                 "price": "19870"
             },
@@ -97,7 +97,7 @@ def getStores(request):
             },
             {
                 "id":4,
-                "srcUrl": "https://lh3.googleusercontent.com/proxy/cagMmlUJNsM3LedW84sTaw9BC4oVZjnM3HQW3PY8lQ95eRKS4EfOxzNXNCaQRTV3FtxfqmkMOL-6YHJhAxdIAtDE9yDmCfLjXd6XvwNsg9p3Fr4DOU0HYAmNlirdRa1quhogKOWcurTAVbYSro-KabBVPE3sXE0D-48kkSWRA2Ht-btQ8YmdEbr5SkM",
+                "srcUrl": "https://lh3.googleusercontent.com/proxy/B-sE-Sggpv8A1cP9yLsA1tp9deiJS0z91a-NPiggDZlfGikJQfNgmtlt65W2Fvlr_y1BU6nndBbhiOKC9iot-b_ebZFRvrk6_apUOBqO0QwMmXKOlU4Cldq9rvIvsraMTmnPgn3VaaGOIHuruPldp2Ha_qXHpf3Pk5eFriGwXwhbCYt6FgHEzNVcOug",
                 "storeName": "미나미야마",
                 "price": "21080"
             },
