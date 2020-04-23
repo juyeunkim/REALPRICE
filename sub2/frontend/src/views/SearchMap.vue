@@ -10,7 +10,7 @@
             <Map/>
         </div>
         <div class="map-col2 scrollbar scrollbar-blue bordered-blue">
-            <StoreCards/>
+            <StoreCards v-bind:stores2="searchResult"/>
             <!-- test -->
         </div>
         </div>
@@ -41,7 +41,7 @@ export default {
   methods: {
     search:  function () {
       axios
-      .get('http://127.0.0.1:8000/api/getStores/')
+      .get('http://i02a206.ssafy.io:8080/api/getStores/')
       .then(response => {
         console.log(response.data.stores)
         this.searchResult = response.data.stores
