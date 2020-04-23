@@ -24,7 +24,13 @@ class StoreViewSet(viewsets.ModelViewSet):
             Store.objects.all().filter(store_name__contains=name).order_by("id")
         )
         return queryset
+class StoreDetailViewSet(viewsets.ModelViewSet):
+    serializer_class = StoreDetailSerializer
+    pagincation_class = SmallPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['store_name']
 
+    queryset = StoreDetail.objects.all()
 
 class FaqViewSet(viewsets.ModelViewSet):
     serializer_class = FaqSerializer
