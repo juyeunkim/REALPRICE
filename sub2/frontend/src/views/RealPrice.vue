@@ -9,25 +9,19 @@
         </v-card>
       </v-flex>
       <v-flex>
-        <v-btn
-          color="primary"
-          dark
-          @click.stop="dialog = true"
-        >
-          Open Dialog
-        </v-btn>
         <v-dialog
           v-model="dialog"
-          max-width="290"
+          persistent
+          max-width="700"
         >
-          <STOREDETAIL @close="dialog = false" :store="this.selectedStore"/>
+          <STOREDETAIL :store="selectedStore" @close="closeDetail" />
         </v-dialog>
         <v-layout row>
           <v-flex xs8>
-            <Map :restaurants="this.RealPriceList" :user="this.multicampus"/>
+            <Map :restaurants="RealPriceList" :user="multicampus" @clickItem="selectItem"/>
           </v-flex>
           <v-flex xs4>
-            <LIST :restaurants="this.RealPriceList" @clickItem="selectItem"/>
+            <LIST :restaurants="RealPriceList" @clickItem="selectItem" />
           </v-flex>
         </v-layout>
       </v-flex>
@@ -51,7 +45,7 @@ export default {
   },
   data() {
     return {
-      selectedStore: {},
+      selectedStore: null,
       dialog: false,
       multicampus: {
         latitude: 37.50128969810118,
@@ -59,13 +53,13 @@ export default {
       }
     }
   },
-  destroyed() {
-      this.clearRealPrice();
-  },
   computed: {
     ...mapState({
       RealPriceList: state => state.data.realPriceList,
     })
+  },
+  destroyed() {
+      this.clearRealPrice();
   },
   methods:{
     ...mapMutations("data", ["clearRealPrice"]),
@@ -78,6 +72,15 @@ export default {
       });
       
       this.dialog = true;
+    },
+    getReviews(){
+      consol.log('!!!')
+      this.$store.dispatch("data/getReviews", this.selectedStore.id);
+    },
+    closeDetail(){
+      console.log("closeDetail");
+      this.dialog = false;
+      // this.selectedStore = null;
     }
   },
 };
