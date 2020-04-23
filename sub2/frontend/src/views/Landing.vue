@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <img class="logo" alt="logo" src="@/assets/logo_white.png">
-    <input class="form-control size-20per" type="text" placeholder="가격을 찾아보세요." aria-label="Search" v-on:keyup.enter="search" v-model="inputPrice"/>
-    <Cards v-bind:stores="searchResult"/>
+    <input v-model="inputPrice" class="form-control size-20per" type="text" placeholder="가격을 찾아보세요." aria-label="Search" @keyup.enter="search">
+    <Cards :stores="searchResult" />
   </div>
 </template>
 
@@ -17,9 +17,11 @@ export default {
   components: {
     Cards
   },
-  props:{
-    inputPrice: String,
-    searchResult: Array
+  data(){
+    return {
+      inputPrice: '',
+      searchResult: []
+    }
   },
   methods: {
     search:  function () {

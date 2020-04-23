@@ -1,6 +1,6 @@
 <template>
   <mdb-card class='wd23'>
-    <mdb-card-image class="imgBox" :src="srcUrl" alt="Card image cap"></mdb-card-image>
+    <mdb-card-image class="imgBox" :src="srcUrl" alt="Card image cap" />
     <mdb-card-body class="rem4">
       <mdb-card-title class="fsize-4">{{ storeName }}</mdb-card-title>
       <mdb-card-text class="price-font" style="font-size:2.5rem; color:black;">{{ wonDisplay }}</mdb-card-text>
