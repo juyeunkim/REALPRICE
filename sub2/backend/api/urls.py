@@ -17,7 +17,7 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^auth/', include('rest_auth.urls')),
     url(r'^realprice/', searchRealPrice),
-    url(r'^getStores/', getStores)
+    url(r'^getStores/', getStores),
     url(r'^checkUsedEmail/(?P<email>[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$',checkUsedEmail),
     url(r'^detailStore/(?P<id>[^/.]+)/$',detailStore)
 ]
