@@ -63,4 +63,9 @@ export default [{
         view: "Landing",
         name: "landing"
     },
+    {
+        path: "/searchmap",
+        view: "SearchMap",
+        name: "searchmap"
+    },
 ];

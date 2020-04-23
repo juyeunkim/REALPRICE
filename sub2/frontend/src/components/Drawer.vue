@@ -76,6 +76,11 @@ export default {
         text: "Landing"
       },
       {
+        to: "/searchmap",
+        icon: "mdi-map",
+        text: "SearchMap"
+      },
+      {
         to: "/test",
         icon: "fas fa-circle-notch fa-spin",
         text: "Test Page (JKY)"
