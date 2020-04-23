@@ -41,7 +41,7 @@ export default {
   methods: {
     search:  function () {
       axios
-      .get('http://i02a206.ssafy.io:8080/api/getStores/')
+      .get('http://13.125.68.33:8080/api/getStores/')
       .then(response => {
         console.log(response.data.stores)
         this.searchResult = response.data.stores
