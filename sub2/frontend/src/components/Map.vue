@@ -16,10 +16,6 @@ export default {
         },
         user: {
             type: Object,
-            default: {
-                latitude: 33.450705,
-                longitude: 126.570677,
-            },
         },
     },
     date(){
@@ -35,24 +31,24 @@ export default {
         },
     },
     mounted(){
-        this.drawMap(this.positions);
+        this.drawMap(this.positions, this.point);
     },
     updated(){
-        this.drawMap(this.positions);
+        this.drawMap(this.positions, this.point);
     },
     methods: {
-        drawMap(positions){
+        drawMap(positions, point){
             const vm = this;
 
             var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
             var options = { //지도를 생성할 때 필요한 기본 옵션
-                center: new kakao.maps.LatLng(this.point.latitude, this.point.longitude), //지도의 중심좌표.
+                center: new kakao.maps.LatLng(point.latitude, point.longitude), //지도의 중심좌표.
                 level: 5 //지도의 레벨(확대, 축소 정도)
             };
 
             var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
             
-            var markerPosition  = new kakao.maps.LatLng(this.point.latitude, this.point.longitude); 
+            var markerPosition  = new kakao.maps.LatLng(point.latitude, point.longitude); 
             // 마커를 생성합니다
             var marker = new kakao.maps.Marker({
                 map: map,
@@ -87,10 +83,35 @@ export default {
                     disableAutoPan : true,
                 });
                 
+                
+
+
                 kakao.maps.event.addListener(marker, 'click', makeClickListener(positions[i].id));
                 kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infoWindow));
                 kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(map, marker, infoWindow));
+
             }
+            const m = document.getElementById('map');
+            const w = m.getBoundingClientRect().width;
+            const h = m.getBoundingClientRect().height;
+            const r = (w>h? h/16 : w/16) * (Math.pow(2,map.getLevel()));
+
+            var circle = new kakao.maps.Circle({
+                map: map,
+                center : new kakao.maps.LatLng(this.point.latitude, this.point.longitude),
+                radius: r,
+                strokeWeight: 2,
+                strokeColor: 'red',
+                strokeOpacity: 0.8,
+                strokeStyle: 'dashed',
+                fillColor: 'blue',
+                fillOpacity: 0.1 
+            });
+            vm.$emit('drawCircle', this.point, r);
+
+
+            kakao.maps.event.addListener(map, 'zoom_changed', zoomChanged(map, circle));
+            kakao.maps.event.addListener(map, 'bounds_changed', boundsChanged(map, circle));
 
             function makeClickListener(id) {
                 return function() {
@@ -106,6 +127,45 @@ export default {
             function makeOutListener(map, marker, infowindow) {
                 return function() {
                     infowindow.close();
+                };
+            }
+            function zoomChanged(map, circle) {
+                return function() {
+                    var center = map.getCenter();
+                    var level = map.getLevel();
+
+                    // console.log(level);
+                    var mapObj = document.getElementById('map');
+                    var width = mapObj.getBoundingClientRect().width;
+                    var height = mapObj.getBoundingClientRect().height;
+
+                    var radius = (width>height? height/16 : width/16) * (Math.pow(2,level));
+                    // var radius = 28.125 * (Math.pow(2,level));
+
+                    circle.setPosition(center);
+                    circle.setRadius(radius);
+                    circle.setMap(map);
+
+                    vm.$emit('drawCircle', center, radius);
+                };
+            }
+            function boundsChanged(map, circle) {
+                return function() {
+                    var center = map.getCenter();
+                    var level = map.getLevel();
+
+                    var mapObj = document.getElementById('map');
+                    var width = mapObj.getBoundingClientRect().width;
+                    var height = mapObj.getBoundingClientRect().height;
+
+                    circle.setPosition(center);
+                    var radius = (width>height? height/16 : width/16) * (Math.pow(2,level));
+
+                    circle.setPosition(center);
+                    circle.setRadius(radius);
+                    circle.setMap(map);
+
+                    vm.$emit('drawCircle', center, radius);
                 };
             }
         }

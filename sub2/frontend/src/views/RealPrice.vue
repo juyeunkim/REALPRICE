@@ -18,7 +18,10 @@
         </v-dialog>
         <v-layout row>
           <v-flex xs8>
-            <Map :restaurants="RealPriceList" :user="multicampus" @clickItem="selectItem"/>
+            <div v-if="center !== null">{{center.getLat()}}</div>
+            <div v-if="center !== null">{{center.getLng()}}</div>
+            <div>{{radius}}</div>
+            <Map :restaurants="RealPriceList" :user="geoLocation" @clickItem="selectItem" @drawCircle="selectCircle"/>
           </v-flex>
           <v-flex xs4>
             <LIST :restaurants="RealPriceList" @clickItem="selectItem" />
@@ -47,10 +50,12 @@ export default {
     return {
       selectedStore: null,
       dialog: false,
-      multicampus: {
+      geoLocation: {
         latitude: 37.50128969810118,
         longitude: 127.03960183847694,
-      }
+      },
+      center: null,
+      radius: 0,
     }
   },
   computed: {
@@ -58,29 +63,49 @@ export default {
       RealPriceList: state => state.data.realPriceList,
     })
   },
+  created() {
+    this.getLocation();
+  },
   destroyed() {
       this.clearRealPrice();
   },
   methods:{
     ...mapMutations("data", ["clearRealPrice"]),
     selectItem: function(id){
-      
       this.RealPriceList.forEach(el => {
         if(el.id == id){
           this.selectedStore = el;
         }
       });
-      
       this.dialog = true;
     },
-    getReviews(){
+    getReviews: function(){
       consol.log('!!!')
       this.$store.dispatch("data/getReviews", this.selectedStore.id);
     },
-    closeDetail(){
+    closeDetail: function(){
       console.log("closeDetail");
       this.dialog = false;
       // this.selectedStore = null;
+    },
+    selectCircle: function(c, r){
+      this.center = c;
+      this.radius = r;
+    },
+    getLocation: function() {
+      if (navigator.geolocation) { // GPS를 지원하면
+        navigator.geolocation.getCurrentPosition(function(position) {
+          alert(position.coords.latitude + ' ' + position.coords.longitude);
+        }, function(error) {
+          console.error(error);
+        }, {
+          enableHighAccuracy: false,
+          maximumAge: 0,
+          timeout: Infinity
+        });
+      } else {
+        alert('GPS를 지원하지 않습니다');
+      }
     }
   },
 };
