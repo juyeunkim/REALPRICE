@@ -1,6 +1,12 @@
 from rest_framework import viewsets, status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
+from django.views import View
+from haversine import haversine
+from django.db.models import Q, Avg
+
+
+from rest_framework import generics
 
 from .models import *
 from .serializers import *
@@ -13,17 +19,34 @@ class SmallPagination(PageNumberPagination):
     max_page_size = 50
 
 from rest_framework import filters
+
+from django_filters import rest_framework as filters2
+
+
+class StoreFilter(filters2.FilterSet):
+    latitude = filters2.RangeFilter()
+    longitude = filters2.RangeFilter()
+
+    class Meta:
+        model = Store
+        fields = ['latitude', 'longitude']
+
 class StoreViewSet(viewsets.ModelViewSet):
+    queryset = Store.objects.all()
     serializer_class = StoreSerializer
     pagination_class = SmallPagination
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['store_name', 'area']
-    def get_queryset(self):
-        name = self.request.query_params.get("name", "")
-        queryset = (
-            Store.objects.all().filter(store_name__contains=name).order_by("id")
-        )
-        return queryset
+    filter_backends = (filters2.DjangoFilterBackend,)
+    filterset_class = StoreFilter
+    # filter_backends = [filters.SearchFilter]
+    # search_fields = ['store_name', 'area', 'latitude', 'longitude']
+
+    # def get_queryset(self):
+    #     name = self.request.query_params.get("name", "")
+    #     queryset = (
+    #         Store.objects.all().filter(store_name__contains=name).order_by("id")
+    #     )
+    #     return queryset
+
 class StoreDetailViewSet(viewsets.ModelViewSet):
     serializer_class = StoreDetailSerializer
     pagincation_class = SmallPagination
@@ -79,40 +102,165 @@ class MenuViewSet(viewsets.ModelViewSet):
     search_fields = ['id','store','menu_name', 'price']
     queryset = Review.objects.all()
 
+# class SearchView(generics.ListAPIView):
+#     serializers_class = StoreSerializer
 
-@api_view(['GET'])
+#     def get_queryset(self):
+#         longitude = float(self.request.ulongitude)
+#         latitude = float(self.request.ulatitude)
+#         position = (latitude, longitude)
+#         condition = (
+#             Q(latitude__range = (latitude - 0.01, latitude + 0.01)) |
+#             Q(longitude__range = (longitude - 0.015, longitude + 0.015))
+#         )
+
+#         store_infos = (
+#             Store
+#             .object
+#             .filter(condition)
+#         )
+
+#         near_store_info = [info for info in store_infos
+#                             if haversine(position, (info.latitude, info.longitude)) <= 2]
+#         return near_store_info
+
+
+@api_view(['POST'])
 def getStores(request):
+
+    # data = {
+    #     "stores": [{
+    #             "id":1,
+    #             "srcUrl": "https://lh3.googleusercontent.com/proxy/-oyyAgFrUNxAafWB9DU0UhQOaSsj5xK9-3_RlCAyNrChORri7y7HWNPysCRqA8yLcSbWFgzvgqgF7pR60yZZTvcr5xMImbo_4Zr2b1LnHbGmEzlh1h0t6mLwssBr9vQoQELpi-nnzS-IZEpgUcdrnKUHLtYVL_C-Z4pMNmIFO4bsXO7gCFiqvZMTby61exbtq0CNUDqjRofJim0fMsO-Bm4mt6poD4_dM-3dTH87myNa8BtjWQPgxS6fVGDodCZ1in2zjKZIWiC6cEgl1KmTEpHLiVg",
+    #             "storeName": "이오카츠",
+    #             "price": "12000"
+    #         },
+    #         {
+    #             "id":2,
+    #             "srcUrl": "https://lh3.googleusercontent.com/proxy/jS4i5cCRSEEU74hs1nExlt22sBl4pikpf8dhc8rjoLWwwZNbzpsHWCdQCYKTzddIbwWJH1P7eu0WJ94hHe9WwdqrQwCzy3sOd12t9aS-EPoqV2cwg_T19EO8s011dj4R-F5Sxna0ML6UkOqEvSKVDpFhr9cLxKoGmdb7OT1mCM0g1hFVKY2pR97xAIpPk7uRYXPxNKlhm9e-ah_uP3doNTr16lg15FhchLtwH5RIRo0Egv1hjIqdX67sz6B5jqjvvC8QnnFV_pyQWr62LwfgKvL6RL76BgxTlL-dDyffSR-CIfjScxHkRHlQFiVFmH1JJtsZ5srFT8LJSwj38b1JNChLOQMeAQkzbSTz6QyEKXngMc8bFx5ahommRJhI06limBLQxe23OR4kyFxicMF8JV0",
+    #             "storeName": "강남 돈까스",
+    #             "price": "19870"
+    #         },
+    #         {
+    #             "id":3,
+    #             "srcUrl": "https://t1.daumcdn.net/liveboard/dispatch/6301b06e0bf04496aa2b5d3a980d551c.JPG",
+    #             "storeName": "가나돈까스의 집",
+    #             "price": "8000"
+    #         },
+    #         {
+    #             "id":4,
+    #             "srcUrl": "https://lh3.googleusercontent.com/proxy/B-sE-Sggpv8A1cP9yLsA1tp9deiJS0z91a-NPiggDZlfGikJQfNgmtlt65W2Fvlr_y1BU6nndBbhiOKC9iot-b_ebZFRvrk6_apUOBqO0QwMmXKOlU4Cldq9rvIvsraMTmnPgn3VaaGOIHuruPldp2Ha_qXHpf3Pk5eFriGwXwhbCYt6FgHEzNVcOug",
+    #             "storeName": "미나미야마",
+    #             "price": "21080"
+    #         },
+    #         {
+    #             "id":5,
+    #             "srcUrl": "https://i.pinimg.com/originals/51/6f/51/516f51f23c31837500e6518cd2e00b52.jpg",
+    #             "storeName": "한성돈까스",
+    #             "price": "9500"
+    #         }]
+    # }
+
+    body = request.data
+    ulatitude = float(body['ulatitude'])
+    ulongitude = float(body['ulongitude'])
+    mlatitude = float(body['mlatitude'])
+    mlongitude = float(body['mlongitude'])
+
+    user_position = (ulatitude, ulongitude)
+    map_position = (mlatitude, mlongitude)
+
+    # 유저 위치랑 지도 중심 거리 구하기
+    distance = haversine(user_position, map_position)
+
+    distance_cost = 0
+    # 거리 비용
+    if (distance > 1):
+        distance_cost = int(cal_fee(distance)["bus_fee"])
+
+    # 반경 검색 전 미리 반경보다 살짝 큰 범위 가게들 가져오기
+    condition = (
+        Q(latitude__range = (mlatitude - 0.01, mlatitude + 0.01)) |
+        Q(longitude__range = (mlongitude - 0.015, mlongitude + 0.015))
+    )
+
+    store_infos = (
+        Store
+        .objects
+        .filter(condition)
+    )
+
+    # 근처 1km 이내 모든 식당 불러오기
+    near_store_info = [info for info in store_infos
+                        if haversine(map_position, (info.latitude, info.longitude)) <= 1]
+
+    # 그 식당 중 리뷰 있는 식당 평균 평점 가져오기
+    review_infos = (
+        Review
+        .objects
+        .prefetch_related('store')
+        .filter(Q(store__in=near_store_info))
+        .values('store')
+        .annotate(Avg('score'))
+        .order_by('-score__avg','store')
+    )
+
+    # 리뷰 있는 식당 골라내기
+    topStoreList = [review['store'] for review in review_infos]
+
+    # 근처 1km 이내 식당 중 리뷰가 있는 식당만 가져오기
+    top_store_info = [info for info in near_store_info
+                        if (info.id in topStoreList)]
+    
+    # 근처 1km 이내 식당 중 리뷰가 있는 식당의 메뉴 정보 가져오기
+    menu_infos = (
+        Menu
+        .objects
+        .prefetch_related('store')
+        .filter(Q(store__in=top_store_info) & Q(price__range =(1,body['price']-distance_cost)))
+        .order_by('-price', 'store')
+    )
+
+    result = []
+    dic_price = {}
+
+    cnt = 1
+    for menu in menu_infos:
+        if menu.store.id in dic_price:
+            store = dic_price.get(menu.store.id)
+            if menu.price > store.get("price"):
+                store["price"] = menu.price
+                dic_price[menu.store.id] = store
+        else:
+            dic_price[menu.store.id] = {
+                    "id": cnt,
+                    "srcUrl": "www.google.com",
+                    "address" : menu.store.address,
+                    "latitude": menu.store.latitude,
+                    "longitude": menu.store.longitude,
+                    "storeName": menu.store.store_name,
+                    "menu" : menu.menu_name,
+                    "price": menu.price,
+                    "distanceCost" : distance_cost,
+                    "score": 0,
+            }
+            cnt += 1
+
+    cnt = 1
+    for row in review_infos:
+        if row['store'] in dic_price:
+            store = dic_price.get(row['store'])
+            store["score"] = row["score__avg"]
+            store["id"] = cnt
+            result.append(store)
+            cnt += 1
+
+    # print('근방 1km 안에 있는 음식점 수(리뷰, 메뉴 유무 노상관): ', len(near_store_info))
+    # print('리뷰가 있는 집의 수 (리뷰만 있고 메뉴 정보가 없을 수 있음 그래서 이거보다 작을 수 있음) : ', len(review_infos))
+    # print('리뷰가 있는 집의 총 메뉴 수 : ', len(menu_infos))
+
     data = {
-        "stores": [{
-                "id":1,
-                "srcUrl": "https://lh3.googleusercontent.com/proxy/-oyyAgFrUNxAafWB9DU0UhQOaSsj5xK9-3_RlCAyNrChORri7y7HWNPysCRqA8yLcSbWFgzvgqgF7pR60yZZTvcr5xMImbo_4Zr2b1LnHbGmEzlh1h0t6mLwssBr9vQoQELpi-nnzS-IZEpgUcdrnKUHLtYVL_C-Z4pMNmIFO4bsXO7gCFiqvZMTby61exbtq0CNUDqjRofJim0fMsO-Bm4mt6poD4_dM-3dTH87myNa8BtjWQPgxS6fVGDodCZ1in2zjKZIWiC6cEgl1KmTEpHLiVg",
-                "storeName": "이오카츠",
-                "price": "12000"
-            },
-            {
-                "id":2,
-                "srcUrl": "https://lh3.googleusercontent.com/proxy/jS4i5cCRSEEU74hs1nExlt22sBl4pikpf8dhc8rjoLWwwZNbzpsHWCdQCYKTzddIbwWJH1P7eu0WJ94hHe9WwdqrQwCzy3sOd12t9aS-EPoqV2cwg_T19EO8s011dj4R-F5Sxna0ML6UkOqEvSKVDpFhr9cLxKoGmdb7OT1mCM0g1hFVKY2pR97xAIpPk7uRYXPxNKlhm9e-ah_uP3doNTr16lg15FhchLtwH5RIRo0Egv1hjIqdX67sz6B5jqjvvC8QnnFV_pyQWr62LwfgKvL6RL76BgxTlL-dDyffSR-CIfjScxHkRHlQFiVFmH1JJtsZ5srFT8LJSwj38b1JNChLOQMeAQkzbSTz6QyEKXngMc8bFx5ahommRJhI06limBLQxe23OR4kyFxicMF8JV0",
-                "storeName": "강남 돈까스",
-                "price": "19870"
-            },
-            {
-                "id":3,
-                "srcUrl": "https://t1.daumcdn.net/liveboard/dispatch/6301b06e0bf04496aa2b5d3a980d551c.JPG",
-                "storeName": "가나돈까스의 집",
-                "price": "8000"
-            },
-            {
-                "id":4,
-                "srcUrl": "https://lh3.googleusercontent.com/proxy/B-sE-Sggpv8A1cP9yLsA1tp9deiJS0z91a-NPiggDZlfGikJQfNgmtlt65W2Fvlr_y1BU6nndBbhiOKC9iot-b_ebZFRvrk6_apUOBqO0QwMmXKOlU4Cldq9rvIvsraMTmnPgn3VaaGOIHuruPldp2Ha_qXHpf3Pk5eFriGwXwhbCYt6FgHEzNVcOug",
-                "storeName": "미나미야마",
-                "price": "21080"
-            },
-            {
-                "id":5,
-                "srcUrl": "https://i.pinimg.com/originals/51/6f/51/516f51f23c31837500e6518cd2e00b52.jpg",
-                "storeName": "한성돈까스",
-                "price": "9500"
-            }]
+        "stores": result
     }
     return Response(data)
 
