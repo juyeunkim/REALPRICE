@@ -114,14 +114,15 @@ export default {
 }
 
 .line {
-  border: 1px dashed #0f4c82;
+  border: 1px dashed #0F4C82;
   margin: 0 0 0 0;
 }
 
 .border-color {
-  border: 1.5px solid #0f4c82;
+  border: 1.5px solid #0F4C82;
 }
 
 .store-row {
+
 }
 </style>

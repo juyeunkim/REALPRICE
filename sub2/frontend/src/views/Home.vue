@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-card-text class="text-center">
-      <img class="logo" alt="logo" src="@/assets/logo_white.png">
+      <img class="logo" alt="logo" src="../assets/logo_white.png">
       <input v-model="inputPrice" class="form-control size-20per" type="text" placeholder="가격을 찾아보세요." aria-label="Search" @keyup.enter="search">
       <Cards :stores="searchResult" />
     </v-card-text>
@@ -44,7 +44,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
 
 #app {
