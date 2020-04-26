@@ -1,5 +1,5 @@
 <template>
-  <mdb-card class='wd23'>
+  <mdb-card class="wd23">
     <mdb-card-image class="imgBox" :src="srcUrl" alt="Card image cap" />
     <mdb-card-body class="rem4">
       <mdb-card-title class="fsize-4">{{ storeName }}</mdb-card-title>
@@ -13,11 +13,6 @@
     
 	export default {
 		name: 'CardPage',
-        props: {
-            srcUrl: String,
-            storeName: String,
-            price: String
-        },
 		components: {
 			mdbCard,
 			mdbCardImage,
@@ -25,6 +20,11 @@
 			mdbCardTitle,
 			mdbCardText
 		},
+        props: {
+            srcUrl: String,
+            storeName: String,
+            price: String,
+        },
         computed:{
             wonDisplay: function() {
                 return this.price.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,') + '원';
