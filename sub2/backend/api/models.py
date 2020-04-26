@@ -49,8 +49,8 @@ class Qna(models.Model):
 
 class Review(models.Model):
     id = models.AutoField(primary_key=True)
-    store = models.IntegerField(null=False)
-    # store  = models.ForeignKey('Store', on_delete=models.CASCADE)
+    # store = models.IntegerField(null=False)
+    store  = models.ForeignKey(Store, on_delete=models.CASCADE)
     user = models.IntegerField(null=False)
     score = models.IntegerField(null=False)
     content = models.TextField(null=True)
@@ -65,8 +65,8 @@ class History(models.Model):
 
 class Menu(models.Model):
     id = models.AutoField(primary_key=True)
-    store = models.IntegerField(null=False)
-    # store  = models.ForeignKey('Store', on_delete=models.CASCADE)
+    # store = models.IntegerField(null=False)
+    store  = models.ForeignKey(Store, on_delete=models.CASCADE, null=False)
     menu_name = models.CharField(max_length=200, null=False)
     price = models.IntegerField(null=False)
 
