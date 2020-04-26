@@ -63,7 +63,7 @@ export default {
 }
 
 .size-20per {
-  width: 25%;
+  width: 50%;
   margin: auto;
   border-radius: 10rem;
 }

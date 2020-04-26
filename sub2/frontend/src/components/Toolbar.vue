@@ -9,21 +9,21 @@
 
     <v-spacer />
 
-    <v-toolbar-items class="hidden-sm-and-down">
+    <v-toolbar-items>
       <template v-if="userId=='' || userId==null || userId==undefined">
-        <v-btn class="ml-2" text :to="{name: 'signup'}">회원가입</v-btn>
+        <v-btn class="ml-2" text :to="{name: 'signup'}">SignUp</v-btn>
 
         <v-divider inset vertical />
 
-        <v-btn class="ml-2" text :to="{name: 'signin'}">로그인</v-btn>
+        <v-btn class="ml-2" text :to="{name: 'signin'}">LogIn</v-btn>
       </template>
 
       <template v-else>
-        <v-btn class="ml-2" @click="logout">로그아웃</v-btn>
+        <v-btn class="ml-2" text @click="logout">LogOut</v-btn>
 
         <v-divider inset vertical />
 
-        <v-btn class="ml-2" text :to="{name: 'mypage'}">마이페이지</v-btn>
+        <v-btn class="ml-2" text :to="{name: 'mypage'}">MyPage</v-btn>
       </template>
     </v-toolbar-items>
 
