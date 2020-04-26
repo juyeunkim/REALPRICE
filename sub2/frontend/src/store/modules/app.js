@@ -1,17 +1,17 @@
-import { set, toggle } from "@/utils/vuex";
+import {set, toggle } from "@/utils/vuex";
 
 const state = {
-  drawer: null
+    drawer: null
 };
 
 // mutations
 const mutations = {
-  setDrawer: set("drawer"),
-  toggleDrawer: toggle("drawer")
+    setDrawer: set("drawer"),
+    toggleDrawer: toggle("drawer")
 };
 
 export default {
-  namespaced: true,
-  state,
-  mutations
+    namespaced: true,
+    state,
+    mutations
 };
