@@ -1,7 +1,5 @@
 # Login
 
-## Done
-
 - Create Custom User Model
   
 - 기본 사용자 모델을 AbstractUser 모델로 설정
@@ -35,9 +33,10 @@
  
 ## Requirements 추가
 
-- 필수는 이정도인듯?
 ```
 Pillow==7.1.0
 djangorestframework-jwt==1.11.0
 django-rest-auth==0.9.5
 ```
+
+## Django의 인증과정만 이용하도록 축소
