@@ -21,7 +21,7 @@
             <div v-if="center !== null">{{center.getLat()}}</div>
             <div v-if="center !== null">{{center.getLng()}}</div>
             <div>{{radius}}</div>
-            <Map :restaurants="RealPriceList" :user="geoLocation" @clickItem="selectItem" @drawCircle="selectCircle"/>
+            <Map :restaurants="RealPriceList" :user="userLocation" @clickItem="selectItem" @drawCircle="selectCircle"/>
           </v-flex>
           <v-flex xs4>
             <LIST :restaurants="RealPriceList" @clickItem="selectItem" />
@@ -61,9 +61,12 @@ export default {
   computed: {
     ...mapState({
       RealPriceList: state => state.data.realPriceList,
-    })
+    }),
+    userLocation() {
+        return this.geoLocation;
+    },
   },
-  created() {
+  mounted() {
     this.getLocation();
   },
   destroyed() {
@@ -90,15 +93,18 @@ export default {
       // this.selectedStore = null;
     },
     selectCircle: function(c, r){
+      // console.log("drawCircle");
+      // console.log(c);
       this.center = c;
       this.radius = r;
     },
     getLocation: function() {
+      const vm = this;
       if (navigator.geolocation) { // GPS를 지원하면
         navigator.geolocation.getCurrentPosition(function(position) {
           // alert(position.coords.latitude + ' ' + position.coords.longitude);
-          this.geoLocation.latitude = position.coords.latitude;
-          this.geoLocation.longitude = position.coords.longitude;
+          vm.geoLocation.latitude = position.coords.latitude;
+          vm.geoLocation.longitude = position.coords.longitude;
         }, function(error) {
           console.error(error);
         }, {
@@ -110,9 +116,15 @@ export default {
         console.log('GPS를 지원하지 않습니다');
       }
     },
-    searchSubmit: function(Options) {
-      console.log(Options);
-      this.postRealPrice(Options);
+    searchSubmit: function(inputPrice) {
+      const vm = this;
+      this.postRealPrice({
+          "price": parseInt(inputPrice), 
+          "ulatitude": parseFloat(vm.geoLocation.latitude),
+          "ulongitude": parseFloat(vm.geoLocation.longitude),
+          "mlatitude": parseFloat(vm.center.Ha), 
+          "mlongitude": parseFloat(vm.center.Ga)
+      });
       
     }
   },

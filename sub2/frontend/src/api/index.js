@@ -25,6 +25,17 @@ function postRealPrice(params) {
     //     console.log(error);
     // });
 }
+function postGetStores(params) {
+    // console.log('Im in postQ in api/index.js');
+    return axios.post(`${apiUrl}/getStores/`, params);
+    // axios.post(`${apiUrl}/realprice/`, params)
+    // .then(function (response) {
+    //     console.log(response);
+    // })
+    // .catch(function (error) {
+    //     console.log(error);
+    // });
+}
 
 function postQna(params) {
     // console.log(params);
@@ -81,6 +92,7 @@ function detailStore(params) {
 
 const Api = {
     postRealPrice,
+    postGetStores,
     getStores,
     getFaqs,
     getQnas,

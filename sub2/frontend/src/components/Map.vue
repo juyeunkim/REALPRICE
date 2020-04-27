@@ -1,6 +1,8 @@
 <template>
 <div>
-    <div v-show="false">{{this.positions.length}}</div>
+    <div v-show="false">{{positions.length}}</div>
+    <div v-show="false">{{point.latitude}}</div>
+    <div v-show="false">{{point.longitude}}</div>
     <div id="map"/>
 </div>
 </template>
@@ -102,7 +104,7 @@ export default {
                 fillColor: 'blue',
                 fillOpacity: 0.1 
             });
-            vm.$emit('drawCircle', this.point, r);
+            vm.$emit('drawCircle', circle.getPosition(), r);
 
 
             kakao.maps.event.addListener(map, 'zoom_changed', zoomChanged(map, circle));
@@ -153,7 +155,7 @@ export default {
                     var width = mapObj.getBoundingClientRect().width;
                     var height = mapObj.getBoundingClientRect().height;
 
-                    circle.setPosition(center);
+                    // circle.setPosition(center);
                     var radius = (width>height? height/16 : width/16) * (Math.pow(2,level));
 
                     circle.setPosition(center);
