@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>lbzui-vue-demo</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons&display=block">
+    <link rel="stylesheet" href="https://unpkg.com/@lbzui/vue/lib/lbzui.css">
+</head>
+
+<body>
+    <div id="app">
+        <lbz-button icon="favorite" @click.stop="fclick">Click me</lbz-button>
+    </div>
+    <script src="https://unpkg.com/vue@2.6.10"></script>
+    <script src="https://unpkg.com/@lbzui/vue"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            methods: {
+                fclick(e) {
+                    alert('Hello @lbzui/vue!');
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

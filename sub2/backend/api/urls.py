@@ -5,6 +5,7 @@ from .views import *
 
 router = DefaultRouter()#(trailing_slash=False)
 router.register(r"stores", StoreViewSet, basename="stores")
+router.register(r"storeDetail", StoreDetailViewSet, basename="storedetails")
 router.register(r"review", ReviewViewSet, basename="review")
 router.register(r"faqs", FaqViewSet, basename="faqs")
 router.register(r"qnas", QnaViewSet, basename="qnas")
@@ -17,6 +18,7 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^auth/', include('rest_auth.urls')),
     url(r'^realprice/', searchRealPrice),
+    url(r'^getStores/', getStores),
     url(r'^checkUsedEmail/(?P<email>[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$',checkUsedEmail),
     url(r'^detailStore/(?P<id>[^/.]+)/$',detailStore)
 ]

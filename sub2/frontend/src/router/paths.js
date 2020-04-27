@@ -58,4 +58,14 @@ export default [{
         view: "Meeting",
         name: "meeting"
     },
+    {
+        path: "/landing",
+        view: "Landing",
+        name: "landing"
+    },
+    {
+        path: "/searchmap",
+        view: "SearchMap",
+        name: "searchmap"
+    },
 ];

@@ -24,7 +24,13 @@ class StoreViewSet(viewsets.ModelViewSet):
             Store.objects.all().filter(store_name__contains=name).order_by("id")
         )
         return queryset
+class StoreDetailViewSet(viewsets.ModelViewSet):
+    serializer_class = StoreDetailSerializer
+    pagincation_class = SmallPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['store_name']
 
+    queryset = StoreDetail.objects.all()
 
 class FaqViewSet(viewsets.ModelViewSet):
     serializer_class = FaqSerializer
@@ -73,12 +79,50 @@ class MenuViewSet(viewsets.ModelViewSet):
     search_fields = ['id','store','menu_name', 'price']
     queryset = Review.objects.all()
 
+
+@api_view(['GET'])
+def getStores(request):
+    data = {
+        "stores": [{
+                "id":1,
+                "srcUrl": "https://lh3.googleusercontent.com/proxy/-oyyAgFrUNxAafWB9DU0UhQOaSsj5xK9-3_RlCAyNrChORri7y7HWNPysCRqA8yLcSbWFgzvgqgF7pR60yZZTvcr5xMImbo_4Zr2b1LnHbGmEzlh1h0t6mLwssBr9vQoQELpi-nnzS-IZEpgUcdrnKUHLtYVL_C-Z4pMNmIFO4bsXO7gCFiqvZMTby61exbtq0CNUDqjRofJim0fMsO-Bm4mt6poD4_dM-3dTH87myNa8BtjWQPgxS6fVGDodCZ1in2zjKZIWiC6cEgl1KmTEpHLiVg",
+                "storeName": "이오카츠",
+                "price": "12000"
+            },
+            {
+                "id":2,
+                "srcUrl": "https://lh3.googleusercontent.com/proxy/jS4i5cCRSEEU74hs1nExlt22sBl4pikpf8dhc8rjoLWwwZNbzpsHWCdQCYKTzddIbwWJH1P7eu0WJ94hHe9WwdqrQwCzy3sOd12t9aS-EPoqV2cwg_T19EO8s011dj4R-F5Sxna0ML6UkOqEvSKVDpFhr9cLxKoGmdb7OT1mCM0g1hFVKY2pR97xAIpPk7uRYXPxNKlhm9e-ah_uP3doNTr16lg15FhchLtwH5RIRo0Egv1hjIqdX67sz6B5jqjvvC8QnnFV_pyQWr62LwfgKvL6RL76BgxTlL-dDyffSR-CIfjScxHkRHlQFiVFmH1JJtsZ5srFT8LJSwj38b1JNChLOQMeAQkzbSTz6QyEKXngMc8bFx5ahommRJhI06limBLQxe23OR4kyFxicMF8JV0",
+                "storeName": "강남 돈까스",
+                "price": "19870"
+            },
+            {
+                "id":3,
+                "srcUrl": "https://t1.daumcdn.net/liveboard/dispatch/6301b06e0bf04496aa2b5d3a980d551c.JPG",
+                "storeName": "가나돈까스의 집",
+                "price": "8000"
+            },
+            {
+                "id":4,
+                "srcUrl": "https://lh3.googleusercontent.com/proxy/B-sE-Sggpv8A1cP9yLsA1tp9deiJS0z91a-NPiggDZlfGikJQfNgmtlt65W2Fvlr_y1BU6nndBbhiOKC9iot-b_ebZFRvrk6_apUOBqO0QwMmXKOlU4Cldq9rvIvsraMTmnPgn3VaaGOIHuruPldp2Ha_qXHpf3Pk5eFriGwXwhbCYt6FgHEzNVcOug",
+                "storeName": "미나미야마",
+                "price": "21080"
+            },
+            {
+                "id":5,
+                "srcUrl": "https://i.pinimg.com/originals/51/6f/51/516f51f23c31837500e6518cd2e00b52.jpg",
+                "storeName": "한성돈까스",
+                "price": "9500"
+            }]
+    }
+    return Response(data)
+
 from rest_framework.decorators import api_view
 from rest_framework.decorators import parser_classes
 from rest_framework.parsers import JSONParser
 
 from .openapis import *
 import mysql.connector as mariadb
+from django.core import paginator
 
 @api_view(['GET'])
 def detailStore(request, id):
@@ -86,7 +130,7 @@ def detailStore(request, id):
     message = ""
     # 중간에 foreign key를 업데이트 하는게 쉽지않은듯,, 어차피 1개짜리에 대한 정보니까 그냥 직접뽑아서 한번에 합치는게 나은듯
     # access db, excute sql and fetch data 
-    sql = "SELECT * FROM api_store WHERE id = "+id+";"
+    # sql = "SELECT * FROM api_store WHERE id = "+id+";"
     mariadbConnection = mariadb.connect(user='root', password='ssafy', database='realpricedb', host="13.125.68.33")
     cursor = mariadbConnection.cursor()
     sql = "SELECT * FROM api_store WHERE id = "+id+";"
@@ -98,6 +142,19 @@ def detailStore(request, id):
     ]
     if(len(store) > 0):
         message = store[0]["store_name"]+"에 관련된 정보입니다."
+        try:
+            storedetail = StoreDetail.objects.get(store=id)
+            detail = {
+                'img_src':storedetail.img_src,
+                'tag':storedetail.tag,
+                'char':storedetail.char
+            }
+        except StoreDetail.DoesNotExist:
+            detail = {
+                'img_src':"",
+                'tag':"",
+                'char':""
+            }
         sql = "SELECT * FROM api_menu WHERE store = "+id+";"
         cursor.execute(sql)
         columns = [col[0] for col in cursor.description]
@@ -116,6 +173,7 @@ def detailStore(request, id):
         
     else:
         message ="검색된 결과가 없습니다."
+        detail={}
         menus = []
         reviews =[]
     mariadbConnection.close()
@@ -123,6 +181,7 @@ def detailStore(request, id):
     response = {
         'message':message,
         'store':store,
+        'storeDetail':detail,
         'menuCnt':len(menus),
         'menu':menus,
         'reviewCnt':len(reviews),
@@ -182,44 +241,33 @@ headers = {'Content-Type': 'application/json; charset=utf-8', "mimetype" : "appl
 ## 신논현역 37.504526, 127.024445
 ## 강남역 37.497887, 127.027535
 
+
 {
     "searchOptions": {
         "orderby": "avg_score",
-        "searchType": "area",
-        "searchNum": "many"
+        "searchType": "user", 
+        "searchNum": "one"
     },
-    "userInfo": [
+    "userInfo": [ 
         {
             "curLatitude": "37.511069",
             "curLongitude": "127.021327"
-        },
-        {
-            "curLatitude": "37.497887",
-            "curLongitude": "127.027535"
         }
     ],
-    "areaInfo": [
+    "areaInfo": [ 
         {
             "address":"서울특별시 강남구 역삼동",
             "detailAddr":""
-        },
-        {
-            "address":"서울특별시 강남구 역삼동",
-            "detailAddr":"671-3"
-        },
-        {
-            "address":"강남",
-            "detailAddr":""
         }
     ],
-    "maxDistance": "0.3",
-    "minPoint": "3",
-    "maxPrice": "20000",
-    "foodfilter": ""
+    "maxDistance": "1", 
+    "foodfilter": "" 
 }
 '''
 
-# 개인/모임 유저, 지역/여러지역 합산 버전 
+
+
+# 개인/모임 유저, 지역/여러지역 합산 버전 - 파라미터에서 가격, 평점 제거, 가격순 정렬 or 평점순 정렬은 가능
 @api_view(['POST'])
 def searchRealPrice(request):
     if request.method =='POST':
@@ -228,15 +276,13 @@ def searchRealPrice(request):
         errMessage =""
         curLatitude = curLongitude = 0
         maxDistance = str(data["maxDistance"])
-        minPoint = str(data["minPoint"])
-        maxPrice = str(data["maxPrice"])
 
         # SearchOptions is preprocessed.
         orderby = "distance" if(data["searchOptions"]["orderby"] == "") else (data["searchOptions"]["orderby"])
         if (orderby == "avg_score"):
             orderby += " desc"
-        searchType = "user" if(data["searchOptions"]["searchType"] == "" or data["searchOptions"]["searchType"] == "user") else "area"
-        searchNum = "one" if(data["searchOptions"]["searchNum"] == "" or data["searchOptions"]["searchNum"] == "one") else "many"
+        searchType  = "user" if(data["searchOptions"]["searchType"] == "" or data["searchOptions"]["searchType"] == "user") else "area"
+        searchNum   = "one"  if(data["searchOptions"]["searchNum"]  == "" or data["searchOptions"]["searchNum"]  == "one")  else "many"
         
         # user
         # 현재 위치나 지정된 위치값을 받았다면
@@ -245,24 +291,24 @@ def searchRealPrice(request):
             # many people
             if searchNum == "many":
                 for user in userList:
-                    curLatitude += float(user["curLatitude"])
+                    curLatitude  += float(user["curLatitude"])
                     curLongitude += float(user["curLongitude"])
-                curLatitude = str(round(curLatitude / len(userList),6))
-                curLongitude = str(round(curLongitude / len(userList),6))
+                curLatitude      = str(round(curLatitude / len(userList),6))
+                curLongitude     = str(round(curLongitude / len(userList),6))
 
             # one people
             else :
-                curLatitude = str(userList[0]["curLatitude"])
+                curLatitude  = str(userList[0]["curLatitude"])
                 curLongitude = str(userList[0]["curLongitude"])
         # area
-        # 지역을 넣는다면 상세히 검색하지 않아도 가능.
+        # 지역을 넣는다면 상세히 검색하지 않아도 가능. - 확장 가능성을 두고 냅두자 일단
         else : 
             areaList = data["areaInfo"]
             # many area
             if searchNum == "many":
                 for area in areaList:
-                    address = area["address"]
-                    detailAddr = " "+area["detailAddr"] if (area["detailAddr"] != "") else "" 
+                    address     = area["address"]
+                    detailAddr  = " "+area["detailAddr"] if (area["detailAddr"] != "") else "" 
                     # geocoding 
                     geoResponse = geoCoding(address+detailAddr)
                     geoData = geoResponse.json()
@@ -271,41 +317,40 @@ def searchRealPrice(request):
                         errMessage = "'"+address+"'는 주소가 잘못되었거나, 검색할 수 없는 지역입니다."
                         continue
                     else:
-                        curLatitude += float(geoData["addresses"][0]["y"])
+                        curLatitude  += float(geoData["addresses"][0]["y"])
                         curLongitude += float(geoData["addresses"][0]["x"])
-                curLatitude = str(round(curLatitude / len(areaList),6))
+                curLatitude  = str(round(curLatitude / len(areaList),6))
                 curLongitude = str(round(curLongitude / len(areaList),6))
             # one area
             else:
-                address = areaList[0]["address"]
-                detailAddr = " "+areaList[0]["detailAddr"] if (areaList[0]["detailAddr"] != "") else "" 
-                geoResponse = geoCoding(address+detailAddr)
-                geoData = geoResponse.json()
-                curLatitude = geoData["addresses"][0]["y"]
+                address      = areaList[0]["address"]
+                detailAddr   = " "+areaList[0]["detailAddr"] if (areaList[0]["detailAddr"] != "") else "" 
+                geoResponse  = geoCoding(address+detailAddr)
+                geoData      = geoResponse.json()
+                curLatitude  = geoData["addresses"][0]["y"]
                 curLongitude = geoData["addresses"][0]["x"]
- 
+        
         # sql
-        sql = "SELECT s.*, ROUND(AVG(m.price),0) AS avg_price\
+        sql = "SELECT s.*, ROUND(AVG(m.price),0) AS avg_price, COUNT(m.id) AS cnt_menu\
                 FROM\
                     (SELECT\
                     s.*,\
-                    AVG(r.score) AS avg_score,\
+                    ROUND(AVG(r.score),3) AS avg_score,\
                     COUNT(r.id) AS cnt_review,\
-                    round((6371\
-                        *acos(\
-                        (cos(radians("+curLatitude+"))*cos(radians(s.latitude))*cos(radians(s.longitude)-radians("+curLongitude+")))+\
-                        (sin(radians("+curLatitude+"))*sin(radians(s.latitude)))\
-                        )\
+                    ROUND((6371\
+                        *ACOS(\
+                        (COS(RADIANS("+curLatitude+"))*COS(RADIANS(s.latitude))*COS(RADIANS(s.longitude)-RADIANS("+curLongitude+")))+\
+                        (SIN(RADIANS("+curLatitude+"))*SIN(RADIANS(s.latitude))))\
                     ),3) AS distance\
                     FROM api_store AS s\
                     JOIN api_review AS r\
                     ON s.id = r.store\
                     GROUP BY s.id\
-                    HAVING distance < "+maxDistance+" AND avg_score > "+minPoint+") s\
+                    HAVING distance < "+maxDistance+") s\
                 JOIN api_menu m\
                 ON s.id = m.store\
                 GROUP BY m.store\
-                HAVING avg_price <= "+maxPrice +" order by "+orderby+";"
+                order by "+orderby+";"
         
         # access db, excute sql and fetch data 
         mariadbConnection = mariadb.connect(user='root', password='ssafy', database='realpricedb', host="13.125.68.33")
@@ -316,6 +361,11 @@ def searchRealPrice(request):
             dict(zip(columns, row))
             for row in cursor.fetchall()
         ]
+        for store in merged_data:
+            store['transportation'] = cal_fee(store['distance'])
+            # 뭐 더할지는 아직 모르겠고
+            store['realprice'] = str(float(store['avg_price']) + float(store['transportation']['bus_fee']))
+        # 진짜 가격 합
         mariadbConnection.close()      
     
     response = {
@@ -324,11 +374,45 @@ def searchRealPrice(request):
         'errorMessage':errMessage
     }
     response['message']='검색된 맛집 추천 리스트입니다.' if response['count'] > 0 else '검색된 결과가 없습니다'
-    return Response({'received_data':response})
+    # 너무 먼거리는 양이 많아서 페이징 처리를 해야하지만 맵에 전부 표시되는 것도 필요하니까 다 주긴 해야지
+    return Response({"received_data":response})
 
 
-    
+# car랑 taxi랑 둘 다 주자
+def cal_fee(distance):
+    #일단은 디폴트로 이렇게하고 기본연비 + 휘발유 -> 나중에 좀 더 깊게
+    fuel_efficiency = 24.3  # km/L 연비
+    gasoline = 1292.00      # won/L 휘발유
+    diesel = 1102.67        # won/L 경유
+    lpg = 816.94            # won/L
+    car_msg = "2020.04.23 기준 유가 "+str(gasoline)+"원/L (한국석유공사 opinet) 본 가격정보는 특정 시점에 수집된 전국 평균 가격으로 실제 판매가격과 다를 수 있습니다."
+    # 1km당 41.15ml 그리고 53.16원이 소요됨
+    car_fee = distance * 53.16
+    # bus - 환승시 : 기본요금(10km)까지 + 추가 5km마다 100원씩 추가요금 
+    bus_msg = "서울시 시내버스 요금 체계 - 일반(교통카드) 및 추가 5km 당 환승요금 붙는 것으로 계산한 가격으로 실제가격은 이와 다를 수 있습니다."
+    bus_fee = 1200
+    if distance > 10:
+        remain = distance-10
+        while(remain > 0):
+            remain -=5
+            bus_fee += 100
 
-
+    # taxi - 서울시의 택시요금 체계 / 주간, 중형택시 요금체계에 따름
+    taxi_msg = "서울시 택시요금 체계 - 주간/중형택시 요금체계에 따른 가격으로 실제가격은 이와 다를 수 있습니다."
+    taxi_fee = 3800
+    if distance > 2:
+        remain = distance-2
+        while(remain > 0):
+            remain-=0.132
+            taxi_fee += 100
+    result = {
+        "car_fee"   :str(car_fee),
+        "car_msg"   :str(car_msg),
+        "bus_fee"   :str(bus_fee),
+        "bus_msg"   :str(bus_msg),
+        "taxi_fee"  :str(taxi_fee),
+        "taxi_msg"  :str(taxi_msg),
+    }
+    return result
 
 

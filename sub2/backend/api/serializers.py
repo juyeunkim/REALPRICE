@@ -15,7 +15,19 @@ class StoreSerializer(serializers.ModelSerializer):
             "longitude",
             "category_list",
         ]
-        
+
+class StoreDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StoreDetail
+        fields = [
+            "id",
+            "store",
+            "store_name",
+            "address",
+            "img_src",
+            "tag",
+            "char",
+        ]       
 class FaqSerializer(serializers.ModelSerializer):
     class Meta:
         model = Faq

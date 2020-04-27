@@ -6,13 +6,13 @@
         <input class="form-control size-20per" type="text" placeholder="가격을 찾아보세요." aria-label="Search" v-on:keyup.enter="search" v-model="inputPrice"/>
 
         <div class="map-frame">
-          <div class="map-col1">
-              <Map :restaurants="RealPriceList" :user="geoLocation" @clickItem="selectItem" @drawCircle="selectCircle"/>
-          </div>
-          <div class="map-col2 scrollbar scrollbar-blue bordered-blue">
-              <StoreCards v-bind:stores2="searchResult"/>
-              <!-- test -->
-          </div>
+        <div class="map-col1">
+            <Map/>
+        </div>
+        <div class="map-col2 scrollbar scrollbar-blue bordered-blue">
+            <StoreCards v-bind:stores2="searchResult"/>
+            <!-- test -->
+        </div>
         </div>
         
         <img class="marker" src="@/assets/marker.png"/>
@@ -25,7 +25,7 @@
 <script>
 
 import StoreCards from '@/components/search_map/StoreCards.vue'
-import Map from "@/components/Map";
+import Map from '@/components/search_map/Map.vue'
 import axios from 'axios'
 
 export default {
@@ -37,19 +37,6 @@ export default {
   props:{
     inputPrice: String,
     searchResult: Array
-  },
-  data() {
-    return {
-      geoLocation: {
-        latitude: 37.50128969810118,
-        longitude: 127.03960183847694,
-      },
-    }
-  },
-  computed: {
-    ...mapState({
-      RealPriceList: state => state.data.realPriceList,
-    })
   },
   methods: {
     search:  function () {
@@ -65,19 +52,7 @@ export default {
       //if (event) {
       //  alert(event.target.tagName)
       //}
-    },
-    selectItem: function(id){
-      this.RealPriceList.forEach(el => {
-        if(el.id == id){
-          this.selectedStore = el;
-        }
-      });
-      this.dialog = true;
-    },
-    selectCircle: function(c, r){
-      this.center = c;
-      this.radius = r;
-    },
+    }
   }
 }
 </script>

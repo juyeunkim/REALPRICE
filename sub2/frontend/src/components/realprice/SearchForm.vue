@@ -162,12 +162,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions("data", ["postRealPrice"]),
+    // ...mapActions("data", []),
     Search: function() {
       // params.maxPrice = this.Options.maxPrice * 1000;
       // console.log(this.Options);
       // console.log(params);
-      this.postRealPrice(this.Options);
+      this.$emit('search', this.Options);
     },
     plusUser: function() {
       var tmp = [{
