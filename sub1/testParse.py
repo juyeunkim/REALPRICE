@@ -44,6 +44,33 @@ def data_to_csv(data_path=DATA_FILE):
     storeDF = pd.DataFrame(data=stores, columns=store_columns)
     storeDF.to_csv('./store_test.csv',encoding='utf-8')
 
+import mysql.connector as mariadb
+def insertToDB():
+    col_list = [
+        "id",
+        "srcUrl",
+        "address",
+        "latitude",
+        "longitude",
+        "storeName",
+        "menu",
+        "price",
+        "distanceCost",
+        "score"
+    ]				
+    rdata = pd.read_csv('./store_testdata.csv',engine='python',encoding='utf-8',header=None,names=col_list)
+    mariadbConnection = mariadb.connect(user='root', password='ssafy', database='realpricedb', host="13.125.68.33")
+    cursor = mariadbConnection.cursor()
+
+    for i in range(0,len(rdata)):
+        sql =  "UPDATE api_store SET src_url = '"+str(rdata['srcUrl'][i])+"' WHERE id = "+ str(rdata['id'][i])
+        cursor.execute(sql)
+        cursor.execute("SELECT * FROM api_store WHERE id ="+str(rdata['id'][i]))
+        print(cursor.fetchone())
+
+    mariadbConnection.commit()
+
 if __name__ == "__main__":
-    data_to_csv()
+    # data_to_csv()
+    # insertToDB()
     print("Done")
