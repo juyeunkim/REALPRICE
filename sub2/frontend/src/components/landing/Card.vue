@@ -20,16 +20,16 @@
 			mdbCardTitle,
 			mdbCardText
 		},
-        props: {
-            srcUrl: String,
-            storeName: String,
-            price: String,
-        },
-        computed:{
-            wonDisplay: function() {
-                return this.price.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,') + '원';
-            }
+    props: {
+        srcUrl: String,
+        storeName: String,
+        price: String,
+    },
+    computed:{
+        wonDisplay: function() {
+            return this.price.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,') + '원';
         }
+    }
 	}
 </script>
 
