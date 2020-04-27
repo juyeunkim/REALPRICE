@@ -175,9 +175,9 @@ const actions = {
     async postRealPrice({ commit }, params) {
         console.log('postRealPrice')
         console.log(params);
-        const resp = await api.postRealPrice(params);
-        console.log(resp);
-        commit("setRealPrice", resp.data.received_data.result);
+        const resp = await api.postGetStores(params);
+        console.log(resp.data.stores);
+        commit("setRealPrice", resp.data.stores);
     },
 
 };
