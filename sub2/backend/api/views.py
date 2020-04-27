@@ -300,7 +300,7 @@ def detailStore(request, id):
                 'tag':"",
                 'char':""
             }
-        sql = "SELECT * FROM api_menu WHERE store = "+id+";"
+        sql = "SELECT * FROM api_menu WHERE store_id = "+id+";"
         cursor.execute(sql)
         columns = [col[0] for col in cursor.description]
         menus =[
@@ -308,7 +308,7 @@ def detailStore(request, id):
             for row in cursor.fetchall()
         ]
         
-        sql = "SELECT * FROM api_review WHERE store = "+id+";"
+        sql = "SELECT * FROM api_review WHERE store_id = "+id+";"
         cursor.execute(sql)
         columns = [col[0] for col in cursor.description]
         reviews =[
@@ -559,5 +559,4 @@ def cal_fee(distance):
         "taxi_msg"  :str(taxi_msg),
     }
     return result
-
 
