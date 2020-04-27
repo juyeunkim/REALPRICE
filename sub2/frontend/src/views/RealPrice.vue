@@ -18,10 +18,10 @@
         </v-dialog>
         <v-layout row>
           <v-flex xs8>
-            <div v-if="center !== null">{{center.getLat()}}</div>
-            <div v-if="center !== null">{{center.getLng()}}</div>
+            <div v-if="center !== null">{{center.Ha}}</div>
+            <div v-if="center !== null">{{center.Ga}}</div>
             <div>{{radius}}</div>
-            <Map :restaurants="RealPriceList" :user="userLocation" @clickItem="selectItem" @drawCircle="selectCircle"/>
+            <Map :restaurants="RealPriceList" :user="geoLocation" :map="center" :zoom="zoom" @clickItem="selectItem" @drawCircle="selectCircle"/>
           </v-flex>
           <v-flex xs4>
             <LIST :restaurants="RealPriceList" @clickItem="selectItem" />
@@ -54,8 +54,12 @@ export default {
         latitude: 37.50128969810118,
         longitude: 127.03960183847694,
       },
-      center: null,
+      center: {
+        Ha: 0,
+        Ga: 0,
+      },
       radius: 0,
+      zoom: 0,
     }
   },
   computed: {
@@ -92,11 +96,13 @@ export default {
       this.dialog = false;
       // this.selectedStore = null;
     },
-    selectCircle: function(c, r){
+    selectCircle: function(c, r, z){
       // console.log("drawCircle");
       // console.log(c);
-      this.center = c;
+      this.center.Ha = c.getLat();
+      this.center.Ga = c.getLng();
       this.radius = r;
+      this.zoom = z;
     },
     getLocation: function() {
       const vm = this;
@@ -123,7 +129,8 @@ export default {
           "ulatitude": parseFloat(vm.geoLocation.latitude),
           "ulongitude": parseFloat(vm.geoLocation.longitude),
           "mlatitude": parseFloat(vm.center.Ha), 
-          "mlongitude": parseFloat(vm.center.Ga)
+          "mlongitude": parseFloat(vm.center.Ga),
+          "radius": parseFloat(vm.radius)
       });
       
     }

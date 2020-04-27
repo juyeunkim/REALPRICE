@@ -1,8 +1,7 @@
 <template>
 <div>
     <div v-show="false">{{positions.length}}</div>
-    <div v-show="false">{{point.latitude}}</div>
-    <div v-show="false">{{point.longitude}}</div>
+    <div v-show="false">{{userPoint.latitude}}</div>
     <div id="map"/>
 </div>
 </template>
@@ -19,6 +18,13 @@ export default {
         user: {
             type: Object,
         },
+        map: {
+            type: Object,
+            default: null,
+        },
+        zoom: {
+            type: Number,
+        },
     },
     date(){
         return {
@@ -28,29 +34,35 @@ export default {
         positions() {
             return this.restaurants;
         },
-        point(){
+        userPoint(){
             return this.user;
+        },
+        mapPoint(){
+            return this.map;
         },
     },
     mounted(){
-        this.drawMap(this.positions, this.point);
+        this.drawMap(this.positions, this.userPoint, this.mapPoint, this.zoom);
     },
     updated(){
-        this.drawMap(this.positions, this.point);
+        this.drawMap(this.positions, this.userPoint, this.mapPoint, this.zoom);
     },
     methods: {
-        drawMap(positions, point){
+        drawMap(positions, userPoint, mapPoint, zoom){
             const vm = this;
 
             var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+            console.log(mapPoint);
             var options = { //지도를 생성할 때 필요한 기본 옵션
-                center: new kakao.maps.LatLng(point.latitude, point.longitude), //지도의 중심좌표.
-                level: 5 //지도의 레벨(확대, 축소 정도)
+                center: new kakao.maps.LatLng(mapPoint.Ha>0?mapPoint.Ha:userPoint.latitude, mapPoint.Ga>0?mapPoint.Ga:userPoint.longitude), //지도의 중심좌표.
+                level: zoom>0?zoom:5 //지도의 레벨(확대, 축소 정도)
             };
 
             var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+            map.setMinLevel(3);
+            map.setMaxLevel(7);
             
-            var markerPosition  = new kakao.maps.LatLng(point.latitude, point.longitude); 
+            var markerPosition  = new kakao.maps.LatLng(userPoint.latitude, userPoint.longitude); 
             
             var imageSize = new kakao.maps.Size(24, 35); 
             var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
@@ -79,9 +91,6 @@ export default {
                     content : iwContent,
                     disableAutoPan : true,
                 });
-                
-                
-
 
                 kakao.maps.event.addListener(marker, 'click', makeClickListener(positions[i].id));
                 kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infoWindow));
@@ -95,14 +104,14 @@ export default {
 
             var circle = new kakao.maps.Circle({
                 map: map,
-                center : new kakao.maps.LatLng(this.point.latitude, this.point.longitude),
+                center : new kakao.maps.LatLng(mapPoint.Ha>0?mapPoint.Ha:userPoint.latitude, mapPoint.Ga>0?mapPoint.Ga:userPoint.longitude),
                 radius: r,
                 strokeWeight: 2,
                 strokeColor: 'red',
                 strokeOpacity: 0.8,
                 strokeStyle: 'dashed',
-                fillColor: 'blue',
-                fillOpacity: 0.1 
+                fillColor: 'white',
+                fillOpacity: 0.5
             });
             vm.$emit('drawCircle', circle.getPosition(), r);
 
@@ -143,7 +152,7 @@ export default {
                     circle.setRadius(radius);
                     circle.setMap(map);
 
-                    vm.$emit('drawCircle', center, radius);
+                    vm.$emit('drawCircle', center, radius, level);
                 };
             }
             function boundsChanged(map, circle) {
@@ -162,7 +171,7 @@ export default {
                     circle.setRadius(radius);
                     circle.setMap(map);
 
-                    vm.$emit('drawCircle', center, radius);
+                    vm.$emit('drawCircle', center, radius, level);
                 };
             }
         }

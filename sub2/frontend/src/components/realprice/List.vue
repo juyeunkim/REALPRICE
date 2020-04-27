@@ -9,12 +9,11 @@
       <store-list-card
         @clickItem="selectItem"
         :id="store.id"
-        :name="store.store_name"
-        :categories="store.categories"
-        :address="store.area"
+        :name="store.storeName"
+        :address="store.address"
         :tel="store.tel"
-        :avg_score="store.avg_score"
-        :avg_price="store.avg_price"
+        :avg_score="store.score"
+        :avg_price="store.price"
       />
     </v-flex>
   </v-container>
