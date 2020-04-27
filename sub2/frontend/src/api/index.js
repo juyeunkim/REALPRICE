@@ -1,8 +1,8 @@
 // import axios from "./http-common";
 import axios from 'axios'
 
-const apiUrl = "http://13.125.68.33:8080/api";
-// const apiUrl = "http://127.0.0.1:8000/api";
+// const apiUrl = "http://13.125.68.33:8080/api";
+const apiUrl = "http://127.0.0.1:8000/api";
 // const apiUrl = "/api";
 
 // let header = {
@@ -25,17 +25,6 @@ function postRealPrice(params) {
     //     console.log(error);
     // });
 }
-function postGetStores(params) {
-    // console.log('Im in postQ in api/index.js');
-    return axios.post(`${apiUrl}/getStores/`, params);
-    // axios.post(`${apiUrl}/realprice/`, params)
-    // .then(function (response) {
-    //     console.log(response);
-    // })
-    // .catch(function (error) {
-    //     console.log(error);
-    // });
-}
 
 function postQna(params) {
     // console.log(params);
@@ -43,10 +32,8 @@ function postQna(params) {
     return axios.post(`${apiUrl}/qnas/`, params);
 }
 
-function getStores(params) {
-    return axios.get(`${apiUrl}/stores`, {
-        params
-    }, header);
+function getStores(data) {
+    return axios.post(`${apiUrl}/getStores/`, data);
 }
 
 function getFaqs() {
@@ -92,7 +79,6 @@ function detailStore(params) {
 
 const Api = {
     postRealPrice,
-    postGetStores,
     getStores,
     getFaqs,
     getQnas,
@@ -110,6 +96,8 @@ const Api = {
     checkUsedEmail,
     // 음식점 상세정보 + 리뷰
     detailStore
+
+
 }
 
 
