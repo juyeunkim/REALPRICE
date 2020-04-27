@@ -1,59 +1,166 @@
 <template>
-  <v-container>
-    <!-- <v-card-text class="text-center">
-      <p class="display-2 pa-5">테스트도 식후경</p>
-      <p class="display-3 pa-2">🍱🍜🥡</p>
-      <p class="display-3 pa-2">🍰🍔</p>
-    </v-card-text> -->
-    <VUEMAP />
-    <!-- <VUEMAP2  :restaurants="this.RealPriceList" :user="this.multicampus"/> -->
-    <!-- <VUEMAP2 /> -->
-    
-  </v-container>
+    <div class="app">
+        <img class="search-logo" alt="logo" src="@/assets/logo_blue.png">
+
+        <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+        <input class="form-control size-20per" type="text" placeholder="가격을 찾아보세요." aria-label="Search" v-on:keyup.enter="search" v-model="inputPrice"/>
+
+        <div class="map-frame">
+          <div class="map-col1">
+              <Map :restaurants="RealPriceList" :user="geoLocation" @clickItem="selectItem" @drawCircle="selectCircle"/>
+          </div>
+          <div class="map-col2 scrollbar scrollbar-blue bordered-blue">
+              <StoreCards v-bind:stores2="searchResult"/>
+              <!-- test -->
+          </div>
+        </div>
+        
+        <img class="marker" src="@/assets/marker.png"/>
+
+    </div>
 </template>
 
-<script>
-import VUEMAP from '@/components/realprice/VueMap';
-import VUEMAP2 from '@/components/realprice/VueMap2';
-import VueDaumMap from 'vue-daum-map'
-// import STOREDETAIL from '@/components/realprice/StoreDetail';
-import LIST from "@/components/realprice/List";
-import { mapState, mapActions } from "vuex";
-export default {
-  components: {
-    // STOREDETAIL,
-    VUEMAP2,
-    VUEMAP,
-    LIST,
-  },
-  data () {
-    return {
-      appKey: '57215b8d43e496f299e5cb6980099e42', // 테스트용 appkey
-      center: {lat:33.450701, lng:126.570667}, // 지도의 중심 좌표
-      level: 3, // 지도의 레벨(확대, 축소 정도),
-      mapTypeId: VueDaumMap.MapTypeId.NORMAL, // 맵 타입
-      libraries: [], // 추가로 불러올 라이브러리
-      map: null, // 지도 객체. 지도가 로드되면 할당됨.
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=eac48c3548025ce4e0b61b1512b4282c"></script>
 
-      dialog: false,
-      selectedNum: 100,
-      multicampus: {
+<script>
+
+import StoreCards from '@/components/search_map/StoreCards.vue'
+import Map from "@/components/Map";
+import axios from 'axios'
+
+export default {
+  name: 'Landing',
+  components: {
+    StoreCards,
+    Map
+  },
+  props:{
+    inputPrice: String,
+    searchResult: Array
+  },
+  data() {
+    return {
+      geoLocation: {
         latitude: 37.50128969810118,
         longitude: 127.03960183847694,
-      }
+      },
     }
   },
   computed: {
     ...mapState({
-      SearchRealPrice: state => state.data.searchRealPrice,
       RealPriceList: state => state.data.realPriceList,
     })
   },
   methods: {
-    // 지도가 로드 완료되면 load 이벤트 발생
-    onLoad (map) {
-        this.map = map
-    }
-  },
+    search:  function () {
+      axios
+      .get('http://13.125.68.33:8080/api/getStores/')
+      .then(response => {
+        console.log(response.data.stores)
+        this.searchResult = response.data.stores
+        })
+
+      // alert('Hello ' + this.inputPrice + '!')
+      // `event` 는 네이티브 DOM 이벤트입니다
+      //if (event) {
+      //  alert(event.target.tagName)
+      //}
+    },
+    selectItem: function(id){
+      this.RealPriceList.forEach(el => {
+        if(el.id == id){
+          this.selectedStore = el;
+        }
+      });
+      this.dialog = true;
+    },
+    selectCircle: function(c, r){
+      this.center = c;
+      this.radius = r;
+    },
+  }
 }
 </script>
+
+<style>
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
+
+.app {
+  background-color: white;
+}
+
+.search-logo{
+  width: 120px;
+  display: flex;
+  margin-top: 10px;
+  margin-left: 10px;
+  /* margin: auto; */
+}
+
+.marker{
+  width: 50px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  /* margin: auto; */
+}
+
+.size-20per {
+  width: 25%;
+  margin: auto;
+  border-radius: 10rem;
+}
+
+.map-frame {
+  width: 90%;
+  max-height: 41vw;
+  margin: auto;
+  margin-top: 20px;
+  border: 8px solid #0F4C82;
+  display: flex;
+  padding: 5px;
+}
+
+.map-col1 {
+  float: left;
+  width: 80%
+}
+
+.map-col2 {
+  float: right;
+  width: 20%;
+  margin-left: 10px;
+  overflow: scroll;
+}
+
+.store-card {
+  width: 20%;
+}
+
+.scrollbar {
+  float: right;
+  background: #fff;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin-bottom: 0px;
+  padding-right: 10px;
+}
+
+
+.scrollbar-blue::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #F5F5F5;
+  border-radius: 10px;
+}
+
+.scrollbar-blue::-webkit-scrollbar {
+  width: 12px;
+  background-color: #F5F5F5;
+}
+
+.scrollbar-blue::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #0F4C82;
+}
+</style>
