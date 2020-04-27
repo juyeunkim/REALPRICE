@@ -1,25 +1,29 @@
 <template>
-  <v-app-bar id="app-toolbar" app flat color="blue lighten-1">
+  <v-app-bar id="app-toolbar" absolute app flat color="blue lighten-1">
     <v-btn v-if="responsive" dark icon @click.stop="onClickDrawer">
       <v-icon>mdi-view-list</v-icon>
     </v-btn>
+    <router-link :to="{name:'home'}">
+      <img class="logo" alt="logo" src="../assets/logo_white.png">
+    </router-link>
+
     <v-spacer />
 
-    <v-toolbar-items class="hidden-sm-and-down">
+    <v-toolbar-items>
       <template v-if="userId=='' || userId==null || userId==undefined">
-        <v-btn text :to="{name: 'signup'}">회원가입</v-btn>
+        <v-btn class="ml-2" text :to="{name: 'signup'}">SignUp</v-btn>
 
         <v-divider inset vertical />
 
-        <v-btn text :to="{name: 'signin'}">로그인</v-btn>
+        <v-btn class="ml-2" text :to="{name: 'signin'}">LogIn</v-btn>
       </template>
 
       <template v-else>
-        <v-btn @click="logout">로그아웃</v-btn>
+        <v-btn class="ml-2" text @click="logout">LogOut</v-btn>
 
         <v-divider inset vertical />
 
-        <v-btn text :to="{name: 'mypage'}">마이페이지</v-btn>
+        <v-btn class="ml-2" text :to="{name: 'mypage'}">MyPage</v-btn>
       </template>
     </v-toolbar-items>
 
@@ -30,7 +34,6 @@
         alt="John"
       >
     </v-avatar>-->
-    
   </v-app-bar>
 </template>
 
@@ -39,12 +42,12 @@ import { mapMutations, mapState } from "vuex";
 
 export default {
   data: () => ({
-    responsive: false,
+    responsive: false
   }),
   computed: {
     ...mapState("app", ["drawer"]),
-    userId: function(){
-      return this.$store.getters['session/userStatus']
+    userId: function() {
+      return this.$store.getters["session/userStatus"];
     }
   },
   mounted() {
@@ -67,13 +70,20 @@ export default {
         this.responsive = false;
       }
     },
-    logout(){
-      console.log("로그아웃!!")
+    logout() {
+      console.log("로그아웃!!");
       this.$alert("로그아웃 완료", "Success", "success");
       // dispatch로 action 호출
-      this.$store.dispatch('session/logout');
-      if(this.$route.path !== `/`) this.$router.push('home')
+      this.$store.dispatch("session/logout");
+      if (this.$route.path !== `/`) this.$router.push("home");
     }
   }
 };
 </script>
+
+<style scoped>
+.logo {
+  width: 100px;
+  margin: auto;
+}
+</style>

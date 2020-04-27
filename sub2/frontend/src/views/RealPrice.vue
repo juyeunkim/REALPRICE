@@ -107,7 +107,7 @@ export default {
           timeout: Infinity
         });
       } else {
-        alert('GPS를 지원하지 않습니다');
+        console.log('GPS를 지원하지 않습니다');
       }
     },
     searchSubmit: function(Options) {

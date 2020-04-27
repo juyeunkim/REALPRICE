@@ -1,35 +1,70 @@
 <template>
-<!-- 메인 컬러 블루 #0F4C82 -->
-  <v-container class="mt-5 mainColor" fill-height>
+  <div id="app">
     <v-card-text class="text-center">
-      <p class="display-3 pa-2">💸💵💰</p>
-      <!-- <p class="display-2 pa-5">REAL PRICE</p> -->
-      <img class="logo" src="../assets/logo_white.png">
-      <p class="display-2 pa-5">REAL PRICE</p>
-      <v-btn color="primary" @click="test">State값 확인</v-btn>
+      <img class="logo" alt="logo" src="../assets/logo_white.png">
+      <input v-model="inputPrice" class="form-control size-20per" type="text" placeholder="가격을 찾아보세요." aria-label="Search" @keyup.enter="search">
+      <Cards :stores="searchResult" />
     </v-card-text>
-  </v-container>
+  </div>
 </template>
 
-<style scoped>
-.mainColor {
-  background-color: #0F4C82
-}
-.logo {
-  width: 300px;
-}
-</style>
 
 <script>
-import { Component, Vue } from 'vue-property-decorator';
+
+import Cards from '@/components/landing/Cards.vue'
+import axios from 'axios'
+
 export default {
-  methods:{
-    test(){
-      console.log(this.$store.state)
-    },
-    // fclick(){
-    // alert('Hello @lbzui/vue!');
-    // }
+  name: 'Landing',
+  components: {
+    Cards
+  },
+  data(){
+    return {
+      inputPrice: '',
+      searchResult: []
+    }
+  },
+  methods: {
+    search:  function () {
+      axios
+      .get('http://13.125.68.33:8080/api/getStores/')
+      .then(response => {
+        console.log(response.data.stores)
+        this.searchResult = response.data.stores
+        })
+
+      // alert('Hello ' + this.inputPrice + '!')
+      // `event` 는 네이티브 DOM 이벤트입니다
+      //if (event) {
+      //  alert(event.target.tagName)
+      //}
+    }
   }
-};
+}
 </script>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  height: 100%;
+  background-color: #0F4C82;
+}
+
+.logo{
+  width: 300px;
+  margin: auto;
+}
+
+.size-20per {
+  width: 50%;
+  margin: auto;
+  border-radius: 10rem;
+}
+</style>
