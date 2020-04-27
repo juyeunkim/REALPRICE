@@ -33,7 +33,8 @@ export default {
         ulatitude : 37.272618,
         ulongitude:127.038970,
         mlatitude : 37.501235,
-        mlongitude : 127.039511
+        mlongitude : 127.039511,
+        radius:1000
       }
 
       api.getStores(data)
