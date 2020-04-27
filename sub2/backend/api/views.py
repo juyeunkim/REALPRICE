@@ -166,7 +166,7 @@ def getStores(request):
     ulongitude = float(body['ulongitude'])
     mlatitude = float(body['mlatitude'])
     mlongitude = float(body['mlongitude'])
-
+    radius = float(body['radius'])/1000 # 인풋이 M 단위라 KM로 바꿔줘야 됨.
     user_position = (ulatitude, ulongitude)
     map_position = (mlatitude, mlongitude)
 
@@ -179,9 +179,10 @@ def getStores(request):
         distance_cost = int(cal_fee(distance)["bus_fee"])
 
     # 반경 검색 전 미리 반경보다 살짝 큰 범위 가게들 가져오기
+    # latitude 는 0.01 이 1km 정도 longitude 는 0.015가 1km 정도
     condition = (
-        Q(latitude__range = (mlatitude - 0.01, mlatitude + 0.01)) |
-        Q(longitude__range = (mlongitude - 0.015, mlongitude + 0.015))
+        Q(latitude__range = (mlatitude - (radius/100), mlatitude + (radius/100))) |
+        Q(longitude__range = (mlongitude - ((radius*1.5)/100), mlongitude + ((radius*1.5)/100)))
     )
 
     store_infos = (
@@ -192,7 +193,7 @@ def getStores(request):
 
     # 근처 1km 이내 모든 식당 불러오기
     near_store_info = [info for info in store_infos
-                        if haversine(map_position, (info.latitude, info.longitude)) <= 1]
+                        if haversine(map_position, (info.latitude, info.longitude)) <= radius]
 
     # 그 식당 중 리뷰 있는 식당 평균 평점 가져오기
     review_infos = (
@@ -224,7 +225,6 @@ def getStores(request):
     result = []
     dic_price = {}
 
-    cnt = 1
     for menu in menu_infos:
         if menu.store.id in dic_price:
             store = dic_price.get(menu.store.id)
@@ -233,8 +233,8 @@ def getStores(request):
                 dic_price[menu.store.id] = store
         else:
             dic_price[menu.store.id] = {
-                    "id": cnt,
-                    "srcUrl": "www.google.com",
+                    "id": menu.store.id,
+                    "srcUrl": menu.store.src_url,
                     "address" : menu.store.address,
                     "latitude": menu.store.latitude,
                     "longitude": menu.store.longitude,
@@ -244,16 +244,13 @@ def getStores(request):
                     "distanceCost" : distance_cost,
                     "score": 0,
             }
-            cnt += 1
 
-    cnt = 1
     for row in review_infos:
         if row['store'] in dic_price:
             store = dic_price.get(row['store'])
             store["score"] = row["score__avg"]
-            store["id"] = cnt
             result.append(store)
-            cnt += 1
+
 
     # print('근방 1km 안에 있는 음식점 수(리뷰, 메뉴 유무 노상관): ', len(near_store_info))
     # print('리뷰가 있는 집의 수 (리뷰만 있고 메뉴 정보가 없을 수 있음 그래서 이거보다 작을 수 있음) : ', len(review_infos))
