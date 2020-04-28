@@ -1,35 +1,52 @@
 <template>
   <div class="storeDetail">
     <v-card>
-      <v-card-title class="headline">
-        <p style="margin-bottom: 0px;">{{ store.store_name }}</p>
-        <p
-          class="orange--text"
-          style="padding-left: 10px; margin-bottom: 0px;"
-        >{{ store.avg_score }}</p>
+      <v-card-title class="headline" style="padding-left: 30px; padding-top: 30px;">
+        <p style="margin-bottom: 0px;">{{ store.storeName }}</p>
+        <p class="orange--text" style="padding-left: 10px; margin-bottom: 0px;">{{ score }}</p>
         <v-spacer />
-        <v-btn icon>
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
       </v-card-title>
+      <v-divider />
+
+      <!-- 식당 정보 -->
+      <v-chip class="ma-2" color="primary">식당 정보</v-chip>
+      <v-data-table
+        :headers="headers"
+        :items="items"
+        hide-default-header
+        hide-default-footer
+        class="elevation-1"
+      />
+
+      <v-chip class="ma-2" color="primary">먹을 수 있는 메뉴</v-chip>
 
       <v-card-text>
-        <p>주소: {{ store.address }}</p>
-        <p>전화번호: {{ store.tel }}</p>
-        <p>카테고리: {{ store.category }}</p>
+        <p v-for="menu in menus" :key="menu.id">{{ menu.menu_name }} : {{ menu.price }}</p>
+
         <p>
-          평균가격: {{ store.avg_price }}
+          가격: {{ store.price }}
           <v-icon small>fas fa-won-sign</v-icon>
         </p>
-        <p>평균평점: {{ store.avg_score }}</p>
       </v-card-text>
       <v-divider />
       <v-chip class="ma-2" color="primary">리뷰 만족 그래프</v-chip>
-      <DoughnutChart :percent="percent" :visible-value="true" />
+      <div class="columns">
+        <div class="column">
+          <DoughnutChart :percent="percent" :visible-value="true" />
+        </div>
+        <div class="column">
+          <DoughnutChart
+            :percent="percent"
+            :visible-value="true"
+            :foreground-color="'purple'"
+            :empty-text="'N/A'"
+          />
+        </div>
+      </div>
       <v-divider />
       <v-chip class="ma-2" color="primary">Review</v-chip>
       <v-container fluid>
-        <REVIEW v-for="review in dataReviews" :key="review.id" :review="review" />
+        <REVIEW v-for="review in reviews" :key="review.id" :review="review" />
       </v-container>
       <v-card-actions>
         <v-spacer />
@@ -56,11 +73,36 @@ export default {
   },
   data() {
     return {
-      percent: "25",
-      dataReviews: []
+      headers: [
+        {
+          name: "Dessert (100g serving)",
+          value: "name"
+        },
+        { text: "Value", value: "value" }
+      ],
+      items: [
+        {
+          name: "주소",
+          value: this.store.address
+        },
+        {
+          name: "가격",
+          value: this.store.price
+        },
+        {
+          name: "교통비",
+          value: this.store.price
+        }
+      ]
     };
   },
   computed: {
+    score: function(){
+      return this.store.score.toFixed(2)
+    },
+    percent:function(){
+      return (this.score / 5) * 100;
+    },
     tags: function() {
       return this.store.categories.reduce((acc, v) => {
         return `${acc} #${v}`;
@@ -68,31 +110,40 @@ export default {
     },
     reviews: function() {
       return this.$store.getters["data/reviews"];
+    },
+    // price 이하인 음식메뉴만 보여주기
+    menus: function() {
+      return this.$store.getters["data/menus"].filter(list => {
+        return list.price <= this.store.price;
+      });
     }
   },
   watch: {
     store: function() {
-      this.getReviews();
+      this.getStore();
     },
     reviews: function() {
       this.dataReviews = this.reviews;
     }
   },
   created() {
-    this.$store.dispatch("data/getReviews", this.store.id);
+    this.$store.dispatch("data/getStoreInfo", this.store.id);
   },
   methods: {
-    getReviews() {
+    getStore() {
       console.log("AAAAAAAAAAAA");
-      this.$store.dispatch("data/getReviews", this.store.id);
+      this.$store.dispatch("data/getStoreInfo", this.store.id);
     },
     emitClose: function() {
       this.$emit("close");
-      this.dataReviews = null;
+      this.$store.state.reviews = null;
     }
   }
 };
 </script>
 
 <style>
+.v-data-table tbody tr:hover:not(.v-data-table__expanded__content) {
+  background: #ffffff !important;
+}
 </style>

@@ -15,10 +15,9 @@
     <div class="d-flex flex-no-wrap justify-space-between">
       <div>
         <v-card-title class="headline blue--text text--darken-4 font-weight-bold" v-text="store.storeName" />
-
         <v-card-subtitle
           class="yellow--text text--accent-4 font-weight-bold"
-          v-text="'평점 ' + store.score"
+          v-text="store.score"
         />
         <v-card-text class="blue--text text--darken-4 font-weight-bold">
           {{ store.price }}
