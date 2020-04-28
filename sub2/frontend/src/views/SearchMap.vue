@@ -18,22 +18,23 @@
 
     <!-- 태그창 -->
     <div class="tags">
-      <mdb-badge v-for="tag in tagList" :key="tag.id" pill color="blue" class="tag"># {{tag.name}}</mdb-badge>
+      <mdb-badge pill color='blue' class="tag" @click.native="allTag">All</mdb-badge>
+      <mdb-badge v-for="tag in tagList" :key="tag.id" pill :color="(selectedTags.includes(tag.name))?'success':'blue'" class="tag" @click.native="selectTag(tag.name)"># {{tag.name}}</mdb-badge>
     </div>
 
     <!-- 지도창 -->
     <div class="map-frame">
       <div class="map-col1">
-        <Map :restaurants="RealPriceList" :user="geoLocation" :map="center" :zoom="zoom" @clickItem="selectItem" @drawCircle="selectCircle"/>
+        <Map :restaurants="selectedStores" :user="geoLocation" :map="center" :zoom="zoom" @clickItem="selectItem" @drawCircle="selectCircle"/>
       </div>
       <div class="map-col2 scrollbar scrollbar-blue bordered-blue">
-        <StoreCards :stores="RealPriceList" @clickItem="selectItem"/>
+        <StoreCards :stores="selectedStores" @clickItem="selectItem"/>
         <!-- <StoreCard v-for="store in RealPriceList" :key="store.id" :store="store" @clickItem="selectItem" /> -->
       </div>
       
     </div>
 
-    <img class="marker" src="@/assets/marker.png">
+    <!-- <img class="marker" src="@/assets/marker.png"> -->
   </div>
 </template>
 
@@ -59,6 +60,7 @@ export default {
   },
   data() {
     return {
+      selectedTags: [],
       inputPrice: 5000,
       selectedStore: null,
       dialog: false,
@@ -82,11 +84,30 @@ export default {
     userLocation() {
         return this.geoLocation;
     },
-  },
-  created() {
-    // this.setMenuWhite(true);
+    selectedStores() {
+      var vm = this;
+      let arr = [];
+      if(this.selectedTags.length < 1){
+        return this.RealPriceList;
+      } else {
+        this.RealPriceList.forEach(el => {
+          var isIn = false;
+          el.tags.forEach(t => {
+            if(vm.selectedTags.includes(t)){
+              isIn = true;
+            }
+          })
+
+          if(isIn) {
+            arr.push(el);
+          }
+        })
+        return arr;
+      }
+    },
   },
   mounted() {
+    this.setMenuWhite(true);
     this.getLocation();
   },
   destroyed() {
@@ -95,6 +116,24 @@ export default {
   methods:{
     ...mapActions("data", ["postRealPrice"]),
     ...mapMutations("data", ["clearRealPrice", "setMenuWhite"]),
+    allTag(){
+      var vm = this;
+      if(this.selectedTags.length < 1){
+        this.tagList.forEach(t => {
+          vm.selectedTags.push(t.name);
+        })
+      } else {
+        this.selectedTags = [];
+      }
+    },
+    selectTag(key){ 
+      if(this.selectedTags.includes(key)){
+        const idx = this.selectedTags.indexOf(key)
+        if (idx > -1) this.selectedTags.splice(idx, 1)
+      } else {
+        this.selectedTags.push(key);
+      }
+    },
     selectItem: function(id){
       this.RealPriceList.forEach(el => {
         if(el.id == id){
@@ -108,9 +147,8 @@ export default {
       this.$store.dispatch("data/getReviews", this.selectedStore.id);
     },
     closeDetail: function(){
-      console.log("closeDetail");
       this.dialog = false;
-      // this.selectedStore = null;
+      this.selectedStore = null;
     },
     selectCircle: function(center, radius, level, str){
       // console.log("drawCircle");
@@ -160,9 +198,10 @@ export default {
 
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
-
 .app {
   background-color: white;
+  height: calc(100vh-120px);
+  padding-bottom: 10px;
 }
 
 .tags{
@@ -170,7 +209,8 @@ export default {
   margin: auto;
   .tag{
     // margin-left: 0.1vw;
-    margin-right: 1vw;
+    margin-right: 0.8vw;
+    // font-size: 0.8vw;
   }
 }
 

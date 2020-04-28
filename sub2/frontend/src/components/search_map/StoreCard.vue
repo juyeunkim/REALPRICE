@@ -1,11 +1,11 @@
 <template>
   <!-- Grid row -->
   <!-- <mdb-row> -->
-  <mdb-row class="store-row">
+  <mdb-row class="store-row" @click.native="selectItem()">
     <!-- Grid column -->
     <mdb-col col="12" id="col">
       <!--Panel-->
-      <mdb-card class="card-body2 mb-3 border-color" @click.native="selectItem()">
+      <mdb-card class="card-body2 mb-3 border-color">
         <mdb-media class="d-block d-md-flex">
           <mdb-media-image
             class="d-flex avatar-2 mb-md-0 mb-3 mx-auto food-img"

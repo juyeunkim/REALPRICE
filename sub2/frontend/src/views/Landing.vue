@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="landing">
     <img class="logo" alt="logo" src="@/assets/logo_white.png">
     <input v-model="inputPrice" class="form-control size-20per" type="text" placeholder="가격을 찾아보세요." aria-label="Search" @keyup.enter="search">
     <Cards :stores="searchResult" />
@@ -52,10 +52,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
 
-#app {
+#landing {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

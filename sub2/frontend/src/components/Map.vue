@@ -2,8 +2,6 @@
 <div>
     <div v-show="false">{{positions.length}}</div>
     <div v-show="false">{{userPoint.latitude}}</div>
-    <div></div>
-    <!-- <button @click="panTo">지도 중심좌표 이동시키기</button> -->
     <div id="map"/>
 </div>
 </template>
@@ -72,7 +70,7 @@ export default {
 
             let options = { //지도를 생성할 때 필요한 기본 옵션
                 center: new kakao.maps.LatLng(mapPoint.Ha>0?mapPoint.Ha:userPoint.latitude, mapPoint.Ga>0?mapPoint.Ga:userPoint.longitude), //지도의 중심좌표.
-                level: level===undefined?7:level, //지도의 레벨(확대, 축소 정도)
+                level: level===undefined?7:(level<4?3:level), //지도의 레벨(확대, 축소 정도)
                 tileAnimation: false
             };
 

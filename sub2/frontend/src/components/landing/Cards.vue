@@ -4,6 +4,7 @@
       v-for="store in stores"
       :key="store.id"
       :store="store"
+      @clickItem="selectItem"
     />
   </div>
 </template>
@@ -24,15 +25,21 @@ export default {
       },
     }
   },
-  computed: {
-
+  methods: {
+    selectItem(id) {
+      this.$emit("clickItem", id);
+    }
   }
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .row{
   margin-left: 4vw;
+  @media screen and (max-width: 500px) {
+    margin-left: 0.5vw;
+    margin-right: 0.5vw;
+  }
 }
 </style>
 
