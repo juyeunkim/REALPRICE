@@ -1,8 +1,9 @@
 <template>
   <!-- Grid row -->
+  <!-- <mdb-row> -->
   <mdb-row class="store-row">
     <!-- Grid column -->
-    <mdb-col md="10" lg="8" xl="12" class="mb-r">
+    <mdb-col col="12" id="col">
       <!--Panel-->
       <mdb-card class="card-body2 mb-3 border-color" @click.native="selectItem()">
         <mdb-media class="d-block d-md-flex">
@@ -94,6 +95,10 @@ export default {
   font-style: normal;
 }
 
+#col{
+  padding-top: 0px; 
+  padding-bottom: 0px; 
+}
 
 .distance-font {
   margin: 0 0 0 0;

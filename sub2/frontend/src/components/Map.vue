@@ -2,6 +2,7 @@
 <div>
     <div v-show="false">{{positions.length}}</div>
     <div v-show="false">{{userPoint.latitude}}</div>
+    <div></div>
     <!-- <button @click="panTo">지도 중심좌표 이동시키기</button> -->
     <div id="map"/>
 </div>
@@ -76,7 +77,7 @@ export default {
             };
 
             var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-            map.setMinLevel(3);
+            // map.setMinLevel(3);
             map.setMaxLevel(7);
             
             var markerPosition  = new kakao.maps.LatLng(userPoint.latitude, userPoint.longitude); 
@@ -118,6 +119,8 @@ export default {
                     yAnchor: 1.3
                 });
 
+                // infoWindow.setVisible(false);
+
                 kakao.maps.event.addListener(marker, 'click', makeClickListener(positions[i].id));
                 kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infoWindow));
                 kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(map, marker, infoWindow));
@@ -154,14 +157,40 @@ export default {
             function makeOverListener(map, marker, infowindow) {
                 return function() {
                     // infowindow.open(map, marker);
-
+                    // infoWindow.setVisible(true);
                     if(infowindow.getMap() === null)
                         infowindow.setMap(map);
+
+                    
+                    var overlayObj = document.getElementById('small').getBoundingClientRect();
+                    // console.log(overlayObj);
+                    var mapObj = document.getElementById('map').getBoundingClientRect();
+                    // console.log(mapObj);
+
+                    // var arr = [0.000625, 0.00125, 0.0025, 0.005, 0.01, 0.02, 0.04, 0.08];
+                    var arr = [0.00051, 0.0011, 0.0021, 0.0043, 0.0085, 0.017, 0.033, 0.08];
+                    if(overlayObj.top < mapObj.top){
+                        var oriPos = infowindow.getPosition();
+                        var lev = map.getLevel();
+                        var diff = arr[lev-1];
+                        console.log(diff);
+                        var newPos = new kakao.maps.LatLng(oriPos.getLat() - diff, oriPos.getLng());
+                        infowindow.setPosition(newPos);
+                    }
+                    
                 };
             }
             function makeOutListener(map, marker, infowindow) {
                 return function() {
                     // infowindow.close();
+                    // infoWindow.setVisible(false);
+
+                    var markPos = marker.getPosition();
+                    var infoPos = infowindow.getPosition();
+
+                    if(markPos.getLat() !== infoPos.getLat()){
+                        infowindow.setPosition(markPos);
+                    }
 
                     if(infowindow.getMap() !== null)
                         infowindow.setMap(null);
@@ -246,7 +275,7 @@ export default {
 
     .imgClass{
         width: 150px;
-        // height: 150px;
+        height: 120px;
     }
 }
 .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
