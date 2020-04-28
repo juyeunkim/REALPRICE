@@ -147,9 +147,7 @@ export default {
       this.dialog = false;
       this.selectedStore = null;
     },
-    selectCircle: function(center, radius, level, str){
-      // console.log("drawCircle");
-      
+    selectCircle: function(center, radius, level, str){      
       this.center.Ha = center.getLat();
       this.center.Ga = center.getLng();
       this.radius = radius;

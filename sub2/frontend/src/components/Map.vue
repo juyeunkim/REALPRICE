@@ -58,10 +58,6 @@ export default {
         //     map.panTo(moveLatLon);            
         // },
         drawMap(positions, userPoint, mapPoint, level){
-            // console.log(positions.length);
-            // console.log(userPoint);
-            // console.log(mapPoint);
-            // console.log(level);
             if(userPoint.latitude == 0) return;
 
             const vm = this;
@@ -149,7 +145,6 @@ export default {
             function makeClickListener(id) {
                 return function() {
                     vm.$emit('clickItem', id);
-                    // console.log('mouseClick ' + i)
                 };
             }
             function makeOverListener(map, marker, infowindow) {
@@ -161,9 +156,7 @@ export default {
 
                     
                     var overlayObj = document.getElementById('small').getBoundingClientRect();
-                    // console.log(overlayObj);
                     var mapObj = document.getElementById('map').getBoundingClientRect();
-                    // console.log(mapObj);
 
                     // var arr = [0.000625, 0.00125, 0.0025, 0.005, 0.01, 0.02, 0.04, 0.08];
                     var arr = [0.00051, 0.0011, 0.0021, 0.0043, 0.0085, 0.017, 0.033, 0.08];
@@ -171,7 +164,6 @@ export default {
                         var oriPos = infowindow.getPosition();
                         var lev = map.getLevel();
                         var diff = arr[lev-1];
-                        console.log(diff);
                         var newPos = new kakao.maps.LatLng(oriPos.getLat() - diff, oriPos.getLng());
                         infowindow.setPosition(newPos);
                     }
@@ -200,13 +192,11 @@ export default {
                     var lev = map.getLevel();
 
                     if(center.getLat() > 0){
-                        // console.log(lev);
                         var mapObj = document.getElementById('map');
                         var width = mapObj.getBoundingClientRect().width;
                         var height = mapObj.getBoundingClientRect().height;
 
                         var radius = (width>height? height/16 : width/16) * (Math.pow(2,lev));
-                        // var radius = 28.125 * (Math.pow(2,level));
 
                         circle.setPosition(center);
                         circle.setRadius(radius);
@@ -226,14 +216,12 @@ export default {
                         var width = mapObj.getBoundingClientRect().width;
                         var height = mapObj.getBoundingClientRect().height;
 
-                        // circle.setPosition(center);
                         var radius = (width>height? height/16 : width/16) * (Math.pow(2,lev));
 
                         circle.setPosition(center);
                         circle.setRadius(radius);
                         circle.setMap(map);
 
-                        // console.log(lev);
                         vm.$emit('drawCircle', center, radius, lev, "bounds");
                     }
                 };

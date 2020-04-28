@@ -135,7 +135,6 @@ export default {
   },
   methods: {
     getStore() {
-      console.log("AAAAAAAAAAAA");
       this.$store.dispatch("data/getStoreInfo", this.store.id);
     },
     emitClose: function() {
