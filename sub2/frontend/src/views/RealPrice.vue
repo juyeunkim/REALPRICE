@@ -18,10 +18,11 @@
         </v-dialog>
         <v-layout row>
           <v-flex xs8>
-            <div v-if="center !== null">{{center.getLat()}}</div>
-            <div v-if="center !== null">{{center.getLng()}}</div>
-            <div>{{radius}}</div>
-            <Map :restaurants="RealPriceList" :user="userLocation" @clickItem="selectItem" @drawCircle="selectCircle"/>
+            <!-- <div>{{zoom}}</div>
+            <div v-show="true">{{geoLocation.latitude}}</div>
+            <div v-show="true">{{geoLocation.longitude}}</div>
+            <div>{{radius}}</div> -->
+            <Map :restaurants="RealPriceList" :user="geoLocation" :map="center" :zoom="zoom" @clickItem="selectItem" @drawCircle="selectCircle"/>
           </v-flex>
           <v-flex xs4>
             <LIST :restaurants="RealPriceList" @clickItem="selectItem" />
@@ -51,11 +52,15 @@ export default {
       selectedStore: null,
       dialog: false,
       geoLocation: {
-        latitude: 37.50128969810118,
-        longitude: 127.03960183847694,
+        latitude: 0,
+        longitude: 0,
       },
-      center: null,
+      center: {
+        Ha: 0,
+        Ga: 0,
+      },
       radius: 0,
+      zoom: 0,
     }
   },
   computed: {
@@ -92,11 +97,13 @@ export default {
       this.dialog = false;
       // this.selectedStore = null;
     },
-    selectCircle: function(c, r){
+    selectCircle: function(center, radius, level, str){
       // console.log("drawCircle");
-      // console.log(c);
-      this.center = c;
-      this.radius = r;
+      
+      this.center.Ha = center.getLat();
+      this.center.Ga = center.getLng();
+      this.radius = radius;
+      this.zoom = level;
     },
     getLocation: function() {
       const vm = this;
@@ -114,6 +121,8 @@ export default {
         });
       } else {
         console.log('GPS를 지원하지 않습니다');
+        vm.geoLocation.latitude = 37.50128969810118;
+        vm.geoLocation.longitude = 127.03960183847694;
       }
     },
     searchSubmit: function(inputPrice) {
@@ -123,7 +132,8 @@ export default {
           "ulatitude": parseFloat(vm.geoLocation.latitude),
           "ulongitude": parseFloat(vm.geoLocation.longitude),
           "mlatitude": parseFloat(vm.center.Ha), 
-          "mlongitude": parseFloat(vm.center.Ga)
+          "mlongitude": parseFloat(vm.center.Ga),
+          "radius": parseFloat(vm.radius)
       });
       
     }
