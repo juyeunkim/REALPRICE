@@ -1,8 +1,8 @@
 <template>
   <mdb-card class="wd23">
-    <mdb-card-image class="imgBox" :src="srcUrl" alt="Card image cap" />
+    <mdb-card-image class="imgBox" src="https://eatforum.org/content/uploads/2018/05/table_with_food_top_view_900x700.jpg" alt="Card image cap" />
     <mdb-card-body class="rem4">
-      <mdb-card-title class="fsize-4">{{ storeName }}</mdb-card-title>
+      <mdb-card-title class="fsize-4">{{ store.storeName }}</mdb-card-title>
       <mdb-card-text class="price-font" style="font-size:2.5rem; color:black;">{{ wonDisplay }}</mdb-card-text>
     </mdb-card-body>
   </mdb-card>
@@ -20,16 +20,14 @@
 			mdbCardTitle,
 			mdbCardText
 		},
-    props: {
-        srcUrl: String,
-        storeName: String,
-        price: String,
-    },
-    computed:{
-        wonDisplay: function() {
-            return this.price.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,') + '원';
+        props: {
+            store: Object
+        },
+        computed:{
+            wonDisplay: function() {
+                return String(this.store.price).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,') + '원';
+            }
         }
-    }
 	}
 </script>
 

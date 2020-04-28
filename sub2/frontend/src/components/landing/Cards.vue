@@ -3,9 +3,7 @@
     <Card
       v-for="store in stores"
       :key="store.id"
-      :srcUrl="store.srcUrl"
-      :storeName="store.storeName"
-      :price="store.price"
+      :store="store"
     />
   </div>
 </template>
