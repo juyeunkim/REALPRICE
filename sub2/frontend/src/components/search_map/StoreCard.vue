@@ -4,7 +4,7 @@
     <!-- Grid column -->
     <mdb-col md="10" lg="8" xl="12" class="mb-r">
       <!--Panel-->
-      <mdb-card class="card-body2 mb-3 border-color">
+      <mdb-card class="card-body2 mb-3 border-color" @click.native="clickItem()">
         <mdb-media class="d-block d-md-flex">
           <mdb-media-image
             class="d-flex avatar-2 mb-md-0 mb-3 mx-auto food-img"
@@ -62,11 +62,20 @@ export default {
     }
   },
   computed: {
+    score: function(){
+      return this.store.score.toFixed(1);
+    },
     percent: function(){
-      return ((this.store.score / 5) * 100).toFixed(2);
+      return Math.floor((this.score / 5) * 100);
     },
     wonDisplay: function() {
       return String(this.store.price).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,") + "원";
+    }
+  },
+  methods: {
+    clickItem() {
+      console.log('child IN')
+      this.$emit("clickItem", this.store.id);
     }
   }
 };

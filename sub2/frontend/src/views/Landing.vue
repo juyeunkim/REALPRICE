@@ -2,7 +2,7 @@
   <div id="app">
     <img class="logo" alt="logo" src="@/assets/logo_white.png">
     <input v-model="inputPrice" class="form-control size-20per" type="text" placeholder="가격을 찾아보세요." aria-label="Search" @keyup.enter="search">
-    <Cards :stores="searchResult" />
+    <Cards v-for="store in searchResult" :key="store.id" :store="store" />
   </div>
 </template>
 

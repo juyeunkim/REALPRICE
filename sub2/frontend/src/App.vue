@@ -1,7 +1,7 @@
 <template>
   <v-app id="app">
     <toolbar />
-    <drawer />
+    <!-- <drawer /> -->
     <route-view />
     <go-top />
     <Footer />
@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Drawer from "@/components/Drawer";
+// import Drawer from "@/components/Drawer";
 import Toolbar from "@/components/Toolbar";
 import RouteView from "@/components/RouteView";
 import GoTop from "@/components/GoTop";
@@ -17,7 +17,7 @@ import Footer from "@/components/Footer"
 
 export default {
   components: {
-    Drawer,
+    // Drawer,
     Toolbar,
     RouteView,
     GoTop,

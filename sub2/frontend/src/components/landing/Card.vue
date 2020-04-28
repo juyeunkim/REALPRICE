@@ -1,6 +1,8 @@
 <template>
   <mdb-card class="wd23">
-    <mdb-card-image class="imgBox" src="https://eatforum.org/content/uploads/2018/05/table_with_food_top_view_900x700.jpg" alt="Card image cap" />
+    
+    <mdb-card-image v-if="store.srcUrl!=null" class="imgBox" :src="store.srcUrl" alt="Card image cap" />
+    <mdb-card-image v-else class="imgBox" src="https://eatforum.org/content/uploads/2018/05/table_with_food_top_view_900x700.jpg" alt="Card image cap" />
     <mdb-card-body class="rem4">
       <mdb-card-title class="fsize-4">{{ store.storeName }}</mdb-card-title>
       <mdb-card-text class="price-font" style="font-size:2.5rem; color:black;">{{ wonDisplay }}</mdb-card-text>
@@ -21,7 +23,10 @@
 			mdbCardText
 		},
         props: {
-            store: Object
+            store: {
+            type: Object,
+            default: () => new Object()
+        }
         },
         computed:{
             wonDisplay: function() {

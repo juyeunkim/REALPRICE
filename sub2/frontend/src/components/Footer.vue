@@ -1,5 +1,5 @@
 <template>
-  <v-footer height="auto" color="blue lighten-1" dark>
+  <v-footer class="footer" height="auto" color="blue lighten-1" dark>
     <v-layout justify-center row wrap>
       <v-flex color="indigo" dark py-3 text-xs-center white--text xs12>
         &copy;2020 —
@@ -21,4 +21,7 @@
 export default {};
 </script>
 <style scoped>
+.footer{
+  text-align: center;
+}
 </style>

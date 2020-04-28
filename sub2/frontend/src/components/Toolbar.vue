@@ -1,12 +1,16 @@
 <template>
   <v-app-bar id="app-toolbar" absolute app flat color="blue lighten-1">
-    <v-btn v-if="responsive" dark icon @click.stop="onClickDrawer">
+    <!-- <v-btn v-if="responsive" dark icon @click.stop="onClickDrawer">
       <v-icon>mdi-view-list</v-icon>
-    </v-btn>
+    </v-btn> -->
     <router-link :to="{name:'home'}">
       <img class="logo" alt="logo" src="../assets/logo_white.png">
     </router-link>
 
+    <v-toolbar-items>
+      <v-btn class="ml-2" text :to="{name: 'realprice'}"><v-icon>fas fa-won-sign</v-icon></v-btn>
+      <v-btn class="ml-2" text :to="{name: 'searchmap'}"><v-icon>mdi-map</v-icon></v-btn>
+    </v-toolbar-items>
     <v-spacer />
 
     <v-toolbar-items>
@@ -45,31 +49,31 @@ export default {
     responsive: false
   }),
   computed: {
-    ...mapState("app", ["drawer"]),
+    // ...mapState("app", ["drawer"]),
     userId: function() {
       return this.$store.getters["session/userStatus"];
     }
   },
   mounted() {
-    this.onResponsiveInverted();
-    window.addEventListener("resize", this.onResponsiveInverted);
+    // this.onResponsiveInverted();
+    // window.addEventListener("resize", this.onResponsiveInverted);
   },
   beforeDestroy() {
-    window.removeEventListener("resize", this.onResponsiveInverted);
+    // window.removeEventListener("resize", this.onResponsiveInverted);
   },
 
   methods: {
-    ...mapMutations("app", ["setDrawer"]),
-    onClickDrawer() {
-      this.setDrawer(!this.drawer);
-    },
-    onResponsiveInverted() {
-      if (window.innerWidth < 900) {
-        this.responsive = true;
-      } else {
-        this.responsive = false;
-      }
-    },
+    // ...mapMutations("app", ["setDrawer"]),
+    // onClickDrawer() {
+    //   this.setDrawer(!this.drawer);
+    // },
+    // onResponsiveInverted() {
+    //   if (window.innerWidth < 900) {
+    //     this.responsive = true;
+    //   } else {
+    //     this.responsive = false;
+    //   }
+    // },
     logout() {
       console.log("로그아웃!!");
       this.$alert("로그아웃 완료", "Success", "success");
