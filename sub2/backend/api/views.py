@@ -225,6 +225,8 @@ def getStores(request):
     result = []
     dic_price = {}
 
+    dic_tags = {}
+
     for menu in menu_infos:
         if menu.store.id in dic_price:
             store = dic_price.get(menu.store.id)
@@ -232,6 +234,12 @@ def getStores(request):
                 store["price"] = menu.price
                 dic_price[menu.store.id] = store
         else:
+            tags = menu.store.category.strip().split("|")
+            for tag in tags:
+                if tag == "": continue
+                cnt = dic_tags.get(tag, 1)
+                dic_tags[tag] = cnt + 1
+
             dic_price[menu.store.id] = {
                     "id": menu.store.id,
                     "srcUrl": menu.store.src_url,
@@ -243,7 +251,23 @@ def getStores(request):
                     "price": menu.price,
                     "distanceCost" : distance_cost,
                     "score": 0,
+                    "tags": tags
             }
+
+    sorted_tags = sorted(dic_tags.items(), reverse=True, key=lambda x: x[1])
+
+    sorted_tags_dic = []
+
+    cnt = 1
+    for tag in sorted_tags:
+        sorted_tags_dic.append(
+            {
+                "id": cnt,
+                "name": tag[0],
+                "cnt": tag[1]
+            }
+        )
+        cnt += 1
 
     for row in review_infos:
         if row['store'] in dic_price:
@@ -257,7 +281,8 @@ def getStores(request):
     # print('리뷰가 있는 집의 총 메뉴 수 : ', len(menu_infos))
 
     data = {
-        "stores": result
+        "stores": result,
+        "tags": sorted_tags_dic
     }
     return Response(data)
 
