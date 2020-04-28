@@ -1,13 +1,9 @@
 <template>
 <div>
     <div v-show="false">{{positions.length}}</div>
-    <!-- <div v-show="true">{{this.first?"true":"false"}}</div> -->
+    <div v-show="true">{{userPoint.latitude}}</div>
+    <!-- <button @click="panTo">지도 중심좌표 이동시키기</button> -->
     <div id="map"/>
-    <!-- <div class="map_wrap">
-        <div class="custom_zoomcontrol radius_border"> 
-            <span @click="panTo"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="내 위치"></span>
-        </div>
-    </div> -->
 </div>
 </template>
 
@@ -57,15 +53,16 @@ export default {
         this.drawMap(this.positions, this.userPoint, this.mapPoint, this.level);
     },
     methods: {
-        panTo: function() {
-            var moveLatLon = new kakao.maps.LatLng(userPoint.latitude, userPoint.longitude);
-            map.panTo(moveLatLon);            
-        },
+        // panTo: function() {
+        //     var moveLatLon = new kakao.maps.LatLng(userPoint.latitude, userPoint.longitude);
+        //     map.panTo(moveLatLon);            
+        // },
         drawMap(positions, userPoint, mapPoint, level){
             // console.log(positions.length);
             // console.log(userPoint);
             // console.log(mapPoint);
             // console.log(level);
+            if(userPoint.latitude == 0) return;
 
             const vm = this;
 
@@ -73,7 +70,7 @@ export default {
 
             let options = { //지도를 생성할 때 필요한 기본 옵션
                 center: new kakao.maps.LatLng(mapPoint.Ha>0?mapPoint.Ha:userPoint.latitude, mapPoint.Ga>0?mapPoint.Ga:userPoint.longitude), //지도의 중심좌표.
-                level: level===undefined?5:level, //지도의 레벨(확대, 축소 정도)
+                level: level===undefined?7:level, //지도의 레벨(확대, 축소 정도)
                 tileAnimation: false
             };
 
@@ -158,19 +155,21 @@ export default {
                     var center = map.getCenter();
                     var lev = map.getLevel();
 
-                    // console.log(lev);
-                    var mapObj = document.getElementById('map');
-                    var width = mapObj.getBoundingClientRect().width;
-                    var height = mapObj.getBoundingClientRect().height;
+                    if(center.getLat() > 0){
+                        // console.log(lev);
+                        var mapObj = document.getElementById('map');
+                        var width = mapObj.getBoundingClientRect().width;
+                        var height = mapObj.getBoundingClientRect().height;
 
-                    var radius = (width>height? height/16 : width/16) * (Math.pow(2,lev));
-                    // var radius = 28.125 * (Math.pow(2,level));
+                        var radius = (width>height? height/16 : width/16) * (Math.pow(2,lev));
+                        // var radius = 28.125 * (Math.pow(2,level));
 
-                    circle.setPosition(center);
-                    circle.setRadius(radius);
-                    circle.setMap(map);
+                        circle.setPosition(center);
+                        circle.setRadius(radius);
+                        circle.setMap(map);
 
-                    vm.$emit('drawCircle', center, radius, lev, "zoom");
+                        vm.$emit('drawCircle', center, radius, lev, "zoom");
+                    }
                 };
             }
             function boundsChanged(map, circle) {
@@ -178,19 +177,21 @@ export default {
                     var center = map.getCenter();
                     var lev = map.getLevel();
 
-                    var mapObj = document.getElementById('map');
-                    var width = mapObj.getBoundingClientRect().width;
-                    var height = mapObj.getBoundingClientRect().height;
+                    if(center.getLat() > 0){
+                        var mapObj = document.getElementById('map');
+                        var width = mapObj.getBoundingClientRect().width;
+                        var height = mapObj.getBoundingClientRect().height;
 
-                    // circle.setPosition(center);
-                    var radius = (width>height? height/16 : width/16) * (Math.pow(2,lev));
+                        // circle.setPosition(center);
+                        var radius = (width>height? height/16 : width/16) * (Math.pow(2,lev));
 
-                    circle.setPosition(center);
-                    circle.setRadius(radius);
-                    circle.setMap(map);
+                        circle.setPosition(center);
+                        circle.setRadius(radius);
+                        circle.setMap(map);
 
-                    // console.log(lev);
-                    vm.$emit('drawCircle', center, radius, lev, "bounds");
+                        // console.log(lev);
+                        vm.$emit('drawCircle', center, radius, lev, "bounds");
+                    }
                 };
             }
         }

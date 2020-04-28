@@ -52,8 +52,8 @@ export default {
       selectedStore: null,
       dialog: false,
       geoLocation: {
-        latitude: 37.50128969810118,
-        longitude: 127.03960183847694,
+        latitude: 0,
+        longitude: 0,
       },
       center: {
         Ha: 0,
