@@ -3,10 +3,10 @@
     
     <mdb-card-image v-if="store.srcUrl!=null" class="imgBox" :src="store.srcUrl" alt="Card image cap" />
     <mdb-card-image v-else class="imgBox" src="https://eatforum.org/content/uploads/2018/05/table_with_food_top_view_900x700.jpg" alt="Card image cap" />
-    <mdb-card-body class="rem4">
-      <mdb-card-title class="fsize-4">{{ store.storeName }}</mdb-card-title>
-      <mdb-card-text class="price-font" style="font-size:2.5rem; color:black;">{{ wonDisplay }}</mdb-card-text>
-    </mdb-card-body>
+    <div class="rem4">
+      <div class="fsize-4">{{ store.storeName }}</div>
+      <div class="price-font" style="color:black;">{{ wonDisplay }}</div>
+    </div>
   </mdb-card>
 </template>
 
@@ -40,29 +40,38 @@
 @font-face { font-family: 'TmonMonsori'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/TmonMonsori.woff') format('woff'); font-weight: normal; font-style: normal; }
 
 .wd23 {
-  width: 18rem;
-  margin: 2rem;
-  max-width: 18rem;
+  width: 20vw;
+  height: 25vw;
+  margin: 1vw;
+  /* width: 18rem;
+  margin: 2rem; */
+  /* max-width: 18rem; */
 }
 
 .fsize-4 {
-    font-size: 2rem;
+    font-size: 2vw;
+    /* font-size: 2rem; */
 }
 
 .rem4 {
-    padding-top: 1.25rem;
-    padding-bottom: 1.25rem;
+    padding-top: 1vw;
+    /* padding-bottom: 1vw; */
+    /* padding-top: 1.25rem;
+    padding-bottom: 1.25rem; */
 }
 
 .imgBox {
-    min-height: 18rem;
+    height: 15vw;
+    /* min-height: 18rem; */
 }
 
 div.imgBox > img {
-    min-height: 18rem;
+    height: 30vw;
+    /* min-height: 18rem; */
 }
 
 .price-font {
     font-family: 'TmonMonsori';
+    font-size: 3vw;
 }
 </style>

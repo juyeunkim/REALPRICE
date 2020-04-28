@@ -31,6 +31,9 @@ export default {
 </script>
 
 <style scoped>
+.row{
+  margin-left: 4vw;
+}
 </style>
 
 

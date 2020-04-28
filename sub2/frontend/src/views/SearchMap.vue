@@ -1,7 +1,5 @@
 <template>
   <div class="app">
-    <img class="search-logo" alt="logo" src="@/assets/logo_blue.png">
-
     <!-- 가격 입력창 -->
     <input
       v-model="inputPrice"
@@ -19,8 +17,8 @@
     </v-dialog>
 
     <!-- 태그창 -->
-    <div>
-      <mdb-badge v-for="tag in tagList" :key="tag.id" pill color="blue">{{tag.name}}</mdb-badge>
+    <div class="tags">
+      <mdb-badge v-for="tag in tagList" :key="tag.id" pill color="blue" class="tag"># {{tag.name}}</mdb-badge>
     </div>
 
     <!-- 지도창 -->
@@ -72,7 +70,7 @@ export default {
         Ha: 0,
         Ga: 0,
       },
-      radius: 0,
+      radius: 5,
       zoom: 0,
     }
   },
@@ -85,15 +83,18 @@ export default {
         return this.geoLocation;
     },
   },
+  created() {
+    // this.setMenuWhite(true);
+  },
   mounted() {
     this.getLocation();
   },
   destroyed() {
-      // this.clearRealPrice();
+    this.setMenuWhite(false);
   },
   methods:{
     ...mapActions("data", ["postRealPrice"]),
-    ...mapMutations("data", ["clearRealPrice"]),
+    ...mapMutations("data", ["clearRealPrice", "setMenuWhite"]),
     selectItem: function(id){
       this.RealPriceList.forEach(el => {
         if(el.id == id){
@@ -157,11 +158,20 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
 
 .app {
   background-color: white;
+}
+
+.tags{
+  width: 90%;
+  margin: auto;
+  .tag{
+    // margin-left: 0.1vw;
+    margin-right: 1vw;
+  }
 }
 
 .search-logo {

@@ -1,7 +1,7 @@
 <template>
-  <mdb-container>
+  <div>
     <StoreCard v-for="store in stores" :key="store.id" :store="store" @clickItem="selectItem" />
-  </mdb-container>
+  </div>
 </template>
 
 <script>

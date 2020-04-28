@@ -13,11 +13,18 @@
 
 import Cards from '@/components/landing/Cards.vue'
 import api from '@/api/index.js'
+import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
   name: 'Landing',
   components: {
     Cards
+  },
+  created() {
+    this.setMenuWhite(false);
+  },
+  destroyed() {
+    this.setMenuWhite(true);
   },
   data(){
     return {
@@ -26,6 +33,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations("data", ["setMenuWhite"]),
     search:  function () {
       var data = {
         price : parseInt(this.inputPrice),

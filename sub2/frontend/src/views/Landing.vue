@@ -2,20 +2,27 @@
   <div id="app">
     <img class="logo" alt="logo" src="@/assets/logo_white.png">
     <input v-model="inputPrice" class="form-control size-20per" type="text" placeholder="가격을 찾아보세요." aria-label="Search" @keyup.enter="search">
-    <Cards v-for="store in searchResult" :key="store.id" :store="store" />
+    <Cards :stores="searchResult" />
+    <!-- <Card v-for="store in searchResult" :key="store.id" :store="store" /> -->
   </div>
 </template>
 
 
 <script>
 
+import Card from '@/components/landing/Card.vue'
 import Cards from '@/components/landing/Cards.vue'
 import api from '@/api/index.js'
+import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
   name: 'Landing',
   components: {
+    Card,
     Cards
+  },
+  created() {
+    this.setMenuWhite(false);
   },
   data(){
     return {
@@ -24,6 +31,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations("data", ["setMenuWhite"]),
     search:  function () {
       var data = {
         price : parseInt(this.inputPrice),

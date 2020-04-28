@@ -1,6 +1,7 @@
 import api from "../../api";
 // initial state
 const state = {
+    menuWhite: false,
     realPriceList: [],
     // {
     //     "id": 161602,
@@ -187,7 +188,9 @@ const actions = {
 
 // mutations
 const mutations = {
-
+    setMenuWhite(state,payload){
+        state.menuWhite = payload;
+    },
 
     // 마이페이지
     userInfo(state, payload) {
