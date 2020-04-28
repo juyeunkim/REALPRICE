@@ -17,7 +17,15 @@ export default {
     Card
   },
   props: {
-    stores: Array
+    stores: {
+      type: Array,
+      default: function(){
+          return []
+      },
+    }
+  },
+  computed: {
+
   }
 };
 </script>

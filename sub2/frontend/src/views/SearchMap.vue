@@ -3,14 +3,21 @@
         <img class="search-logo" alt="logo" src="@/assets/logo_blue.png">
 
         <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-        <input class="form-control size-20per" type="text" placeholder="가격을 찾아보세요." aria-label="Search" v-on:keyup.enter="search" v-model="inputPrice"/>
+        <input class="form-control size-20per" type="text" placeholder="가격을 찾아보세요." aria-label="Search" v-on:keyup.enter="searchSubmit" v-model="inputPrice"/>
 
         <div class="map-frame">
         <div class="map-col1">
-            <Map/>
+            <Map :restaurants="RealPriceList" :user="geoLocation" :map="center" :zoom="zoom" @clickItem="selectItem" @drawCircle="selectCircle"/>
         </div>
+        <v-dialog
+          v-model="dialog"
+          persistent
+          max-width="700"
+        >
+          <STOREDETAIL :store="selectedStore" @close="closeDetail" />
+        </v-dialog>
         <div class="map-col2 scrollbar scrollbar-blue bordered-blue">
-            <StoreCards v-bind:stores2="searchResult"/>
+            <StoreCards :stores="RealPriceList"/>
             <!-- test -->
         </div>
         </div>
@@ -23,37 +30,129 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=eac48c3548025ce4e0b61b1512b4282c"></script>
 
 <script>
-
+import STOREDETAIL from '@/components/realprice/StoreDetail';
 import StoreCards from '@/components/search_map/StoreCards.vue'
-import Map from '@/components/search_map/Map.vue'
+import Map from "@/components/Map";
 import axios from 'axios'
+import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
   name: 'Landing',
   components: {
+    STOREDETAIL,
     StoreCards,
+    // LIST,
+    // SEARCHFORM,
     Map
   },
-  props:{
-    inputPrice: String,
-    searchResult: Array
-  },
-  methods: {
-    search:  function () {
-      axios
-      .get('http://13.125.68.33:8080/api/getStores/')
-      .then(response => {
-        console.log(response.data.stores)
-        this.searchResult = response.data.stores
-        })
-
-      // alert('Hello ' + this.inputPrice + '!')
-      // `event` 는 네이티브 DOM 이벤트입니다
-      //if (event) {
-      //  alert(event.target.tagName)
-      //}
+  data() {
+    return {
+      inputPrice: 5000,
+      selectedStore: null,
+      dialog: false,
+      geoLocation: {
+        latitude: 0,
+        longitude: 0,
+      },
+      center: {
+        Ha: 0,
+        Ga: 0,
+      },
+      radius: 0,
+      zoom: 0,
     }
-  }
+  },
+  computed: {
+    ...mapState({
+      RealPriceList: state => state.data.realPriceList,
+    }),
+    userLocation() {
+        return this.geoLocation;
+    },
+  },
+  mounted() {
+    this.getLocation();
+  },
+  destroyed() {
+      this.clearRealPrice();
+  },
+  methods:{
+    ...mapActions("data", ["postRealPrice"]),
+    ...mapMutations("data", ["clearRealPrice"]),
+    selectItem: function(id){
+      this.RealPriceList.forEach(el => {
+        if(el.id == id){
+          this.selectedStore = el;
+        }
+      });
+      this.dialog = true;
+    },
+    getReviews: function(){
+      consol.log('!!!')
+      this.$store.dispatch("data/getReviews", this.selectedStore.id);
+    },
+    closeDetail: function(){
+      console.log("closeDetail");
+      this.dialog = false;
+      // this.selectedStore = null;
+    },
+    selectCircle: function(center, radius, level, str){
+      // console.log("drawCircle");
+      
+      this.center.Ha = center.getLat();
+      this.center.Ga = center.getLng();
+      this.radius = radius;
+      this.zoom = level;
+    },
+    getLocation: function() {
+      const vm = this;
+      if (navigator.geolocation) { // GPS를 지원하면
+        navigator.geolocation.getCurrentPosition(function(position) {
+          // alert(position.coords.latitude + ' ' + position.coords.longitude);
+          vm.geoLocation.latitude = position.coords.latitude;
+          vm.geoLocation.longitude = position.coords.longitude;
+        }, function(error) {
+          console.error(error);
+        }, {
+          enableHighAccuracy: false,
+          maximumAge: 0,
+          timeout: Infinity
+        });
+      } else {
+        console.log('GPS를 지원하지 않습니다');
+        vm.geoLocation.latitude = 37.50128969810118;
+        vm.geoLocation.longitude = 127.03960183847694;
+      }
+    },
+    searchSubmit: function() {
+      const vm = this;
+      this.postRealPrice({
+          "price": parseInt(vm.inputPrice), 
+          "ulatitude": parseFloat(vm.geoLocation.latitude),
+          "ulongitude": parseFloat(vm.geoLocation.longitude),
+          "mlatitude": parseFloat(vm.center.Ha), 
+          "mlongitude": parseFloat(vm.center.Ga),
+          "radius":parseInt(vm.radius)
+      });
+      
+    }
+  },
+  // methods: {
+  //   search:  function () {
+  //     axios
+  //     .get('http://13.125.68.33:8080/api/getStores/')
+  //     .then(response => {
+  //       console.log(response.data.stores)
+  //       this.searchResult = response.data.stores
+  //       })
+
+  //     // alert('Hello ' + this.inputPrice + '!')
+  //     // `event` 는 네이티브 DOM 이벤트입니다
+  //     //if (event) {
+  //     //  alert(event.target.tagName)
+  //     //}
+  //   }
+  // }
 }
 </script>
 

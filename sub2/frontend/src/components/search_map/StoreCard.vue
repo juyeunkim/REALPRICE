@@ -15,15 +15,15 @@
             <div class="card-body2">
               <!-- Title -->
               <h4 class="card-title font-weight-bold store-title">
-                <a>{{storeName}}</a>
+                <a>{{s.storeName}}</a>
               </h4>
               <!-- Data -->
               <p class="price-per">
-                가성비 {{percent}}%
+                가성비 {{s.score}}%
                 <img class="thumb" src="@/assets/good.png">
               </p>
               <hr class="line">
-              <p class="price-font">{{ wonDisplay }}</p>
+              <p class="price-font">{{ s.price }}</p>
             </div>
           </mdb-media-body>
         </mdb-media>
@@ -56,12 +56,16 @@ export default {
     mdbRow
   },
   props: {
-    srcUrl: String,
-    storeName: String,
-    price: String,
-    percent: String
+    storeInfo: Object
+    // srcUrl: String,
+    // storeName: String,
+    // price: String,
+    // percent: String
   },
   computed: {
+    s() {
+      return this.storeInfo;
+    },
     wonDisplay: function() {
       return this.price.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,") + "원";
     }
