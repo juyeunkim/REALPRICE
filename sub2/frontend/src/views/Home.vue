@@ -27,9 +27,8 @@ export default {
   },
   methods: {
     search:  function () {
-      var price = parseInt(this.inputPrice)
       var data = {
-        price : price,
+        price : parseInt(this.inputPrice),
         ulatitude : 37.272618,
         ulongitude:127.038970,
         mlatitude : 37.501235,

@@ -2,7 +2,7 @@
   <div id="app">
     <img class="logo" alt="logo" src="@/assets/logo_white.png">
     <input v-model="inputPrice" class="form-control size-20per" type="text" placeholder="가격을 찾아보세요." aria-label="Search" @keyup.enter="search">
-    <Cards :stores="searchResult" />
+    <Cards v-for="store in searchResult" :key="store.id" :store="store" />
   </div>
 </template>
 
@@ -10,7 +10,7 @@
 <script>
 
 import Cards from '@/components/landing/Cards.vue'
-import axios from 'axios'
+import api from '@/api/index.js'
 
 export default {
   name: 'Landing',
@@ -25,18 +25,20 @@ export default {
   },
   methods: {
     search:  function () {
-      axios
-      .get('http://13.125.68.33:8080/api/getStores/')
+      var data = {
+        price : parseInt(this.inputPrice),
+        ulatitude : 37.272618,
+        ulongitude:127.038970,
+        mlatitude : 37.501235,
+        mlongitude : 127.039511,
+        radius:1000
+      }
+
+      api.getStores(data)
       .then(response => {
         console.log(response.data.stores)
         this.searchResult = response.data.stores
         })
-
-      // alert('Hello ' + this.inputPrice + '!')
-      // `event` 는 네이티브 DOM 이벤트입니다
-      //if (event) {
-      //  alert(event.target.tagName)
-      //}
     }
   }
 }

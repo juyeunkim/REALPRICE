@@ -133,7 +133,7 @@ export default {
           "ulongitude": parseFloat(vm.geoLocation.longitude),
           "mlatitude": parseFloat(vm.center.Ha), 
           "mlongitude": parseFloat(vm.center.Ga),
-          "radius":parseInt(this.radius)
+          "radius": parseFloat(vm.radius)
       });
       
     }
