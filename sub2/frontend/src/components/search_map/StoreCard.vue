@@ -8,18 +8,18 @@
         <mdb-media class="d-block d-md-flex">
           <mdb-media-image
             class="d-flex avatar-2 mb-md-0 mb-3 mx-auto food-img"
-            :src="srcUrl"
+            :src="store.srcUrl"
             alt="Generic placeholder image"
           />
           <mdb-media-body class="text-center text-md-left ml-md-3 ml-0">
             <div class="card-body2">
               <!-- Title -->
               <h4 class="card-title font-weight-bold store-title">
-                <a>{{storeName}}</a>
+                <a>{{ store.storeName }}</a>
               </h4>
               <!-- Data -->
               <p class="price-per">
-                가성비 {{percent}}%
+                가성비 {{ percent }}%
                 <img class="thumb" src="@/assets/good.png">
               </p>
               <hr class="line">
@@ -56,14 +56,17 @@ export default {
     mdbRow
   },
   props: {
-    srcUrl: String,
-    storeName: String,
-    price: String,
-    percent: String
+    store: {
+      type: Object,
+      default: () => new Object()
+    }
   },
   computed: {
+    percent: function(){
+      return ((this.store.score / 5) * 100).toFixed(2);
+    },
     wonDisplay: function() {
-      return this.price.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,") + "원";
+      return String(this.store.price).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,") + "원";
     }
   }
 };
