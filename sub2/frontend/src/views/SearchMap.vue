@@ -2,7 +2,7 @@
   <div class="app">
     <img class="search-logo" alt="logo" src="@/assets/logo_blue.png" >
 
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    <!-- 가격 입력창 -->
     <input
       v-model="inputPrice"
       class="form-control size-20per"
@@ -12,6 +12,12 @@
       @keyup.enter="search"
     >
 
+    <!-- 태그창 -->
+    <div>
+      <mdb-badge v-for="tag in tags" :key="tag.id" pill color="blue">{{tag.name}}</mdb-badge>
+    </div>
+
+    <!-- 지도창 -->
     <div class="map-frame">
       <div class="map-col1">
         <Map />
@@ -32,17 +38,20 @@
 import StoreCards from "@/components/search_map/StoreCards.vue";
 import Map from "@/components/search_map/Map.vue";
 import api from '@/api/index.js'
+import { mdbBadge } from 'mdbvue';
 
 export default {
   name: "Landing",
   components: {
     StoreCards,
-    Map
+    Map,
+    mdbBadge
   },
   data() {
     return {
       inputPrice: '',
-      searchResult: []
+      searchResult: [],
+      tags: []
     }
   },
   methods: {
@@ -60,6 +69,7 @@ export default {
       .then(response => {
         console.log(response.data.stores)
         this.searchResult = response.data.stores
+        this.tags = response.data.tags
         })
     }
   }
