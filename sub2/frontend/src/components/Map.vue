@@ -1,7 +1,7 @@
 <template>
 <div>
     <div v-show="false">{{positions.length}}</div>
-    <div v-show="true">{{userPoint.latitude}}</div>
+    <div v-show="false">{{userPoint.latitude}}</div>
     <!-- <button @click="panTo">지도 중심좌표 이동시키기</button> -->
     <div id="map"/>
 </div>

@@ -18,10 +18,10 @@
         </v-dialog>
         <v-layout row>
           <v-flex xs8>
-            <div>{{zoom}}</div>
+            <!-- <div>{{zoom}}</div>
             <div v-show="true">{{geoLocation.latitude}}</div>
             <div v-show="true">{{geoLocation.longitude}}</div>
-            <div>{{radius}}</div>
+            <div>{{radius}}</div> -->
             <Map :restaurants="RealPriceList" :user="geoLocation" :map="center" :zoom="zoom" @clickItem="selectItem" @drawCircle="selectCircle"/>
           </v-flex>
           <v-flex xs4>
