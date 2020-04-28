@@ -4,7 +4,7 @@
     <!-- Grid column -->
     <mdb-col md="10" lg="8" xl="12" class="mb-r">
       <!--Panel-->
-      <mdb-card class="card-body2 mb-3 border-color" @click.native="clickItem()">
+      <mdb-card class="card-body2 mb-3 border-color" @click.native="selectItem()">
         <mdb-media class="d-block d-md-flex">
           <mdb-media-image
             class="d-flex avatar-2 mb-md-0 mb-3 mx-auto food-img"
@@ -15,16 +15,12 @@
           <mdb-media-body class="text-center text-md-left ml-md-3 ml-0">
             <div class="card-body2">
               <!-- Title -->
-              <h4 class="card-title font-weight-bold store-title">
-                <a>{{ store.storeName }}</a>
-              </h4>
+              <h4 class="card-title font-weight-bold store-title"><a>{{store.storeName}} <img class="thumb" src='@/assets/star.png'/> {{ store.score }}</a></h4>
               <!-- Data -->
-              <p class="price-per">
-                가성비 {{ percent }}%
-                <img class="thumb" src="@/assets/good.png">
-              </p>
+              <p class="price-per">{{ store.menu }}</p>
               <hr class="line">
-              <p class="price-font">{{ store.price }}</p>
+              <p class="price-font">{{ wonDisplay }}</p>
+              <p class="distance-font">교통비 {{ distCostDisplay }} 포함</p>
             </div>
           </mdb-media-body>
         </mdb-media>
@@ -74,13 +70,15 @@ export default {
     percent: function(){
       return Math.floor((this.score / 5) * 100);
     },
+    distCostDisplay: function(){
+      return String(this.store.distanceCost).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,") + "원";
+    },
     wonDisplay: function() {
-      return String(this.store.price).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,") + "원";
+      return String(this.store.price + this.store.distanceCost).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,") + "원";
     }
   },
   methods: {
-    clickItem() {
-      console.log('child IN')
+    selectItem() {
       this.$emit("clickItem", this.store.id);
     }
   }
@@ -96,16 +94,21 @@ export default {
   font-style: normal;
 }
 
+
+.distance-font {
+  margin: 0 0 0 0;
+  font-size: 0.5vw;
+}
 .price-font {
-  font-family: "TmonMonsori";
-  font-size: 1.3vw;
-  margin-bottom: 0px;
-  color: #0f4c82;
+    font-family: 'TmonMonsori';
+    font-size: 1.3vw;
+    margin-bottom: 0px;
+    color: #0F4C82;
 }
 
 .price-per {
   color: orange;
-  font-family: "TmonMonsori";
+  font-family: 'TmonMonsori';
   font-size: 1vw;
   margin-bottom: 5px;
 }
@@ -119,11 +122,12 @@ export default {
 .store-title {
   font-size: 1vw;
   font-weight: bold;
-  color: #0f4c82;
+  color: #0F4C82;
 }
 
 .thumb {
   width: 1vw;
+  padding-bottom: 10px;
 }
 
 .food-img {
@@ -140,7 +144,4 @@ export default {
   border: 1.5px solid #0F4C82;
 }
 
-.store-row {
-
-}
 </style>

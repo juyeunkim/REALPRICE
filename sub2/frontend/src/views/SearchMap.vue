@@ -2,7 +2,7 @@
   <div class="app">
     <img class="search-logo" alt="logo" src="@/assets/logo_blue.png">
 
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    <!-- 가격 입력창 -->
     <input
       v-model="inputPrice"
       class="form-control size-20per"
@@ -17,12 +17,20 @@
     >
       <STOREDETAIL :store="selectedStore" @close="closeDetail" />
     </v-dialog>
+
+    <!-- 태그창 -->
+    <div>
+      <mdb-badge v-for="tag in tagList" :key="tag.id" pill color="blue">{{tag.name}}</mdb-badge>
+    </div>
+
+    <!-- 지도창 -->
     <div class="map-frame">
       <div class="map-col1">
         <Map :restaurants="RealPriceList" :user="geoLocation" :map="center" :zoom="zoom" @clickItem="selectItem" @drawCircle="selectCircle"/>
       </div>
       <div class="map-col2 scrollbar scrollbar-blue bordered-blue">
-        <StoreCard v-for="store in RealPriceList" :key="store.id" :store="store" @clickItem="selectItem" />
+        <StoreCards :stores="RealPriceList" @clickItem="selectItem"/>
+        <!-- <StoreCard v-for="store in RealPriceList" :key="store.id" :store="store" @clickItem="selectItem" /> -->
       </div>
       
     </div>
@@ -40,13 +48,16 @@ import StoreCard from "@/components/search_map/StoreCard.vue";
 import Map from "@/components/Map.vue";
 import api from '@/api/index.js'
 import { mapState, mapActions, mapMutations } from "vuex";
+import { mdbBadge } from 'mdbvue';
 
 export default {
   name: "Landing",
   components: {
     STOREDETAIL,
+    StoreCards,
     StoreCard,
-    Map
+    Map,
+    mdbBadge
   },
   data() {
     return {
@@ -67,7 +78,8 @@ export default {
   },
   computed: {
     ...mapState({
-      RealPriceList: state => state.data.realPriceList,
+      RealPriceList: state => state.data.realPriceList.stores,
+      tagList: state => state.data.realPriceList.tags,
     }),
     userLocation() {
         return this.geoLocation;

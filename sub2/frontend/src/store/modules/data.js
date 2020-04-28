@@ -180,7 +180,7 @@ const actions = {
         console.log(params);
         const resp = await api.getStores(params);
         console.log(resp.data.stores);
-        commit("setRealPrice", resp.data.stores);
+        commit("setRealPrice", resp.data);
     },
 
 };
@@ -233,8 +233,8 @@ const mutations = {
         state.qnaList = state.qnaList.concat(question);
         console.log(state.qnaList);
     },
-    setRealPrice(state, list) {
-        state.realPriceList = list;
+    setRealPrice(state, data) {
+        state.realPriceList = data;
     },
     clearRealPrice(state) {
         state.realPriceList = [];
