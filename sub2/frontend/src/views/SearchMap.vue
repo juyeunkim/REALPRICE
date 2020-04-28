@@ -2,7 +2,15 @@
   <div class="app">
     <img class="search-logo" alt="logo" src="../assets/logo_blue.png">
 
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    <!-- 가격 입력창 -->
+    <v-text-field
+      v-model="inputPrice"
+      class="size-20per"
+      solo
+      label="가격을 찾아보세요."
+      append-icon="search"
+      @keyup.enter="search"
+    />
     <input
       v-model="inputPrice"
       class="form-control size-20per"
@@ -11,20 +19,28 @@
       aria-label="Search"
       @keyup.enter="search"
     >
-    <v-dialog
-      v-model="dialog"
-      max-width="700"
-    >
+    <v-dialog v-model="dialog" max-width="700">
       <STOREDETAIL :store="selectedStore" @close="closeDetail" />
     </v-dialog>
+
+    <!-- 태그창 -->
+    <div>
+      <mdb-badge v-for="tag in tags" :key="tag.id" pill color="blue">{{tag.name}}</mdb-badge>
+    </div>
+
+    <!-- 지도창 -->
     <div class="map-frame">
       <div class="map-col1">
         <Map />
       </div>
       <div class="map-col2 scrollbar scrollbar-blue bordered-blue">
-        <StoreCard v-for="store in searchResult" :key="store.id" :store="store" @clickItem="selectItem" />
+        <StoreCard
+          v-for="store in searchResult"
+          :key="store.id"
+          :store="store"
+          @clickItem="selectItem"
+        />
       </div>
-      
     </div>
 
     <img class="marker" src="@/assets/marker.png">
@@ -34,61 +50,70 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=eac48c3548025ce4e0b61b1512b4282c"></script>
 
 <script>
-import STOREDETAIL from '@/components/realprice/StoreDetail';
+import STOREDETAIL from "@/components/realprice/StoreDetail";
 import StoreCard from "@/components/search_map/StoreCard.vue";
 import Map from "@/components/search_map/Map.vue";
-import api from '@/api/index.js'
+import api from "@/api/index.js";
+import { mdbBadge } from "mdbvue";
 
 export default {
   name: "Landing",
   components: {
     STOREDETAIL,
     StoreCard,
-    Map
+    Map,
+    mdbBadge
   },
   data() {
     return {
       selectedStore: null,
-      inputPrice: '',
+      inputPrice: "",
       searchResult: [],
       dialog: false,
-    }
+      tags: []
+    };
   },
   methods: {
     search: function() {
-      var data = {
-        price : parseInt(this.inputPrice),
-        ulatitude : 37.272618,
-        ulongitude:127.038970,
-        mlatitude : 37.501235,
-        mlongitude : 127.039511,
-        radius:1000
-      }
+      var price = parseInt(this.inputPrice);
 
-      api.getStores(data)
-      .then(response => {
-        console.log(response.data.stores)
-        this.searchResult = response.data.stores
-        })
+      if (!Number.isInteger(price) || price <= 0) {
+        this.$alert("숫자만 입력해주세요", "Warning", "warning");
+      } else {
+        var data = {
+          price: parseInt(this.inputPrice),
+          ulatitude: 37.272618,
+          ulongitude: 127.03897,
+          mlatitude: 37.501235,
+          mlongitude: 127.039511,
+          radius: 1000
+        };
+
+        api.getStores(data).then(response => {
+          console.log(response.data.stores);
+          this.searchResult = response.data.stores;
+          this.tags = response.data.tags;
+        });
+      }
     },
-    selectItem: function(id){
-      console.log('IN!')
+    selectItem: function(id) {
+      console.log("IN!");
       this.searchResult.forEach(el => {
-        if(el.id == id){
+        if (el.id == id) {
           this.selectedStore = el;
         }
       });
       this.dialog = true;
     },
-    getReviews: function(){
-      consol.log('!!!')
+    getReviews: function() {
+      consol.log("!!!");
       this.$store.dispatch("data/getReviews", this.selectedStore.id);
     },
-    closeDetail: function(){
+    closeDetail: function() {
       console.log("closeDetail");
       this.dialog = false;
       // this.selectedStore = null;
-    },
+    }
   }
 };
 </script>
@@ -98,6 +123,16 @@ export default {
 
 .app {
   background-color: white;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  height: 100%;
+}
+
+.v-input__slot{
+  text-align: right;
 }
 
 .search-logo {

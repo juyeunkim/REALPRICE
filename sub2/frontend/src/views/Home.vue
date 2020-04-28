@@ -2,7 +2,14 @@
   <div id="app">
     <v-card-text class="text-center">
       <img class="logo" alt="logo" src="../assets/logo_white.png">
-      <input v-model="inputPrice" class="form-control size-20per" type="text" placeholder="가격을 찾아보세요." aria-label="Search" @keyup.enter="search">
+      <v-text-field
+        v-model="inputPrice"
+        class="size-20per"
+        solo
+        label="가격을 찾아보세요."
+        append-icon="search"
+        @keyup.enter="search"
+      />
       <Cards :stores="searchResult" />
     </v-card-text>
   </div>
@@ -27,8 +34,13 @@ export default {
   },
   methods: {
     search:  function () {
-      var data = {
-        price : parseInt(this.inputPrice),
+      var price = parseInt(this.inputPrice);
+
+      if(!Number.isInteger(price) || price <= 0){
+        this.$alert("숫자만 입력해주세요", "Warning", "warning");
+      }else{
+        var data = {
+        price : price,
         ulatitude : 37.272618,
         ulongitude:127.038970,
         mlatitude : 37.501235,
@@ -41,6 +53,8 @@ export default {
         console.log(response.data.stores)
         this.searchResult = response.data.stores
         })
+      }
+      
     }
   }
 }
