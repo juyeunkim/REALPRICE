@@ -1,8 +1,8 @@
 <template>
 <div>
     <div v-show="false">{{positions.length}}</div>
-    <div v-show="false">{{point.latitude}}</div>
-    <div v-show="false">{{point.longitude}}</div>
+    <div v-show="false">{{userPoint.latitude}}</div>
+    <!-- <button @click="panTo">지도 중심좌표 이동시키기</button> -->
     <div id="map"/>
 </div>
 </template>
@@ -19,38 +19,66 @@ export default {
         user: {
             type: Object,
         },
+        map: {
+            type: Object,
+            default: null,
+        },
+        zoom: {
+            type: Number,
+        },
     },
     date(){
         return {
+            first: true,
         }
     },
     computed: {
         positions() {
             return this.restaurants;
         },
-        point(){
+        userPoint(){
             return this.user;
         },
+        mapPoint(){
+            return this.map;
+        },
+        level(){
+            return this.zoom;
+        }
     },
     mounted(){
-        this.drawMap(this.positions, this.point);
+        this.drawMap(this.positions, this.userPoint, this.mapPoint);
     },
     updated(){
-        this.drawMap(this.positions, this.point);
+        this.drawMap(this.positions, this.userPoint, this.mapPoint, this.level);
     },
     methods: {
-        drawMap(positions, point){
+        // panTo: function() {
+        //     var moveLatLon = new kakao.maps.LatLng(userPoint.latitude, userPoint.longitude);
+        //     map.panTo(moveLatLon);            
+        // },
+        drawMap(positions, userPoint, mapPoint, level){
+            // console.log(positions.length);
+            // console.log(userPoint);
+            // console.log(mapPoint);
+            // console.log(level);
+            if(userPoint.latitude == 0) return;
+
             const vm = this;
 
             var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-            var options = { //지도를 생성할 때 필요한 기본 옵션
-                center: new kakao.maps.LatLng(point.latitude, point.longitude), //지도의 중심좌표.
-                level: 5 //지도의 레벨(확대, 축소 정도)
+
+            let options = { //지도를 생성할 때 필요한 기본 옵션
+                center: new kakao.maps.LatLng(mapPoint.Ha>0?mapPoint.Ha:userPoint.latitude, mapPoint.Ga>0?mapPoint.Ga:userPoint.longitude), //지도의 중심좌표.
+                level: level===undefined?7:level, //지도의 레벨(확대, 축소 정도)
+                tileAnimation: false
             };
 
             var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+            map.setMinLevel(3);
+            map.setMaxLevel(7);
             
-            var markerPosition  = new kakao.maps.LatLng(point.latitude, point.longitude); 
+            var markerPosition  = new kakao.maps.LatLng(userPoint.latitude, userPoint.longitude); 
             
             var imageSize = new kakao.maps.Size(24, 35); 
             var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
@@ -72,16 +100,13 @@ export default {
 
                 // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
                 var iwContent =
-                `<div id="small"><div>${positions[i].store_name}</div><div class="price-font">${positions[i].avg_price}</div></div>`;
+                `<div id="small"><div>${positions[i].storeName}</div><div class="price-font">${positions[i].price}</div></div>`;
 
                 // 인포윈도우를 생성합니다
                 var infoWindow = new kakao.maps.InfoWindow({
                     content : iwContent,
                     disableAutoPan : true,
                 });
-                
-                
-
 
                 kakao.maps.event.addListener(marker, 'click', makeClickListener(positions[i].id));
                 kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infoWindow));
@@ -95,17 +120,16 @@ export default {
 
             var circle = new kakao.maps.Circle({
                 map: map,
-                center : new kakao.maps.LatLng(this.point.latitude, this.point.longitude),
+                center : new kakao.maps.LatLng(mapPoint.Ha>0?mapPoint.Ha:userPoint.latitude, mapPoint.Ga>0?mapPoint.Ga:userPoint.longitude),
                 radius: r,
                 strokeWeight: 2,
                 strokeColor: 'red',
                 strokeOpacity: 0.8,
                 strokeStyle: 'dashed',
                 fillColor: 'blue',
-                fillOpacity: 0.1 
+                fillOpacity: 0.1
             });
-            vm.$emit('drawCircle', circle.getPosition(), r);
-
+            vm.$emit('drawCircle', circle.getPosition(), r, map.getLevel(), "init");
 
             kakao.maps.event.addListener(map, 'zoom_changed', zoomChanged(map, circle));
             kakao.maps.event.addListener(map, 'bounds_changed', boundsChanged(map, circle));
@@ -129,40 +153,45 @@ export default {
             function zoomChanged(map, circle) {
                 return function() {
                     var center = map.getCenter();
-                    var level = map.getLevel();
+                    var lev = map.getLevel();
 
-                    // console.log(level);
-                    var mapObj = document.getElementById('map');
-                    var width = mapObj.getBoundingClientRect().width;
-                    var height = mapObj.getBoundingClientRect().height;
+                    if(center.getLat() > 0){
+                        // console.log(lev);
+                        var mapObj = document.getElementById('map');
+                        var width = mapObj.getBoundingClientRect().width;
+                        var height = mapObj.getBoundingClientRect().height;
 
-                    var radius = (width>height? height/16 : width/16) * (Math.pow(2,level));
-                    // var radius = 28.125 * (Math.pow(2,level));
+                        var radius = (width>height? height/16 : width/16) * (Math.pow(2,lev));
+                        // var radius = 28.125 * (Math.pow(2,level));
 
-                    circle.setPosition(center);
-                    circle.setRadius(radius);
-                    circle.setMap(map);
+                        circle.setPosition(center);
+                        circle.setRadius(radius);
+                        circle.setMap(map);
 
-                    vm.$emit('drawCircle', center, radius);
+                        vm.$emit('drawCircle', center, radius, lev, "zoom");
+                    }
                 };
             }
             function boundsChanged(map, circle) {
                 return function() {
                     var center = map.getCenter();
-                    var level = map.getLevel();
+                    var lev = map.getLevel();
 
-                    var mapObj = document.getElementById('map');
-                    var width = mapObj.getBoundingClientRect().width;
-                    var height = mapObj.getBoundingClientRect().height;
+                    if(center.getLat() > 0){
+                        var mapObj = document.getElementById('map');
+                        var width = mapObj.getBoundingClientRect().width;
+                        var height = mapObj.getBoundingClientRect().height;
 
-                    // circle.setPosition(center);
-                    var radius = (width>height? height/16 : width/16) * (Math.pow(2,level));
+                        // circle.setPosition(center);
+                        var radius = (width>height? height/16 : width/16) * (Math.pow(2,lev));
 
-                    circle.setPosition(center);
-                    circle.setRadius(radius);
-                    circle.setMap(map);
+                        circle.setPosition(center);
+                        circle.setRadius(radius);
+                        circle.setMap(map);
 
-                    vm.$emit('drawCircle', center, radius);
+                        // console.log(lev);
+                        vm.$emit('drawCircle', center, radius, lev, "bounds");
+                    }
                 };
             }
         }
@@ -208,4 +237,11 @@ export default {
 .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
 .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
 .info .link {color: #5085BB;}
+
+// .map_wrap {position:relative;overflow:hidden;width:100%;height:350px;}
+.radius_border{border:1px solid #919191;border-radius:5px;}
+.custom_zoomcontrol {position:absolute;top:50px;right:10px;width:36px;height:80px;overflow:hidden;z-index:1;background-color:#f5f5f5;} 
+.custom_zoomcontrol span {display:block;width:36px;height:40px;text-align:center;cursor:pointer;}     
+.custom_zoomcontrol span img {width:15px;height:15px;padding:12px 0;border:none;}             
+.custom_zoomcontrol span:first-child{border-bottom:1px solid #bfbfbf;}
 </style>
