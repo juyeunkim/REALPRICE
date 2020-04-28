@@ -35,8 +35,9 @@ export default {
 
 <style lang="scss" scoped>
 .row{
-  margin-left: 4vw;
-  @media screen and (max-width: 500px) {
+  margin-left: 1vw;
+  margin-right: 1vw;
+  @media screen and (max-width: 600px) {
     margin-left: 0.5vw;
     margin-right: 0.5vw;
   }

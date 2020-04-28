@@ -7,16 +7,8 @@
       solo
       label="가격을 찾아보세요."
       append-icon="search"
-      @keyup.enter="search"
-    />
-    <input
-      v-model="inputPrice"
-      class="form-control size-20per"
-      type="text"
-      placeholder="가격을 찾아보세요."
-      aria-label="Search"
       @keyup.enter="searchSubmit"
-    >
+    />
     <v-dialog
       v-model="dialog"
       max-width="700"

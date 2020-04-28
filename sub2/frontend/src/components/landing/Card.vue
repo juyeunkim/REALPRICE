@@ -46,7 +46,7 @@ export default {
 @font-face { font-family: 'TmonMonsori'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/TmonMonsori.woff') format('woff'); font-weight: normal; font-style: normal; }
 
 .wd23 {
-  width: 20vw;
+  width: 16vw;
   height: 25vw;
   margin: 1vw;
   position: static;
@@ -54,7 +54,7 @@ export default {
   margin: 2rem; */
   /* max-width: 18rem; */
     .fsize-4 {
-        font-size: 2vw;
+        font-size: 1.7vw;
         /* padding-bottom: 1vw; */
         /* font-size: 2rem; */
     }
@@ -70,10 +70,10 @@ export default {
 
     .price-font {
         font-family: 'TmonMonsori';
-        font-size: 3vw;
+        font-size: 2.8vw;
         padding-top: 1vw;
     }
-    @media screen and (max-width: 500px) {
+    @media screen and (max-width: 600px) {
         position: relative;
         width: 90vw;
         height: 25vw;

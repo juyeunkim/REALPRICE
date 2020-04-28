@@ -9,7 +9,7 @@
     </router-link>
 
     <v-toolbar-items>
-      <v-btn class="ml-2 linkBtn" text :to="{name: 'landing'}"><v-icon>fas fa-won-sign</v-icon></v-btn>
+      <!-- <v-btn class="ml-2 linkBtn" text :to="{name: 'landing'}"><v-icon>fas fa-won-sign</v-icon></v-btn> -->
       <v-btn class="ml-2 linkBtn" text :to="{name: 'searchmap'}"><v-icon>mdi-map</v-icon></v-btn>
     </v-toolbar-items>
     <v-spacer />
@@ -49,7 +49,7 @@
     </router-link>
 
     <v-toolbar-items>
-      <v-btn class="ml-2" text :to="{name: 'landing'}"><v-icon>fas fa-won-sign</v-icon></v-btn>
+      <!-- <v-btn class="ml-2" text :to="{name: 'landing'}"><v-icon>fas fa-won-sign</v-icon></v-btn> -->
       <v-btn class="ml-2" text :to="{name: 'searchmap'}"><v-icon>mdi-map</v-icon></v-btn>
     </v-toolbar-items>
     <v-spacer />
