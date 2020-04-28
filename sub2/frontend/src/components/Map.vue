@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div v-show="true">{{positions.length}}</div>
+    <div v-show="false">{{positions.length}}</div>
     <!-- <div v-show="true">{{this.first?"true":"false"}}</div> -->
     <div id="map"/>
     <!-- <div class="map_wrap">
@@ -73,7 +73,8 @@ export default {
 
             let options = { //지도를 생성할 때 필요한 기본 옵션
                 center: new kakao.maps.LatLng(mapPoint.Ha>0?mapPoint.Ha:userPoint.latitude, mapPoint.Ga>0?mapPoint.Ga:userPoint.longitude), //지도의 중심좌표.
-                level: level===undefined?5:level //지도의 레벨(확대, 축소 정도)
+                level: level===undefined?5:level, //지도의 레벨(확대, 축소 정도)
+                tileAnimation: false
             };
 
             var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
