@@ -18,8 +18,9 @@
         </v-dialog>
         <v-layout row>
           <v-flex xs8>
-            <div v-if="center !== null">{{center.Ha}}</div>
-            <div v-if="center !== null">{{center.Ga}}</div>
+            <div>{{zoom}}</div>
+            <div v-show="true">{{geoLocation.latitude}}</div>
+            <div v-show="true">{{geoLocation.longitude}}</div>
             <div>{{radius}}</div>
             <Map :restaurants="RealPriceList" :user="geoLocation" :map="center" :zoom="zoom" @clickItem="selectItem" @drawCircle="selectCircle"/>
           </v-flex>
@@ -96,13 +97,13 @@ export default {
       this.dialog = false;
       // this.selectedStore = null;
     },
-    selectCircle: function(c, r, z){
+    selectCircle: function(center, radius, level, str){
       // console.log("drawCircle");
-      // console.log(c);
-      this.center.Ha = c.getLat();
-      this.center.Ga = c.getLng();
-      this.radius = r;
-      this.zoom = z;
+      
+      this.center.Ha = center.getLat();
+      this.center.Ga = center.getLng();
+      this.radius = radius;
+      this.zoom = level;
     },
     getLocation: function() {
       const vm = this;
@@ -120,6 +121,8 @@ export default {
         });
       } else {
         console.log('GPS를 지원하지 않습니다');
+        vm.geoLocation.latitude = 37.50128969810118;
+        vm.geoLocation.longitude = 127.03960183847694;
       }
     },
     searchSubmit: function(inputPrice) {

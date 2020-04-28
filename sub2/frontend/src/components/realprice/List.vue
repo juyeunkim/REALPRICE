@@ -9,7 +9,7 @@
       <store-list-card
         @clickItem="selectItem"
         :id="store.id"
-        :name="store.storeName"
+        :name="store.storeName" 
         :address="store.address"
         :tel="store.tel"
         :avg_score="store.score"
