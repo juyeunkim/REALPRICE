@@ -16,7 +16,7 @@
           <mdb-media-body class="text-center text-md-left ml-md-3 ml-0">
             <div class="card-body2">
               <!-- Title -->
-              <h4 class="card-title font-weight-bold store-title"><a>{{store.storeName}} <img class="thumb" src='@/assets/star.png'/> {{ store.score }}</a></h4>
+              <h4 class="card-title font-weight-bold store-title"><a>{{store.storeName}} <img class="thumb" src='@/assets/star.png'/> {{ score }}</a></h4>
               <!-- Data -->
               <p class="price-per">{{ store.menu }}</p>
               <hr class="line">

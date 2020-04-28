@@ -1,6 +1,14 @@
 <template>
   <div class="app">
     <!-- 가격 입력창 -->
+    <v-text-field
+      v-model="inputPrice"
+      class="size-20per"
+      solo
+      label="가격을 찾아보세요."
+      append-icon="search"
+      @keyup.enter="search"
+    />
     <input
       v-model="inputPrice"
       class="form-control size-20per"
@@ -31,7 +39,6 @@
         <StoreCards :stores="selectedStores" @clickItem="selectItem"/>
         <!-- <StoreCard v-for="store in RealPriceList" :key="store.id" :store="store" @clickItem="selectItem" /> -->
       </div>
-      
     </div>
 
     <!-- <img class="marker" src="@/assets/marker.png"> -->
@@ -43,7 +50,6 @@
 <script>
 import STOREDETAIL from '@/components/realprice/StoreDetail';
 import StoreCards from '@/components/search_map/StoreCards.vue'
-import StoreCard from "@/components/search_map/StoreCard.vue";
 import Map from "@/components/Map.vue";
 import api from '@/api/index.js'
 import { mapState, mapActions, mapMutations } from "vuex";
@@ -54,7 +60,6 @@ export default {
   components: {
     STOREDETAIL,
     StoreCards,
-    StoreCard,
     Map,
     mdbBadge
   },
@@ -142,8 +147,8 @@ export default {
       });
       this.dialog = true;
     },
-    getReviews: function(){
-      consol.log('!!!')
+    getReviews: function() {
+      consol.log("!!!");
       this.$store.dispatch("data/getReviews", this.selectedStore.id);
     },
     closeDetail: function(){
@@ -212,6 +217,16 @@ export default {
     margin-right: 0.8vw;
     // font-size: 0.8vw;
   }
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  height: 100%;
+}
+
+.v-input__slot{
+  text-align: right;
 }
 
 .search-logo {

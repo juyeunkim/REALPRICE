@@ -1,6 +1,6 @@
 <template>
   <div>
-    <StoreCard v-for="store in stores" :key="store.id" :store="store" @clickItem="selectItem" />
+    <StoreCard v-for="store in stores" :key="store.id" :store="store" @clickItem="selectItem"/>
   </div>
 </template>
 
