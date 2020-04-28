@@ -3,8 +3,8 @@
     <v-layout justify-center row wrap>
       <v-flex color="indigo" dark py-3 text-xs-center white--text xs12>
         &copy;2020 —
-        <strong>A206</strong>
-        <p style="color : white"><b> SSAFY All rights reserved.</b></p> 
+        <strong>SSAFY</strong>
+        <p style="color : white"><b> <strong>A206</strong>  All rights reserved.</b></p> 
         <strong style="color : white">김주연</strong> &nbsp;
         <strong style="color : white">박정환</strong> &nbsp;
         <strong style="color : white">백창현</strong> &nbsp;

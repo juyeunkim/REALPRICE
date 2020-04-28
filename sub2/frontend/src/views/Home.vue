@@ -12,7 +12,7 @@
 <script>
 
 import Cards from '@/components/landing/Cards.vue'
-import axios from 'axios'
+import api from '@/api/index.js'
 
 export default {
   name: 'Landing',
@@ -28,26 +28,20 @@ export default {
   methods: {
     search:  function () {
       var price = parseInt(this.inputPrice)
-      axios
-      // .post('http://i02a206.p.ssafy.io:8080/api/getStores/',{
-      .post('http://13.125.68.33:8080/api/getStores/',{
-    "price":price, 
-    "ulatitude": 37.272618, 
-    "ulongitude":127.038970, 
-    "mlatitude": 37.501235, 
-    "mlongitude":127.039511
-})
-      // .get('http://127.0.0.1:8000/api/getStores/')
+      var data = {
+        price : price,
+        ulatitude : 37.272618,
+        ulongitude:127.038970,
+        mlatitude : 37.501235,
+        mlongitude : 127.039511,
+        radius:1000
+      }
+
+      api.getStores(data)
       .then(response => {
         console.log(response.data.stores)
         this.searchResult = response.data.stores
         })
-
-      // alert('Hello ' + this.inputPrice + '!')
-      // `event` 는 네이티브 DOM 이벤트입니다
-      //if (event) {
-      //  alert(event.target.tagName)
-      //}
     }
   }
 }
