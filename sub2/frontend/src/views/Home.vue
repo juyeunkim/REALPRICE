@@ -8,7 +8,14 @@
     </v-dialog>
     <v-card-text class="text-center">
       <img class="logo" alt="logo" src="../assets/logo_white.png">
-      <input v-model="inputPrice" class="form-control size-20per" type="text" placeholder="가격을 찾아보세요." aria-label="Search" @keyup.enter="searchSubmit">
+      <v-text-field
+        v-model="inputPrice"
+        class="size-20per"
+        solo
+        label="가격을 찾아보세요."
+        append-icon="search"
+        @keyup.enter="searchSubmit"
+      />
       <Cards :stores="RealPriceList" @clickItem="selectItem"/>
     </v-card-text>
   </div>
