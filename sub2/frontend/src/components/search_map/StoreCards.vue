@@ -1,24 +1,36 @@
 <template>
   <div>
-    <StoreCard v-for="store in stores" :key="store.id" :store="store" />
+    <StoreCard v-for="store in stores" :key="store.id" :store="store" @clickItem="selectItem" />
   </div>
 </template>
 
 <script>
-import StoreCard from "./StoreCard.vue";
-
+import StoreCard from './StoreCard.vue'
+  
 export default {
-  name: "StoreCards",
+  name: 'StoreCards',
   components: {
     StoreCard
   },
   props: {
     stores: {
-      type: Array,
-      default: () => new Object()
+        type: Array,
+        default: function(){
+            return [];
+        },
+    }
+  },
+  computed: {
+    storeList() {
+        return this.stores;
+    }
+  },
+  methods: {
+    selectItem(id) {
+      this.$emit("clickItem", id);
     }
   }
-};
+}
 </script>
 
 

@@ -3,59 +3,55 @@
     <v-card>
       <v-card-title class="headline" style="padding-left: 30px; padding-top: 30px;">
         <p style="margin-bottom: 0px;">{{ store.storeName }}</p>
-        <img class="star" src='@/assets/star.png'/>
-        <p class="orange--text" style="padding-left: 5px; margin-bottom: 0px;">{{ score }}</p>
+        <p class="orange--text" style="padding-left: 10px; margin-bottom: 0px;">{{ score }}</p>
         <v-spacer />
       </v-card-title>
       <v-divider />
 
       <!-- 식당 정보 -->
+      <v-chip class="ma-2" color="primary">식당 정보</v-chip>
+      <v-data-table
+        :headers="headers"
+        :items="items"
+        hide-default-header
+        hide-default-footer
+        class="elevation-1"
+      />
+
+      <v-chip class="ma-2" color="primary">먹을 수 있는 메뉴</v-chip>
+
       <v-card-text>
-        <v-chip class="ma-2" color="primary">식당 정보</v-chip>
-        <v-data-table
-          :headers="headers"
-          :items="items"
-          hide-default-header
-          hide-default-footer
-          class="elevation-1"
-        />
+        <p v-for="menu in menus" :key="menu.id">{{ menu.menu_name }} : {{ menu.price }}</p>
 
-        <v-chip class="ma-2" color="primary">먹을 수 있는 메뉴</v-chip>
-
-        <v-card-text>
-          <p v-for="menu in menus" :key="menu.id">{{ menu.menu_name }} : {{ menu.price }}</p>
-
-          <p>
-            가격: {{ store.price }}
-            <v-icon small>fas fa-won-sign</v-icon>
-          </p>
-        </v-card-text>
-        <v-divider />
-        <v-chip class="ma-2" color="primary">리뷰 만족 그래프</v-chip>
-        <div class="columns">
-          <div class="column">
-            <DoughnutChart :percent="percent" :visible-value="true" />
-          </div>
-          <!-- 먹을 수 있는 메뉴 개수로 그래프 만들기 -->
-          <!-- <div class="column">
+        <p>
+          가격: {{ store.price }}
+          <v-icon small>fas fa-won-sign</v-icon>
+        </p>
+      </v-card-text>
+      <v-divider />
+      <v-chip class="ma-2" color="primary">리뷰 만족 그래프</v-chip>
+      <div class="columns">
+        <div class="column">
+          <DoughnutChart :percent="percent" :visible-value="true" />
+        </div>
+        <div class="column">
           <DoughnutChart
             :percent="percent"
             :visible-value="true"
             :foreground-color="'purple'"
             :empty-text="'N/A'"
           />
-          </div>-->
         </div>
-        <v-divider />
-        <v-chip class="ma-2" color="primary">Review</v-chip>
-        <v-container fluid>
-          <REVIEW v-for="review in reviews" :key="review.id" :review="review" />
-        </v-container>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="blue darken-1" text @click="emitClose">닫기</v-btn>
-        </v-card-actions>
-      </v-card-text>
+      </div>
+      <v-divider />
+      <v-chip class="ma-2" color="primary">Review</v-chip>
+      <v-container fluid>
+        <REVIEW v-for="review in reviews" :key="review.id" :review="review" />
+      </v-container>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn color="blue darken-1" text @click="emitClose">닫기</v-btn>
+      </v-card-actions>
     </v-card>
   </div>
 </template>
@@ -95,17 +91,17 @@ export default {
         },
         {
           name: "교통비",
-          value: this.store.distanceCost
+          value: this.store.price
         }
       ]
     };
   },
   computed: {
-    score: function() {
-      return this.store.score.toFixed(2);
+    score: function(){
+      return this.store.score.toFixed(2)
     },
-    percent: function() {
-      return (this.score / 5).toFixed(2) * 100;
+    percent:function(){
+      return (this.score / 5) * 100;
     },
     tags: function() {
       return this.store.categories.reduce((acc, v) => {
@@ -146,12 +142,8 @@ export default {
 };
 </script>
 
-<style scpoed>
+<style>
 .v-data-table tbody tr:hover:not(.v-data-table__expanded__content) {
   background: #ffffff !important;
-}
-.star {
-  width: 2vw;
-  padding-left: 10px;
 }
 </style>

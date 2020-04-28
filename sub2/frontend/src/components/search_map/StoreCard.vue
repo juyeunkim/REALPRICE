@@ -1,20 +1,22 @@
 <template>
   <!-- Grid row -->
-  <mdb-row class="store-row">
+  <!-- <mdb-row> -->
+  <mdb-row class="store-row" @click.native="selectItem()">
     <!-- Grid column -->
-    <mdb-col md="10" lg="8" xl="12" class="mb-r">
+    <mdb-col col="12" id="col">
       <!--Panel-->
-      <mdb-card class="card-body2 mb-3 border-color" @click.native="clickItem()">
+      <mdb-card class="card-body2 mb-3 border-color">
         <mdb-media class="d-block d-md-flex">
           <mdb-media-image
             class="d-flex avatar-2 mb-md-0 mb-3 mx-auto food-img"
-            :src="store.srcUrl"
-            alt="Generic placeholder image"
+            :src="(store.srcUrl===null)?require('@/assets/logo_ver1.png'):store.srcUrl"
+            alt="image"
           />
+          <!-- :src="store.srcUrl" -->
           <mdb-media-body class="text-center text-md-left ml-md-3 ml-0">
             <div class="card-body2">
               <!-- Title -->
-              <h4 class="card-title font-weight-bold store-title"><a>{{store.storeName}} <img class="thumb" src='@/assets/star.png'/> {{ score }}</a></h4>
+              <h4 class="card-title font-weight-bold store-title"><a>{{store.storeName}} <img class="thumb" src='@/assets/star.png'/> {{ store.score }}</a></h4>
               <!-- Data -->
               <p class="price-per">{{ store.menu }}</p>
               <hr class="line">
@@ -57,6 +59,11 @@ export default {
       default: () => new Object()
     }
   },
+  data(){
+    return {
+      defaultURL: "require('@/assets/logo_ver1.png')",
+    }
+  },
   computed: {
     score: function(){
       return this.store.score.toFixed(1);
@@ -72,8 +79,7 @@ export default {
     }
   },
   methods: {
-    clickItem() {
-      console.log('child IN')
+    selectItem() {
       this.$emit("clickItem", this.store.id);
     }
   }
@@ -89,6 +95,10 @@ export default {
   font-style: normal;
 }
 
+#col{
+  padding-top: 0px; 
+  padding-bottom: 0px; 
+}
 
 .distance-font {
   margin: 0 0 0 0;

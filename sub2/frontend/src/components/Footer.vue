@@ -1,6 +1,7 @@
 <template>
-  <v-footer class="footer" height="auto" color="blue lighten-1" dark>
-    <v-layout justify-center row wrap>
+<div>
+  <v-footer class="footer" height="auto" color="blue lighten-1" dark v-show="!colorWhite">
+    <v-layout>
       <v-flex color="indigo" dark py-3 text-xs-center white--text xs12>
         &copy;2020 —
         <strong>SSAFY</strong>
@@ -11,17 +12,44 @@
         <strong style="color : white">전경윤</strong> &nbsp;
         <strong style="color : white">정구헌</strong> &nbsp;
       </v-flex>
-      
-      
-
     </v-layout>
   </v-footer>
+  <div class="footer2" v-show="colorWhite">
+    <v-layout>
+      <v-flex py-3 text-xs-center xs12>
+        &copy;2020 —
+        <strong>SSAFY</strong>
+        <p style="color : blue lighten-1"><b> <strong>A206</strong>  All rights reserved.</b></p> 
+        <strong style="color : blue lighten-1">김주연</strong> &nbsp;
+        <strong style="color : blue lighten-1">박정환</strong> &nbsp;
+        <strong style="color : blue lighten-1">백창현</strong> &nbsp;
+        <strong style="color : blue lighten-1">전경윤</strong> &nbsp;
+        <strong style="color : blue lighten-1">정구헌</strong> &nbsp;
+      </v-flex>
+    </v-layout>
+  </div>
+</div>
 </template>
 <script>
-export default {};
+import { mapState } from "vuex";
+export default {
+  computed: {
+    ...mapState({
+      colorWhite: state => state.data.menuWhite,
+    }),
+  },
+};
 </script>
-<style scoped>
-.footer{
-  text-align: center;
-}
+<style lang="scss" scoped>
+  .footer{
+    width: 100%;
+    height: 120px;
+    text-align: center;
+  }
+  .footer2{
+    width: 100%;
+    height: 120px;
+    text-align: center;
+    background-color: white;
+  }
 </style>

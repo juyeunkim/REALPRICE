@@ -1,66 +1,114 @@
 <template>
   <div id="app">
+    <v-dialog
+      v-model="dialog"
+      max-width="700"
+    >
+      <STOREDETAIL :store="selectedStore" @close="closeDetail" />
+    </v-dialog>
     <v-card-text class="text-center">
       <img class="logo" alt="logo" src="../assets/logo_white.png">
-      <v-text-field
-        v-model="inputPrice"
-        class="size-20per"
-        solo
-        label="가격을 찾아보세요."
-        append-icon="search"
-        @keyup.enter="search"
-      />
-      <Cards :stores="searchResult" />
+      <input v-model="inputPrice" class="form-control size-20per" type="text" placeholder="가격을 찾아보세요." aria-label="Search" @keyup.enter="searchSubmit">
+      <Cards :stores="RealPriceList" @clickItem="selectItem"/>
     </v-card-text>
   </div>
 </template>
 
 
 <script>
-
+import STOREDETAIL from '@/components/realprice/StoreDetail';
 import Cards from '@/components/landing/Cards.vue'
 import api from '@/api/index.js'
+import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
   name: 'Landing',
   components: {
+    STOREDETAIL,
     Cards
+  },
+  mounted() {
+    // this.setMenuWhite(false);
+    this.getLocation();
+  },
+  computed: {
+    ...mapState({
+      RealPriceList: state => state.data.realPriceList.stores,
+    })
   },
   data(){
     return {
+      selectedStore: null,
+      dialog: false,
       inputPrice: '',
-      searchResult: []
+      searchResult: [],
+      geoLocation: {
+        latitude: 0,
+        longitude: 0,
+      },
     }
   },
   methods: {
-    search:  function () {
-      var price = parseInt(this.inputPrice);
-
-      if(!Number.isInteger(price) || price <= 0){
-        this.$alert("숫자만 입력해주세요", "Warning", "warning");
-      }else{
-        var data = {
-        price : price,
-        ulatitude : 37.272618,
-        ulongitude:127.038970,
-        mlatitude : 37.501235,
-        mlongitude : 127.039511,
-        radius:1000
+    ...mapActions("data", ["postRealPrice"]),
+    ...mapMutations("data", ["setMenuWhite"]),
+    closeDetail: function(){
+      this.dialog = false;
+      this.selectedStore = null;
+    },
+    selectItem: function(id){
+      this.RealPriceList.forEach(el => {
+        if(el.id == id){
+          this.selectedStore = el;
+        }
+      });
+      this.dialog = true;
+    },
+    searchSubmit: function() {
+      const vm = this;
+      // this.postRealPrice({
+      //     "price" : parseInt(this.inputPrice),
+      //     "ulatitude" : 37.272618,
+      //     "ulongitude":127.038970,
+      //     "mlatitude" : 37.501235,
+      //     "mlongitude" : 127.039511,
+      //     "radius":1000
+      // });
+      this.postRealPrice({
+          "price": parseInt(vm.inputPrice), 
+          "ulatitude": parseFloat(vm.geoLocation.latitude),
+          "ulongitude": parseFloat(vm.geoLocation.longitude),
+          "mlatitude": parseFloat(vm.geoLocation.latitude), 
+          "mlongitude": parseFloat(vm.geoLocation.longitude),
+          "radius":500
+      });
+    },
+    getLocation: function() {
+      const vm = this;
+      if (navigator.geolocation) { // GPS를 지원하면
+        navigator.geolocation.getCurrentPosition(function(position) {
+          // alert(position.coords.latitude + ' ' + position.coords.longitude);
+          vm.geoLocation.latitude = position.coords.latitude;
+          vm.geoLocation.longitude = position.coords.longitude;
+        }, function(error) {
+          console.error(error);
+          vm.geoLocation.latitude = 37.50128969810118;
+          vm.geoLocation.longitude = 127.03960183847694;
+        }, {
+          enableHighAccuracy: false,
+          maximumAge: 0,
+          timeout: Infinity
+        });
+      } else {
+        console.log('GPS를 지원하지 않습니다');
+        vm.geoLocation.latitude = 37.50128969810118;
+        vm.geoLocation.longitude = 127.03960183847694;
       }
-
-      api.getStores(data)
-      .then(response => {
-        console.log(response.data.stores)
-        this.searchResult = response.data.stores
-        })
-      }
-      
-    }
+    },
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
 
 #app {

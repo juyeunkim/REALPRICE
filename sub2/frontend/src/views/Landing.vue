@@ -1,29 +1,28 @@
 <template>
-  <div id="app">
+  <div id="landing">
     <img class="logo" alt="logo" src="@/assets/logo_white.png">
-    <v-text-field
-      v-model="inputPrice"
-      class="size-20per"
-      solo
-      label="가격을 찾아보세요."
-      append-icon="search"
-      @keyup.enter="search"
-    />
     <input v-model="inputPrice" class="form-control size-20per" type="text" placeholder="가격을 찾아보세요." aria-label="Search" @keyup.enter="search">
-    <Cards v-for="store in searchResult" :key="store.id" :store="store" />
+    <Cards :stores="searchResult" />
+    <!-- <Card v-for="store in searchResult" :key="store.id" :store="store" /> -->
   </div>
 </template>
 
 
 <script>
 
+import Card from '@/components/landing/Card.vue'
 import Cards from '@/components/landing/Cards.vue'
 import api from '@/api/index.js'
+import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
   name: 'Landing',
   components: {
+    Card,
     Cards
+  },
+  created() {
+    this.setMenuWhite(false);
   },
   data(){
     return {
@@ -32,6 +31,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations("data", ["setMenuWhite"]),
     search:  function () {
       var data = {
         price : parseInt(this.inputPrice),
@@ -52,10 +52,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
 
-#app {
+#landing {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

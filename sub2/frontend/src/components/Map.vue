@@ -2,7 +2,6 @@
 <div>
     <div v-show="false">{{positions.length}}</div>
     <div v-show="false">{{userPoint.latitude}}</div>
-    <!-- <button @click="panTo">지도 중심좌표 이동시키기</button> -->
     <div id="map"/>
 </div>
 </template>
@@ -30,6 +29,7 @@ export default {
     date(){
         return {
             first: true,
+            defaultURL: "require('@/assets/logo_ver1.png')",
         }
     },
     computed: {
@@ -70,12 +70,12 @@ export default {
 
             let options = { //지도를 생성할 때 필요한 기본 옵션
                 center: new kakao.maps.LatLng(mapPoint.Ha>0?mapPoint.Ha:userPoint.latitude, mapPoint.Ga>0?mapPoint.Ga:userPoint.longitude), //지도의 중심좌표.
-                level: level===undefined?7:level, //지도의 레벨(확대, 축소 정도)
+                level: level===undefined?7:(level<4?3:level), //지도의 레벨(확대, 축소 정도)
                 tileAnimation: false
             };
 
             var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-            map.setMinLevel(3);
+            // map.setMinLevel(3);
             map.setMaxLevel(7);
             
             var markerPosition  = new kakao.maps.LatLng(userPoint.latitude, userPoint.longitude); 
@@ -93,20 +93,31 @@ export default {
             for (var i = 0; i < positions.length; i ++) {
 
                 // 마커를 생성합니다
-                var marker = new kakao.maps.Marker({
+                const marker = new kakao.maps.Marker({
                     map: map, // 마커를 표시할 지도
                     position: new kakao.maps.LatLng(positions[i].latitude, positions[i].longitude), // 마커를 표시할 위치
                 });
 
                 // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-                var iwContent =
-                `<div id="small"><div>${positions[i].storeName}</div><div class="price-font">${positions[i].price}</div></div>`;
+                const iwContent = (positions[i].srcUrl===null)?
+                `<div id="small"><img class="imgClass" src="/img/logo_ver1.96fe017e.png"/><div>${positions[i].storeName}</div><div class="price-font">${positions[i].price}</div></div>`:
+                `<div id="small"><img class="imgClass" src="${positions[i].srcUrl}"/><div>${positions[i].storeName}</div><div class="price-font">${positions[i].price}</div></div>`;
+                // `<div id="small"><div>${positions[i].storeName}</div><div class="price-font">${positions[i].price}</div></div>`;
 
                 // 인포윈도우를 생성합니다
-                var infoWindow = new kakao.maps.InfoWindow({
-                    content : iwContent,
-                    disableAutoPan : true,
+                // var infoWindow = new kakao.maps.InfoWindow({
+                //     content : iwContent,
+                //     disableAutoPan : true,
+                // });
+
+                const infoWindow = new kakao.maps.CustomOverlay({
+                    // map: map,
+                    position: new kakao.maps.LatLng(positions[i].latitude, positions[i].longitude),
+                    content: iwContent,
+                    yAnchor: 1.3
                 });
+
+                // infoWindow.setVisible(false);
 
                 kakao.maps.event.addListener(marker, 'click', makeClickListener(positions[i].id));
                 kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infoWindow));
@@ -122,13 +133,14 @@ export default {
                 map: map,
                 center : new kakao.maps.LatLng(mapPoint.Ha>0?mapPoint.Ha:userPoint.latitude, mapPoint.Ga>0?mapPoint.Ga:userPoint.longitude),
                 radius: r,
-                strokeWeight: 2,
-                strokeColor: 'red',
-                strokeOpacity: 0.8,
-                strokeStyle: 'dashed',
-                fillColor: 'blue',
-                fillOpacity: 0.1
+                strokeWeight: 4,
+                strokeColor: 'black',
+                strokeOpacity: 0.5,
+                strokeStyle: 'solid',
+                fillColor: 'white',
+                fillOpacity: 0.3
             });
+                // strokeStyle: 'dashed',
             vm.$emit('drawCircle', circle.getPosition(), r, map.getLevel(), "init");
 
             kakao.maps.event.addListener(map, 'zoom_changed', zoomChanged(map, circle));
@@ -142,12 +154,44 @@ export default {
             }
             function makeOverListener(map, marker, infowindow) {
                 return function() {
-                    infowindow.open(map, marker);
+                    // infowindow.open(map, marker);
+                    // infoWindow.setVisible(true);
+                    if(infowindow.getMap() === null)
+                        infowindow.setMap(map);
+
+                    
+                    var overlayObj = document.getElementById('small').getBoundingClientRect();
+                    // console.log(overlayObj);
+                    var mapObj = document.getElementById('map').getBoundingClientRect();
+                    // console.log(mapObj);
+
+                    // var arr = [0.000625, 0.00125, 0.0025, 0.005, 0.01, 0.02, 0.04, 0.08];
+                    var arr = [0.00051, 0.0011, 0.0021, 0.0043, 0.0085, 0.017, 0.033, 0.08];
+                    if(overlayObj.top < mapObj.top){
+                        var oriPos = infowindow.getPosition();
+                        var lev = map.getLevel();
+                        var diff = arr[lev-1];
+                        console.log(diff);
+                        var newPos = new kakao.maps.LatLng(oriPos.getLat() - diff, oriPos.getLng());
+                        infowindow.setPosition(newPos);
+                    }
+                    
                 };
             }
             function makeOutListener(map, marker, infowindow) {
                 return function() {
-                    infowindow.close();
+                    // infowindow.close();
+                    // infoWindow.setVisible(false);
+
+                    var markPos = marker.getPosition();
+                    var infoPos = infowindow.getPosition();
+
+                    if(markPos.getLat() !== infoPos.getLat()){
+                        infowindow.setPosition(markPos);
+                    }
+
+                    if(infowindow.getMap() !== null)
+                        infowindow.setMap(null);
                 };
             }
             function zoomChanged(map, circle) {
@@ -199,18 +243,18 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scope lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
 @font-face { font-family: 'TmonMonsori'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/TmonMonsori.woff') format('woff'); font-weight: normal; font-style: normal; }
 #map {
-    height: calc(60vw - 260px);
+    height: calc(60vw - 20.5vw);
     width: 100%;
     // height: calc(60vw - 260px);
     // width: calc(100vw - 260px);
-    @media screen and (max-width: 900px) {
-        height: 60vw;
-        width: 100%;
-    }
+    // @media screen and (max-width: 900px) {
+    //     height: 60vw;
+    //     width: 100%;
+    // }
 }
 .price-font {
     font-family: 'TmonMonsori';
@@ -221,7 +265,16 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     // border: solid 1px red;
     width: 150px;
+    // height: 150px;
     text-align: center;
+    background-color: white;
+    // border: 1px solid black;
+    box-sizing: border-box;
+
+    .imgClass{
+        width: 150px;
+        height: 120px;
+    }
 }
 .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
 .wrap * {padding: 0;margin: 0;}

@@ -1,6 +1,7 @@
 import api from "../../api";
 // initial state
 const state = {
+    menuWhite: false,
     realPriceList: [],
     // {
     //     "id": 161602,
@@ -180,14 +181,16 @@ const actions = {
         console.log(params);
         const resp = await api.getStores(params);
         console.log(resp.data.stores);
-        commit("setRealPrice", resp.data.stores);
+        commit("setRealPrice", resp.data);
     },
 
 };
 
 // mutations
 const mutations = {
-
+    setMenuWhite(state,payload){
+        state.menuWhite = payload;
+    },
 
     // 마이페이지
     userInfo(state, payload) {
@@ -233,8 +236,8 @@ const mutations = {
         state.qnaList = state.qnaList.concat(question);
         console.log(state.qnaList);
     },
-    setRealPrice(state, list) {
-        state.realPriceList = list;
+    setRealPrice(state, data) {
+        state.realPriceList = data;
     },
     clearRealPrice(state) {
         state.realPriceList = [];
