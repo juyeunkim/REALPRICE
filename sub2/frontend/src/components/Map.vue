@@ -115,7 +115,7 @@ export default {
                     // map: map,
                     position: new kakao.maps.LatLng(positions[i].latitude, positions[i].longitude),
                     content: iwContent,
-                    yAnchor: 1.3 
+                    yAnchor: 1.3
                 });
 
                 kakao.maps.event.addListener(marker, 'click', makeClickListener(positions[i].id));
