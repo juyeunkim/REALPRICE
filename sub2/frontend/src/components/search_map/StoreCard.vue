@@ -8,9 +8,10 @@
         <mdb-media class="d-block d-md-flex">
           <mdb-media-image
             class="d-flex avatar-2 mb-md-0 mb-3 mx-auto food-img"
-            :src="store.srcUrl"
-            alt="Generic placeholder image"
+            :src="(store.srcUrl===null)?require('@/assets/logo_ver1.png'):store.srcUrl"
+            alt="image"
           />
+          <!-- :src="store.srcUrl" -->
           <mdb-media-body class="text-center text-md-left ml-md-3 ml-0">
             <div class="card-body2">
               <!-- Title -->
@@ -23,7 +24,7 @@
                 <img class="thumb" src="@/assets/good.png">
               </p>
               <hr class="line">
-              <p class="price-font">{{ s.price }}</p>
+              <p class="price-font">{{ store.price }}</p>
             </div>
           </mdb-media-body>
         </mdb-media>
@@ -59,6 +60,11 @@ export default {
     store: {
       type: Object,
       default: () => new Object()
+    }
+  },
+  data(){
+    return {
+      defaultURL: "require('@/assets/logo_ver1.png')",
     }
   },
   computed: {

@@ -75,7 +75,7 @@ export default {
     this.getLocation();
   },
   destroyed() {
-      this.clearRealPrice();
+      // this.clearRealPrice();
   },
   methods:{
     ...mapActions("data", ["postRealPrice"]),

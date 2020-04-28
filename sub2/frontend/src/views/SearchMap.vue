@@ -9,7 +9,7 @@
       type="text"
       placeholder="가격을 찾아보세요."
       aria-label="Search"
-      @keyup.enter="search"
+      @keyup.enter="searchSubmit"
     >
     <v-dialog
       v-model="dialog"
@@ -22,7 +22,7 @@
         <Map :restaurants="RealPriceList" :user="geoLocation" :map="center" :zoom="zoom" @clickItem="selectItem" @drawCircle="selectCircle"/>
       </div>
       <div class="map-col2 scrollbar scrollbar-blue bordered-blue">
-        <StoreCard v-for="store in searchResult" :key="store.id" :store="store" @clickItem="selectItem" />
+        <StoreCard v-for="store in RealPriceList" :key="store.id" :store="store" @clickItem="selectItem" />
       </div>
       
     </div>
@@ -37,7 +37,7 @@
 import STOREDETAIL from '@/components/realprice/StoreDetail';
 import StoreCards from '@/components/search_map/StoreCards.vue'
 import StoreCard from "@/components/search_map/StoreCard.vue";
-import Map from "@/components/search_map/Map.vue";
+import Map from "@/components/Map.vue";
 import api from '@/api/index.js'
 import { mapState, mapActions, mapMutations } from "vuex";
 
@@ -77,7 +77,7 @@ export default {
     this.getLocation();
   },
   destroyed() {
-      this.clearRealPrice();
+      // this.clearRealPrice();
   },
   methods:{
     ...mapActions("data", ["postRealPrice"]),
@@ -116,6 +116,8 @@ export default {
           vm.geoLocation.longitude = position.coords.longitude;
         }, function(error) {
           console.error(error);
+          vm.geoLocation.latitude = 37.50128969810118;
+          vm.geoLocation.longitude = 127.03960183847694;
         }, {
           enableHighAccuracy: false,
           maximumAge: 0,
@@ -135,7 +137,7 @@ export default {
           "ulongitude": parseFloat(vm.geoLocation.longitude),
           "mlatitude": parseFloat(vm.center.Ha), 
           "mlongitude": parseFloat(vm.center.Ga),
-          "radius":parseInt(vm.radius)
+          "radius":parseFloat(vm.radius)
       });
       
     }

@@ -30,6 +30,7 @@ export default {
     date(){
         return {
             first: true,
+            defaultURL: "require('@/assets/logo_ver1.png')",
         }
     },
     computed: {
@@ -93,19 +94,28 @@ export default {
             for (var i = 0; i < positions.length; i ++) {
 
                 // 마커를 생성합니다
-                var marker = new kakao.maps.Marker({
+                const marker = new kakao.maps.Marker({
                     map: map, // 마커를 표시할 지도
                     position: new kakao.maps.LatLng(positions[i].latitude, positions[i].longitude), // 마커를 표시할 위치
                 });
 
                 // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-                var iwContent =
-                `<div id="small"><div>${positions[i].storeName}</div><div class="price-font">${positions[i].price}</div></div>`;
+                const iwContent = (positions[i].srcUrl===null)?
+                `<div id="small"><img class="imgClass" src="/img/logo_ver1.96fe017e.png"/><div>${positions[i].storeName}</div><div class="price-font">${positions[i].price}</div></div>`:
+                `<div id="small"><img class="imgClass" src="${positions[i].srcUrl}"/><div>${positions[i].storeName}</div><div class="price-font">${positions[i].price}</div></div>`;
+                // `<div id="small"><div>${positions[i].storeName}</div><div class="price-font">${positions[i].price}</div></div>`;
 
                 // 인포윈도우를 생성합니다
-                var infoWindow = new kakao.maps.InfoWindow({
-                    content : iwContent,
-                    disableAutoPan : true,
+                // var infoWindow = new kakao.maps.InfoWindow({
+                //     content : iwContent,
+                //     disableAutoPan : true,
+                // });
+
+                const infoWindow = new kakao.maps.CustomOverlay({
+                    // map: map,
+                    position: new kakao.maps.LatLng(positions[i].latitude, positions[i].longitude),
+                    content: iwContent,
+                    yAnchor: 1.3 
                 });
 
                 kakao.maps.event.addListener(marker, 'click', makeClickListener(positions[i].id));
@@ -122,13 +132,14 @@ export default {
                 map: map,
                 center : new kakao.maps.LatLng(mapPoint.Ha>0?mapPoint.Ha:userPoint.latitude, mapPoint.Ga>0?mapPoint.Ga:userPoint.longitude),
                 radius: r,
-                strokeWeight: 2,
-                strokeColor: 'red',
-                strokeOpacity: 0.8,
-                strokeStyle: 'dashed',
-                fillColor: 'blue',
-                fillOpacity: 0.1
+                strokeWeight: 4,
+                strokeColor: 'black',
+                strokeOpacity: 0.5,
+                strokeStyle: 'solid',
+                fillColor: 'white',
+                fillOpacity: 0.3
             });
+                // strokeStyle: 'dashed',
             vm.$emit('drawCircle', circle.getPosition(), r, map.getLevel(), "init");
 
             kakao.maps.event.addListener(map, 'zoom_changed', zoomChanged(map, circle));
@@ -142,12 +153,18 @@ export default {
             }
             function makeOverListener(map, marker, infowindow) {
                 return function() {
-                    infowindow.open(map, marker);
+                    // infowindow.open(map, marker);
+
+                    if(infowindow.getMap() === null)
+                        infowindow.setMap(map);
                 };
             }
             function makeOutListener(map, marker, infowindow) {
                 return function() {
-                    infowindow.close();
+                    // infowindow.close();
+
+                    if(infowindow.getMap() !== null)
+                        infowindow.setMap(null);
                 };
             }
             function zoomChanged(map, circle) {
@@ -199,7 +216,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scope lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
 @font-face { font-family: 'TmonMonsori'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/TmonMonsori.woff') format('woff'); font-weight: normal; font-style: normal; }
 #map {
@@ -221,7 +238,16 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     // border: solid 1px red;
     width: 150px;
+    // height: 150px;
     text-align: center;
+    background-color: white;
+    // border: 1px solid black;
+    box-sizing: border-box;
+
+    .imgClass{
+        width: 150px;
+        // height: 150px;
+    }
 }
 .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
 .wrap * {padding: 0;margin: 0;}
