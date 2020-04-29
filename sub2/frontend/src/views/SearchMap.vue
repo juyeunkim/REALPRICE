@@ -9,26 +9,36 @@
       append-icon="search"
       @keyup.enter="searchSubmit"
     />
+    <div v-if="isLoading">
+      <v-progress-circular
+        indeterminate
+        color="primary"
+        :size="50"
+      />
+    </div>
+    
     <v-dialog
       v-model="dialog"
       max-width="700"
     >
       <STOREDETAIL :store="selectedStore" @close="closeDetail" />
     </v-dialog>
-
+    
+    원하는 카테고리를 선택하세요
     <!-- 태그창 -->
     <div class="tags">
       <mdb-badge pill color='blue' class="tag" @click.native="allTag">All</mdb-badge>
       <mdb-badge v-for="tag in tagList" :key="tag.id" pill :color="(selectedTags.includes(tag.name))?'success':'blue'" class="tag" @click.native="selectTag(tag.name)"># {{tag.name}}</mdb-badge>
     </div>
-
+    범위를 조정하고 싶다면?
+    지도를 움직여서 다시 검색하세요
     <!-- 지도창 -->
     <div class="map-frame">
       <div class="map-col1">
         <Map :restaurants="selectedStores" :user="geoLocation" :map="center" :zoom="zoom" @clickItem="selectItem" @drawCircle="selectCircle"/>
       </div>
       <div class="map-col2 scrollbar scrollbar-blue bordered-blue">
-        <StoreCards :stores="selectedStores" @clickItem="selectItem"/>
+        <StoreCards :stores="selectedStores" @clickItem="selectItem" />
         <!-- <StoreCard v-for="store in RealPriceList" :key="store.id" :store="store" @clickItem="selectItem" /> -->
       </div>
     </div>
@@ -71,6 +81,7 @@ export default {
       },
       radius: 5,
       zoom: 0,
+      isLoading: false
     }
   },
   computed: {
@@ -145,7 +156,7 @@ export default {
     },
     closeDetail: function(){
       this.dialog = false;
-      this.selectedStore = null;
+      // this.selectedStore = null;
     },
     selectCircle: function(center, radius, level, str){      
       this.center.Ha = center.getLat();
@@ -177,14 +188,23 @@ export default {
     },
     searchSubmit: function() {
       const vm = this;
-      this.postRealPrice({
+      var price = parseInt(vm.inputPrice);
+      if(!Number.isInteger(price) || price <= 0){
+        this.$alert("숫자만 입력해주세요", "Warning", "warning");
+      }else{
+        this.isLoading = true;
+        this.postRealPrice({
           "price": parseInt(vm.inputPrice), 
           "ulatitude": parseFloat(vm.geoLocation.latitude),
           "ulongitude": parseFloat(vm.geoLocation.longitude),
-          "mlatitude": parseFloat(vm.center.Ha), 
-          "mlongitude": parseFloat(vm.center.Ga),
-          "radius":parseFloat(vm.radius)
-      });
+          "mlatitude": parseFloat(vm.geoLocation.latitude), 
+          "mlongitude": parseFloat(vm.geoLocation.longitude),
+          "radius":500
+       }).then(()=>{
+        this.isLoading = false;
+      }
+      );
+      }
       
     }
   },
@@ -197,6 +217,7 @@ export default {
   background-color: white;
   height: calc(100vh-120px);
   padding-bottom: 10px;
+  text-align: center;
 }
 
 .tags{
@@ -291,5 +312,16 @@ export default {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
   background-color: #0f4c82;
+}
+
+.v-progress-circular {
+margin: 1rem;
+}
+
+.tags{
+  
+  border-bottom-width: 10px;
+  margin-bottom: 15px;
+
 }
 </style>

@@ -16,6 +16,13 @@
         append-icon="search"
         @keyup.enter="searchSubmit"
       />
+      <div v-if="isLoading">
+        <v-progress-circular
+          indeterminate
+          color="primary"
+          :size="50"
+        />
+      </div>
       <Cards :stores="RealPriceList" @clickItem="selectItem"/>
     </v-card-text>
   </div>
@@ -53,6 +60,7 @@ export default {
         latitude: 0,
         longitude: 0,
       },
+      isLoading: false
     }
   },
   methods: {
@@ -72,22 +80,25 @@ export default {
     },
     searchSubmit: function() {
       const vm = this;
-      // this.postRealPrice({
-      //     "price" : parseInt(this.inputPrice),
-      //     "ulatitude" : 37.272618,
-      //     "ulongitude":127.038970,
-      //     "mlatitude" : 37.501235,
-      //     "mlongitude" : 127.039511,
-      //     "radius":1000
-      // });
-      this.postRealPrice({
+      var price = parseInt(vm.inputPrice);
+      if(!Number.isInteger(price) || price <= 0){
+        this.$alert("숫자만 입력해주세요", "Warning", "warning");
+      }else{
+        this.isLoading = true;
+        this.postRealPrice({
           "price": parseInt(vm.inputPrice), 
           "ulatitude": parseFloat(vm.geoLocation.latitude),
           "ulongitude": parseFloat(vm.geoLocation.longitude),
           "mlatitude": parseFloat(vm.geoLocation.latitude), 
           "mlongitude": parseFloat(vm.geoLocation.longitude),
           "radius":500
-      });
+      }).then(()=>{
+        this.isLoading = false;
+      }
+      );
+      }
+
+      
     },
     getLocation: function() {
       const vm = this;
