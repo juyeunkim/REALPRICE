@@ -19,10 +19,15 @@
       <div v-if="isLoading">
         <v-progress-circular
           indeterminate
-          color="primary"
+          color="white"
           :size="50"
         />
       </div>
+      <div class="explain">
+        더 많은 결과를 보고 싶다면? <br>
+        왼쪽 상단 지도 아이콘을 클릭하세요
+      </div>
+      
       <Cards :stores="RealPriceList" @clickItem="selectItem"/>
     </v-card-text>
   </div>
@@ -150,6 +155,13 @@ export default {
   border-radius: 10rem;
   @media screen and (max-width: 600px) {
     width: 80vw;
+  }
+}
+
+.explain{
+  color: white;
+  @media screen and (max-width: 600px) {
+    display: none;
   }
 }
 </style>

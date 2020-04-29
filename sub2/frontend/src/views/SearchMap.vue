@@ -221,7 +221,7 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
 .app {
   background-color: white;
-  height: calc(100vh-120px);
+  // height: calc(200px + 50vw + 120px);
   padding-bottom: 10px;
   text-align: center;
 }
@@ -229,6 +229,10 @@ export default {
 .tags{
   width: 90%;
   margin: auto;
+  // height: calc(200px - 7vw);
+  border-bottom-width: 10px;
+  margin-bottom: 15px;
+
   .tag{
     // margin-left: 0.1vw;
     margin-right: 0.8vw;
@@ -239,7 +243,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  height: 100%;
 }
 
 .v-input__slot{
@@ -270,7 +273,8 @@ export default {
 
 .map-frame {
   width: 90%;
-  max-height: 41vw;
+  // max-height: 41vw;
+  height: 42vw;
   margin: auto;
   margin-top: 20px;
   border: 8px solid #0f4c82;
@@ -324,10 +328,4 @@ export default {
 margin: 1rem;
 }
 
-.tags{
-  
-  border-bottom-width: 10px;
-  margin-bottom: 15px;
-
-}
 </style>

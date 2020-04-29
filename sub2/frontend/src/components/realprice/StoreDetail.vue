@@ -3,7 +3,7 @@
     <v-card>
       <v-card-title class="headline" style="padding-left: 30px; padding-top: 30px;">
         <p style="margin-bottom: 0px;">{{ store.storeName }}</p>
-        <img class="star" src='@/assets/star.png'/>
+        <img class="star" src="@/assets/star.png" />
         <p class="orange--text" style="padding-left: 5px; margin-bottom: 0px;">{{ score }}</p>
         <v-spacer />
       </v-card-title>
@@ -12,24 +12,54 @@
       <!-- 식당 정보 -->
       <v-card-text>
         <v-chip class="ma-2" color="primary">식당 정보</v-chip>
-        <v-data-table
-          :headers="headers"
-          :items="items"
-          hide-default-header
-          hide-default-footer
-          class="elevation-1"
-        />
-
+        
+        <v-simple-table>
+          <template v-slot:default>
+            <tbody>
+              <tr>
+                <td> 주소 </td>
+                <td>
+                  {{ store.address }}
+                </td>
+              </tr>
+              <tr>
+                <td> 가격 </td>
+                <td>
+                  {{ store.price }} <v-icon small>fas fa-won-sign</v-icon>
+                </td>
+              </tr>
+              <tr>
+                <td> 교통비 </td>
+                <td>
+                  {{ store.distanceCost }} <v-icon small>fas fa-won-sign</v-icon>
+                </td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
+        
         <v-chip class="ma-2" color="primary">먹을 수 있는 메뉴</v-chip>
-
-        <v-card-text>
-          <p v-for="menu in menus" :key="menu.id">{{ menu.menu_name }} : {{ menu.price }}</p>
-
-          <p>
-            가격: {{ store.price }}
-            <v-icon small>fas fa-won-sign</v-icon>
-          </p>
-        </v-card-text>
+        메뉴 수 : {{ menus.length }}
+        <v-simple-table dense>
+          <template v-slot:default>
+            <thead>
+              <tr>
+                <th class="text-left">메뉴</th>
+                <th class="text-left">가격</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="menu in menus" :key="menu.id">
+                <td>{{ menu.menu_name }}</td>
+                <td>
+                  {{ menu.price }}
+                  <v-icon small>fas fa-won-sign</v-icon>
+                </td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
+        
         <v-divider />
         <v-chip class="ma-2" color="primary">리뷰 만족 그래프</v-chip>
         <div class="columns">
@@ -48,13 +78,14 @@
         </div>
         <v-divider />
         <v-chip class="ma-2" color="primary">Review</v-chip>
+        리뷰 수 : {{ reviews.length }}
         <v-container fluid>
           <REVIEW v-for="review in reviews" :key="review.id" :review="review" />
         </v-container>
         <!-- <v-card-actions>
           <v-spacer />
           <v-btn color="blue darken-1" text @click="emitClose">닫기</v-btn>
-        </v-card-actions> -->
+        </v-card-actions>-->
       </v-card-text>
     </v-card>
   </div>
@@ -77,32 +108,11 @@ export default {
   },
   data() {
     return {
-      headers: [
-        {
-          name: "Dessert (100g serving)",
-          value: "name"
-        },
-        { text: "Value", value: "value" }
-      ],
-      items: [
-        {
-          name: "주소",
-          value: this.store.address
-        },
-        {
-          name: "가격",
-          value: this.store.price
-        },
-        {
-          name: "교통비",
-          value: this.store.distanceCost
-        }
-      ]
     };
   },
   computed: {
     score: function() {
-      return this.store.score.toFixed(2);
+      return this.store.score.toFixed(1);
     },
     percent: function() {
       return (this.score / 5).toFixed(2) * 100;
@@ -151,5 +161,9 @@ export default {
 .star {
   width: 2vw;
   padding-left: 10px;
+}
+
+.fa-won-sign {
+  font-size: 14px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-<div>
+<div style="display: flex;  bottom: 0;  left: 0;  right: 0; z-index:100;">
   <v-footer class="footer" height="auto" color="blue lighten-1" dark v-show="!colorWhite">
     <v-layout>
       <v-flex color="indigo" dark py-3 text-xs-center white--text xs12>
@@ -14,7 +14,7 @@
       </v-flex>
     </v-layout>
   </v-footer>
-  <div class="footer2" v-show="colorWhite">
+  <div class="footer white" height="auto" v-show="colorWhite">
     <v-layout>
       <v-flex py-3 text-xs-center xs12>
         &copy;2020 —
@@ -46,10 +46,7 @@ export default {
     height: 120px;
     text-align: center;
   }
-  .footer2{
-    width: 100%;
-    height: 120px;
-    text-align: center;
+  .white{
     background-color: white;
   }
 </style>

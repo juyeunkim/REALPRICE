@@ -95,11 +95,13 @@ export default {
                 });
 
                 // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-                const iwContent = (positions[i].srcUrl===null)?
-                `<div id="small"><img class="imgClass" src="/img/logo_ver1.96fe017e.png"/><div>${positions[i].storeName}</div><div class="price-font">${positions[i].price}</div></div>`:
-                `<div id="small"><img class="imgClass" src="${positions[i].srcUrl}"/><div>${positions[i].storeName}</div><div class="price-font">${positions[i].price}</div></div>`;
+                const iwContent = `<div id="small">`
+                + ((positions[i].srcUrl===null)?`<img class="imgClass" src="/img/logo_ver1.96fe017e.png"/>`:`<img class="imgClass" src="${positions[i].srcUrl}"/>`)
+                + `<div class="name-font">${positions[i].storeName}</div><div class="price-font">${String(positions[i].price + positions[i].distanceCost).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,") + "원"}</div></div>`;
                 // `<div id="small"><div>${positions[i].storeName}</div><div class="price-font">${positions[i].price}</div></div>`;
-
+      
+        // return String(this.store.price + this.store.distanceCost).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,") + "원";
+        
                 // 인포윈도우를 생성합니다
                 // var infoWindow = new kakao.maps.InfoWindow({
                 //     content : iwContent,
@@ -244,21 +246,24 @@ export default {
     //     width: 100%;
     // }
 }
-.price-font {
-    font-family: 'TmonMonsori';
-}
 #small{
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     // border: solid 1px red;
     width: 150px;
-    // height: 150px;
     text-align: center;
     background-color: white;
     // border: 1px solid black;
     box-sizing: border-box;
-
+    .name-font {
+        text-align: center;
+        height: 100%;
+        // font-family: 'TmonMonsori';
+    }
+    .price-font {
+        font-family: 'TmonMonsori';
+    }
     .imgClass{
         width: 150px;
         height: 120px;
