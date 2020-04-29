@@ -114,8 +114,8 @@ export default {
           vm.geoLocation.longitude = position.coords.longitude;
         }, function(error) {
           console.error(error);
-          vm.geoLocation.latitude = 37.50128969810118;
-          vm.geoLocation.longitude = 127.03960183847694;
+          vm.geoLocation.latitude = 37.49798640700624;
+          vm.geoLocation.longitude = 127.02765249685851;
         }, {
           enableHighAccuracy: false,
           maximumAge: 0,
@@ -123,8 +123,8 @@ export default {
         });
       } else {
         console.log('GPS를 지원하지 않습니다');
-        vm.geoLocation.latitude = 37.50128969810118;
-        vm.geoLocation.longitude = 127.03960183847694;
+        vm.geoLocation.latitude = 37.49798640700624;
+        vm.geoLocation.longitude = 127.02765249685851;
       }
     },
   }
@@ -153,6 +153,9 @@ export default {
   width: 50%;
   margin: auto;
   border-radius: 10rem;
+  @media screen and (max-width: 600px) {
+    width: 80vw;
+  }
 }
 
 .explain{

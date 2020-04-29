@@ -27,8 +27,14 @@
     원하는 태그를 선택하세요
     <!-- 태그창 -->
     <div class="tags">
-      <mdb-badge pill color='blue' class="tag" @click.native="allTag">All</mdb-badge>
-      <mdb-badge v-for="tag in tagList" :key="tag.id" pill :color="(selectedTags.includes(tag.name))?'success':'blue'" class="tag" @click.native="selectTag(tag.name)"># {{tag.name}}</mdb-badge>
+      <mdb-badge pill color='blue' class="tag" v-show="!(tagList===null)" @click.native="allTag">All</mdb-badge>
+      <mdb-badge v-for="tag in tagList"
+      :key="tag.id"
+      pill
+      :color="(selectedTags.includes(tag.name))?'success':'blue'"
+      class="tag"
+      v-show="(tag.id < 61)" 
+      @click.native="selectTag(tag.name)"># {{tag.name}}</mdb-badge>
     </div>
     범위를 조정하고 싶다면?
     지도를 움직여서 다시 검색하세요
@@ -68,7 +74,7 @@ export default {
   data() {
     return {
       selectedTags: [],
-      inputPrice: 5000,
+      inputPrice: '',
       selectedStore: null,
       dialog: false,
       geoLocation: {
@@ -173,8 +179,8 @@ export default {
           vm.geoLocation.longitude = position.coords.longitude;
         }, function(error) {
           console.error(error);
-          vm.geoLocation.latitude = 37.50128969810118;
-          vm.geoLocation.longitude = 127.03960183847694;
+          vm.geoLocation.latitude = 37.497986408991245;
+          vm.geoLocation.longitude = 127.02764401536562;
         }, {
           enableHighAccuracy: false,
           maximumAge: 0,
@@ -182,8 +188,8 @@ export default {
         });
       } else {
         console.log('GPS를 지원하지 않습니다');
-        vm.geoLocation.latitude = 37.50128969810118;
-        vm.geoLocation.longitude = 127.03960183847694;
+        vm.geoLocation.latitude = 37.497986408991245;
+        vm.geoLocation.longitude = 127.027644015365624;
       }
     },
     searchSubmit: function() {
