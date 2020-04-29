@@ -160,5 +160,8 @@ export default {
 
 .explain{
   color: white;
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
 }
 </style>
