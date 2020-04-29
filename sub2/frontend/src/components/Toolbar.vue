@@ -151,8 +151,8 @@ export default {
   width: 100px;
   margin: auto;
 }
-.linkBtn {
-  @media screen and (max-width: 500px) {
+.linkBtn{
+  @media screen and (max-width: 600px){
     display: none;
   }
 }
