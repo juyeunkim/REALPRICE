@@ -229,7 +229,7 @@ export default {
 .tags{
   width: 90%;
   margin: auto;
-  height: calc(200px - 7vw);
+  // height: calc(200px - 7vw);
   border-bottom-width: 10px;
   margin-bottom: 15px;
 
