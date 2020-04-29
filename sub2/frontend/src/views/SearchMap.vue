@@ -199,7 +199,7 @@ export default {
           "ulongitude": parseFloat(vm.geoLocation.longitude),
           "mlatitude": parseFloat(vm.geoLocation.latitude), 
           "mlongitude": parseFloat(vm.geoLocation.longitude),
-          "radius":500
+          "radius":parseFloat(vm.radius)
        }).then(()=>{
         this.isLoading = false;
       }
