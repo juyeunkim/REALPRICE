@@ -203,8 +203,8 @@ export default {
           "price": parseInt(vm.inputPrice), 
           "ulatitude": parseFloat(vm.geoLocation.latitude),
           "ulongitude": parseFloat(vm.geoLocation.longitude),
-          "mlatitude": parseFloat(vm.geoLocation.latitude), 
-          "mlongitude": parseFloat(vm.geoLocation.longitude),
+          "mlatitude": parseFloat(vm.center.Ha), 
+          "mlongitude": parseFloat(vm.center.Ga),
           "radius":parseFloat(vm.radius)
        }).then(()=>{
         this.isLoading = false;
