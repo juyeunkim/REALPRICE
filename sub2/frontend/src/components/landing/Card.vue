@@ -48,7 +48,7 @@ export default {
 
 .wd23 {
   width: 16vw;
-  height: 25vw;
+  height: 27vw;
   margin: 1vw;
   position: static;
   /* width: 18rem;
@@ -64,7 +64,8 @@ export default {
         font-size: 1.3vw;
     }
     .imgBox {
-        height: 13vw;
+        width: 16vw;
+        height: 16vw;
         /* min-height: 18rem; */
     }
 
