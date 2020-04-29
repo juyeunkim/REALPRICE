@@ -221,7 +221,7 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
 .app {
   background-color: white;
-  height: calc(200px + 67vw);
+  // height: calc(200px + 50vw + 120px);
   padding-bottom: 10px;
   text-align: center;
 }
@@ -229,7 +229,7 @@ export default {
 .tags{
   width: 90%;
   margin: auto;
-  height: calc(200px - 2vw);
+  height: calc(200px - 7vw);
   border-bottom-width: 10px;
   margin-bottom: 15px;
 
