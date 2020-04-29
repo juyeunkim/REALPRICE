@@ -51,10 +51,10 @@
         <v-container fluid>
           <REVIEW v-for="review in reviews" :key="review.id" :review="review" />
         </v-container>
-        <v-card-actions>
+        <!-- <v-card-actions>
           <v-spacer />
           <v-btn color="blue darken-1" text @click="emitClose">닫기</v-btn>
-        </v-card-actions>
+        </v-card-actions> -->
       </v-card-text>
     </v-card>
   </div>
@@ -139,7 +139,6 @@ export default {
     },
     emitClose: function() {
       this.$emit("close");
-      this.$store.state.reviews = null;
     }
   }
 };
