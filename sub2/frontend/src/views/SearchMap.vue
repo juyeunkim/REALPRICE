@@ -24,7 +24,7 @@
       <STOREDETAIL :store="selectedStore" @close="closeDetail" />
     </v-dialog>
     
-    원하는 카테고리를 선택하세요
+    원하는 태그를 선택하세요
     <!-- 태그창 -->
     <div class="tags">
       <mdb-badge pill color='blue' class="tag" @click.native="allTag">All</mdb-badge>
