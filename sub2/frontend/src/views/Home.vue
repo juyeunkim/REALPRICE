@@ -7,7 +7,7 @@
       <STOREDETAIL :store="selectedStore" @close="closeDetail" />
     </v-dialog>
     <v-card-text class="text-center">
-      <img class="logo" alt="logo" src="../assets/logo_white.png">
+      <img class="logo" alt="logo" src="@/assets/logo_white.png">
       <v-text-field
         v-model="inputPrice"
         class="size-20per"
@@ -36,7 +36,7 @@ import api from '@/api/index.js'
 import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
-  name: 'Landing',
+  name: 'Home',
   components: {
     STOREDETAIL,
     Cards

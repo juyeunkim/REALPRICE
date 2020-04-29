@@ -56,8 +56,6 @@ export default {
   /* max-width: 18rem; */
     .fsize-4 {
         font-size: 1.7vw;
-        /* padding-bottom: 1vw; */
-        /* font-size: 2rem; */
     }
     .fsize-3 {
         color: black;

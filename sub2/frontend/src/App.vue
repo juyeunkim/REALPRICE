@@ -1,6 +1,7 @@
 <template>
   <v-app id="app">
     <toolbar />
+    <img class="logo" alt="logo" src="@/assets/logo_white.png">
     <!-- <drawer /> -->
     <route-view />
     <!-- <go-top /> -->
