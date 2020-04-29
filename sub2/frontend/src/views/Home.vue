@@ -19,7 +19,7 @@
       <div v-if="isLoading">
         <v-progress-circular
           indeterminate
-          color="primary"
+          color="white"
           :size="50"
         />
       </div>
