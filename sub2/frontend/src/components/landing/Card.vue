@@ -5,6 +5,7 @@
     <mdbCardImage v-else class="imgBox" :src="require('@/assets/logo_ver1.png')" alt="Card image cap" />
     <mdbCardBody class="rem4">
       <mdbCardTitle class="fsize-4">{{ store.storeName }}</mdbCardTitle>
+      <mdbCardTitle class="fsize-3">"{{ store.menu }}"</mdbCardTitle>
       <div class="price-font" style="color:black;">{{ wonDisplay }}</div>
     </mdbCardBody>
   </mdbCard>
@@ -58,8 +59,12 @@ export default {
         /* padding-bottom: 1vw; */
         /* font-size: 2rem; */
     }
+    .fsize-3 {
+        color: black;
+        font-size: 1.3vw;
+    }
     .imgBox {
-        height: 15vw;
+        height: 13vw;
         /* min-height: 18rem; */
     }
 
@@ -89,16 +94,22 @@ export default {
         }
         .fsize-4 {
             position: absolute;
-            top: 5vw;
-            left: 40vw;
-            font-size: 5vw;
+            top: 3vw;
+            left: 30vw;
+            font-size: 4.5vw;
             /* padding-bottom: 1vw; */
             /* font-size: 2rem; */
         }
+        .fsize-3 {
+            position: absolute;
+            top: 10vw;
+            left: 30vw;
+            font-size: 3.7vw;
+        }
         .price-font {
             position: absolute;
-            top: 15vw;
-            left: 40vw;
+            top: 17vw;
+            left: 30vw;
             font-size: 6vw;
             padding-top: 1vw;
         }

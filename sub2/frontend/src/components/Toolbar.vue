@@ -140,7 +140,7 @@ export default {
   margin: auto;
 }
 .linkBtn{
-  @media screen and (max-width: 500px){
+  @media screen and (max-width: 600px){
     display: none;
   }
 }
