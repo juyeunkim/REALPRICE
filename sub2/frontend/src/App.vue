@@ -23,6 +23,9 @@ export default {
     GoTop,
     Footer
   },
+  data: (()=>{
+    landing: true;
+  }),
 };
 </script>
 
