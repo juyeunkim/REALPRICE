@@ -23,6 +23,11 @@
           :size="50"
         />
       </div>
+      <div class="explain">
+        더 많은 결과를 보고 싶다면? <br>
+        왼쪽 상단 지도 아이콘을 클릭하세요
+      </div>
+      
       <Cards :stores="RealPriceList" @clickItem="selectItem"/>
     </v-card-text>
   </div>
@@ -148,5 +153,9 @@ export default {
   width: 50%;
   margin: auto;
   border-radius: 10rem;
+}
+
+.explain{
+  color: white;
 }
 </style>

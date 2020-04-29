@@ -101,7 +101,6 @@ const actions = {
     // 음식점 정보
     getStoreInfo({ commit }, payload) {
         api.detailStore(payload).then(res => {
-            console.log(res)
             commit('getReviews', res.data.received_data.review)
             commit('getMenus', res.data.received_data.menu)
         })
@@ -188,7 +187,7 @@ const actions = {
 
 // mutations
 const mutations = {
-    setMenuWhite(state,payload){
+    setMenuWhite(state, payload) {
         state.menuWhite = payload;
     },
 
