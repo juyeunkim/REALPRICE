@@ -1,8 +1,8 @@
 // import axios from "./http-common";
 import axios from 'axios'
 
-// const apiUrl = "http://13.125.68.33:8080/api";
-const apiUrl = "http://127.0.0.1:8000/api";
+const apiUrl = "http://13.125.68.33:8080/api";
+// const apiUrl = "http://127.0.0.1:8000/api";
 // const apiUrl = "/api";
 
 // let header = {

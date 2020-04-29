@@ -39,7 +39,7 @@
         </v-simple-table>
         
         <v-chip class="ma-2" color="primary">먹을 수 있는 메뉴</v-chip>
-
+        메뉴 수 : {{ menus.length }}
         <v-simple-table dense>
           <template v-slot:default>
             <thead>
@@ -78,6 +78,7 @@
         </div>
         <v-divider />
         <v-chip class="ma-2" color="primary">Review</v-chip>
+        리뷰 수 : {{ reviews.length }}
         <v-container fluid>
           <REVIEW v-for="review in reviews" :key="review.id" :review="review" />
         </v-container>

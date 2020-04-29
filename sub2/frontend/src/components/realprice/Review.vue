@@ -7,8 +7,12 @@
             {{ content }} 
             <span v-if="!more && content.length>= 50" class="red lighten-4 white--text" @click="viewMore"> 더보기</span>
             <br>
-            <v-icon>{{ mdiCalendarMonth }} </v-icon>{{ review.reg_time }}
-            <v-icon>{{ mdiStar }} </v-icon> {{ review.score }}
+            <div class="reviewinfo">
+              <img class="recommend" src="../../assets/calendar.png"> <strong> {{ review.reg_time }} </strong>
+              <img class="recommend" src="../../assets/star.png"> <strong> {{ review.score }} </strong>              
+              <img v-if="review.score>=3" class="recommend" src="../../assets/good.png">
+              <img v-else class="recommend" src="../../assets/bad.png">
+            </div>
           </v-card-text>
         </v-card>
       </v-card>
@@ -29,14 +33,14 @@ export default {
     return {
       mdiCalendarMonth,
       mdiStar,
-      more: false
+      more: false,
     }
   },
   computed:{
     content: function(){
       if(!this.more) return this.review.content.slice(0, 50);
       else return this.review.content
-    }
+    },
   },
   methods:{
     viewMore(){
@@ -48,4 +52,13 @@ export default {
 </script>
 
 <style>
+
+.reviewinfo{
+  margin-top: 10px;
+  
+}
+
+.recommend{
+  width: 2vw;
+}
 </style>
