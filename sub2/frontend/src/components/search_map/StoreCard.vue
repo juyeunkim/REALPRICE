@@ -169,7 +169,7 @@ export default {
 .food-img {
   width:  7vw;
   height: 7vw;
-  margin-top: 1vw;
+  margin-top: 0.5vw;
   padding: 0px;
   @media screen and (max-width: 600px) {
     width:  10vw;
