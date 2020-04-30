@@ -158,8 +158,11 @@ export default {
 }
 
 .logo{
-  width: 300px;
+  width: 19.8vw;
   margin: auto;
+  @media screen and (max-width: 600px) {
+    width: 50vw;
+  }
 }
 
 .size-20per {

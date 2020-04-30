@@ -98,12 +98,18 @@ export default {
 }
 
 .logo{
-  width: 600px;
+  width: 50vw;
   // margin: auto;
+  @media screen and (max-width: 600px) {
+    width: 90vw;
+  }
 }
 
 .land{
-  width: 300px;
+  width: 19.8vw;
+  @media screen and (max-width: 600px) {
+    width: 50vw;
+  }
   transition:width 1.5s;
 }
 .notShow{
