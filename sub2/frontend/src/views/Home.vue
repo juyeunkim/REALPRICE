@@ -16,6 +16,7 @@
         label="금액을 입력하세요."
         suffix="원"
         :rules="[() => !!num || '숫자만 입력하세요.']"
+        @click:append="searchSubmit"
         @keyup.enter="searchSubmit"
       />
       <div v-if="isLoading">
