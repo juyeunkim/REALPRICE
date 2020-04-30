@@ -55,7 +55,7 @@ export default {
   },
   computed: {
     ...mapState({
-      RealPriceList: state => state.data.realPriceList.stores,
+      RealPriceList: state => state.data.realPriceStores,
     }),
     // num(inputPrice) {
     // }
