@@ -317,7 +317,7 @@ export default {
   padding: 5px;
   @media screen and (max-width: 600px) {
     padding: 0px;
-    width: 100vw;
+    height: 200vw;
     border: 0px;
     position: relative;
   }
@@ -327,8 +327,9 @@ export default {
   float: left;
   width: 80%;
   @media screen and (max-width: 600px) {
-    position: absolute;
+    // position: absolute;
     width: 100%;
+    height: 50vw;
   }
 }
 
@@ -338,13 +339,21 @@ export default {
   margin-left: 10px;
   overflow: scroll;
   @media screen and (max-width: 600px) {
-    width: 80vw;
     position: absolute;
+    top: 50vw;
+    float: left;
+    width: 100%;
+    height: 50vw;
+    overflow: unset;
+    overflow-y: hidden;
+    overflow-x: auto;
+    display: flex; /* or inline-flex */
+    flex-direction: row;
+    // width: 100vw;
+    margin-left: 0px;
+    white-space:nowrap;
+    // position: absolute;
   }
-}
-
-.store-card {
-  width: 20%;
 }
 
 .scrollbar {
@@ -354,6 +363,11 @@ export default {
   overflow-x: hidden;
   margin-bottom: 0px;
   padding-right: 10px;
+  @media screen and (max-width: 600px) {
+    // float: none;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
 }
 
 .scrollbar-blue::-webkit-scrollbar-track {

@@ -16,7 +16,9 @@
           <mdb-media-body class="text-center text-md-left ml-md-3 ml-0">
             <div class="card-body2">
               <!-- Title -->
-              <h4 class="card-title font-weight-bold store-title"><a>{{store.storeName}} <img class="thumb" src='@/assets/star.png'/> {{ score }}</a></h4>
+              <h4 class="card-title font-weight-bold store-title">{{store.storeName}}
+                <span class="thumbnscore"><img class="thumb" src='@/assets/star.png'/> {{ score }}</span>
+              </h4>
               <!-- Data -->
               <p class="price-per">{{ store.menu }}</p>
               <hr class="line">
@@ -94,7 +96,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 @font-face {
   font-family: "TmonMonsori";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/TmonMonsori.woff")
@@ -117,6 +119,9 @@ export default {
     font-size: 1.3vw;
     margin-bottom: 0px;
     color: #0F4C82;
+    @media screen and (max-width: 600px) {
+      font-size: 3vw;
+    }
 }
 
 .price-per {
@@ -124,6 +129,9 @@ export default {
   font-family: 'TmonMonsori';
   font-size: 1vw;
   margin-bottom: 5px;
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 }
 
 .card-body2 {
@@ -136,8 +144,15 @@ export default {
   font-size: 1vw;
   font-weight: bold;
   color: #0F4C82;
+  @media screen and (max-width: 600px) {
+    font-size: 3vw;
+  }
 }
-
+.thumbnscore{
+  @media screen and (max-width: 600px) {
+    display: block;
+  }
+}
 .thumb {
   width: 1vw;
   padding-bottom: 10px;

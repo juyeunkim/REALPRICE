@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="cards">
       <v-skeleton-loader
         ref="skeleton"
         :boilerplate="false"
@@ -11,7 +11,7 @@
         class="mx-auto"
       >
         <div>
-          <StoreCard v-for="store in stores" :key="store.id" :store="store" @clickItem="selectItem"/>
+          <StoreCard class="card" v-for="store in stores" :key="store.id" :store="store" @clickItem="selectItem"/>
           <!-- <v-btn depressed large color="normal" @click="$emit('next')">More...</v-btn> -->
           <!-- <v-btn
           class="mx-2"
@@ -81,12 +81,20 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .no-result{
   width: 2vw;
   margin: 0.3vw;
 }
 .no-result-font{
   font-size:0.7vw;
+}
+.card{
+  @media screen and (max-width: 600px) {
+    display: inline-block;
+    width: 30vw;
+    height: 40vw;
+    margin-right: 5vw;
+  }
 }
 </style>

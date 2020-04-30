@@ -27,15 +27,15 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #map {
+    width: 50vw;
     height: calc(60vw - 19.5vw);
-    width: 100%;
     // height: calc(60vw - 260px);
     // width: calc(100vw - 260px);
-    @media screen and (max-width: 900px) {
-        height: 60vw;
+    @media screen and (max-width: 600px) {
         width: 100%;
+        height: 100vw;
     }
 }
 
