@@ -18,11 +18,15 @@
           fab dark color="#0F4C82"
           > -->
           <v-btn block color="#0F4C82" dark
-          @click="$emit('next')" v-if="(stores.length < total)">
+            @click="$emit('next')"
+            v-if="(stores.length < total)">
             <v-icon dark>mdi-plus</v-icon>
           </v-btn>
         </div>
       </v-skeleton-loader>
+      <div v-if="isSearched && !(this.stores.length > 0)">
+        검색 결과가 없습니다.
+      </div>
   </div>
 </template>
 
@@ -44,11 +48,15 @@ export default {
     total: {
         type: Number,
         default: 0,
+    },
+    isSearched: {
+        type: Boolean,
+        default: 0,
     }
   },
   computed: {
     loading(){
-      if(this.stores.length > 0){
+      if(this.stores.length > 0 || (this.isSearched)){
         return false;
       } else{
         return true;
@@ -61,6 +69,12 @@ export default {
   methods: {
     selectItem(id) {
       this.$emit("clickItem", id);
+    },
+    hoverItem(id){
+      this.$emit("hover", id);
+    },
+    outItem(){
+      this.$emit("out");
     }
   }
 }

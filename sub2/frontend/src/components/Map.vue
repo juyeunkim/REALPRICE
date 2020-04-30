@@ -25,6 +25,9 @@ export default {
         zoom: {
             type: Number,
         },
+        hoverId: {
+            type: Number,
+        },
     },
     date(){
         return {
@@ -44,6 +47,16 @@ export default {
         },
         level(){
             return this.zoom;
+        },
+        // Idhover(){
+        //     if(this.hoverId<0)
+        //         return 0;
+        //     return this.hoverId;
+        // }
+    },
+    watch: {
+        hoverId: function(newId){
+            this.drawMap(this.positions, this.userPoint, this.mapPoint, this.level, newId);
         }
     },
     mounted(){
@@ -57,7 +70,7 @@ export default {
         //     var moveLatLon = new kakao.maps.LatLng(userPoint.latitude, userPoint.longitude);
         //     map.panTo(moveLatLon);            
         // },
-        drawMap(positions, userPoint, mapPoint, level){
+        drawMap(positions, userPoint, mapPoint, level, newId){
             if(userPoint.latitude == 0) return;
 
             const vm = this;
@@ -114,6 +127,25 @@ export default {
                     content: iwContent,
                     yAnchor: 1.3
                 });
+
+                if(positions[i].id === newId){                    
+                    infoWindow.setMap(map);
+                    // makeOverListener(map, marker, infoWindow);
+
+
+                    // var overlayObj = document.getElementById('small').getBoundingClientRect();
+                    // var mapObj = document.getElementById('map').getBoundingClientRect();
+
+                    // // var arr = [0.000625, 0.00125, 0.0025, 0.005, 0.01, 0.02, 0.04, 0.08];
+                    // var arr = [0.00051, 0.0011, 0.0021, 0.0043, 0.0085, 0.017, 0.033, 0.08];
+                    // if(overlayObj.top < mapObj.top){
+                    //     var oriPos = infowindow.getPosition();
+                    //     var lev = map.getLevel();
+                    //     var diff = arr[lev-1];
+                    //     var newPos = new kakao.maps.LatLng(oriPos.getLat() - diff, oriPos.getLng());
+                    //     infowindow.setPosition(newPos);
+                    // }
+                }
 
                 // infoWindow.setVisible(false);
 

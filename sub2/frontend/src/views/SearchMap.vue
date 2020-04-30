@@ -49,7 +49,7 @@
         <Map :restaurants="selectedStores" :user="geoLocation" :map="center" :zoom="zoom" @clickItem="selectItem" @drawCircle="selectCircle"/>
       </div>
       <div class="map-col2 scrollbar scrollbar-blue bordered-blue">
-        <StoreCards :stores="selectedStores" :total="RealPriceList.length" @clickItem="selectItem" @next="nextStores"/>
+        <StoreCards :stores="selectedStores" :total="RealPriceList.length" :isSearched="isSearched" @clickItem="selectItem" @next="nextStores"/>
         <!-- <StoreCard v-for="store in RealPriceList" :key="store.id" :store="store" @clickItem="selectItem" /> -->
       </div>
     </div>
@@ -78,6 +78,8 @@ export default {
   },
   data() {
     return {
+      isSearched: false,
+      hoverId: -1,
       numsOfStore: 50,
       num: false,
       selectedTags: [],
@@ -99,7 +101,6 @@ export default {
   },
   watch: {
     inputPrice() {
-      console.log('check');
       this.num = (!isNaN(this.inputPrice))?true:false;
     },
   },
@@ -143,6 +144,12 @@ export default {
   methods:{
     ...mapActions("data", ["postRealPrice"]),
     ...mapMutations("data", ["clearRealPrice", "setMenuWhite"]),
+    hoverItem(id){
+      this.hoverId = id;
+    },
+    outItem(){
+      this.hoverId = -1;
+    },
     allTag(){
       var vm = this;
       if(this.selectedTags.length < 1){
@@ -221,6 +228,7 @@ export default {
             "radius":parseFloat(vm.radius)
         }).then(()=>{
           this.isLoading = false;
+          this.isSearched = true;
           this.numsOfStore = 50;
         });
       }
