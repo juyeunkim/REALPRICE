@@ -17,7 +17,7 @@
           class="mx-2"
           fab dark color="#0F4C82"
           > -->
-          <v-btn block color="#0F4C82" dark
+          <v-btn class="btn" block color="#0F4C82" dark
             @click="$emit('next')"
             v-if="(stores.length < total)">
             <v-icon dark>mdi-plus</v-icon>
@@ -95,6 +95,14 @@ export default {
     width: 30vw;
     height: 40vw;
     margin-right: 5vw;
+  }
+}
+.btn{
+  @media screen and (max-width: 600px) {
+    // position: fixed;
+    margin-top: 10vw;
+    display: flex;
+    float: right;
   }
 }
 </style>

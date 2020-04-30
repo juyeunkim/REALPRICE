@@ -254,7 +254,8 @@ export default {
   padding-bottom: 10px;
   text-align: center;
   @media screen and (max-width: 600px) {
-    height: 100vh;
+    height: 110vh;
+    // padding-bottom: 120px;
   }
 }
 
@@ -327,7 +328,7 @@ export default {
 
 .map-col1 {
   float: left;
-  width: 80%;
+  width: 75%;
   @media screen and (max-width: 600px) {
     // position: absolute;
     width: 100%;
@@ -337,15 +338,16 @@ export default {
 
 .map-col2 {
   float: right;
-  width: 20%;
+  width: 25%;
   margin-left: 10px;
   overflow: scroll;
   @media screen and (max-width: 600px) {
     position: absolute;
+    margin-bottom: 10px;
     top: 50vw;
     float: left;
     width: 100%;
-    height: 50vw;
+    height: 60vw;
     overflow: unset;
     overflow-y: hidden;
     overflow-x: auto;

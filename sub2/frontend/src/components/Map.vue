@@ -273,10 +273,10 @@ export default {
     width: 100%;
     // height: calc(60vw - 260px);
     // width: calc(100vw - 260px);
-    // @media screen and (max-width: 900px) {
-    //     height: 60vw;
-    //     width: 100%;
-    // }
+    @media screen and (max-width: 900px) {
+        height: 40vw;
+        width: 100%;
+    }
 }
 #small{
     font-family: Avenir, Helvetica, Arial, sans-serif;

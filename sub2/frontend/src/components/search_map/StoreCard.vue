@@ -6,7 +6,7 @@
     <mdb-col col="12" id="col">
       <!--Panel-->
       <mdb-card class="card-body2 mb-3 border-color">
-        <mdb-media class="d-block d-md-flex">
+        <mdb-media class="d-block d-md-flex cardMedia">
           <mdb-media-image
             class="d-flex avatar-2 mb-md-0 mb-3 mx-auto food-img"
             :src="(store.srcUrl===null)?require('@/assets/logo_ver1.png'):store.srcUrl"
@@ -16,8 +16,11 @@
           <mdb-media-body class="text-center text-md-left ml-md-3 ml-0">
             <div class="card-body2">
               <!-- Title -->
-              <h4 class="card-title font-weight-bold store-title">{{store.storeName}}
-                <span class="thumbnscore"><img class="thumb" src='@/assets/star.png'/> {{ score }}</span>
+              <h4 class="card-title font-weight-bold store-title">
+                <a>
+                  {{store.storeName}}
+                  <span class="thumbnscore"><img class="thumb" src='@/assets/star.png'/> {{ score }}</span>
+                </a>
               </h4>
               <!-- Data -->
               <p class="price-per">{{ store.menu }}</p>
@@ -113,6 +116,9 @@ export default {
 .distance-font {
   margin: 0 0 0 0;
   font-size: 0.5vw;
+  @media screen and (max-width: 600px) {
+    font-size: 1.5vw;
+  }
 }
 .price-font {
     font-family: 'TmonMonsori';
@@ -148,20 +154,28 @@ export default {
     font-size: 3vw;
   }
 }
+
 .thumbnscore{
   @media screen and (max-width: 600px) {
     display: block;
   }
 }
+
 .thumb {
   width: 1vw;
   padding-bottom: 10px;
 }
 
 .food-img {
-  width: 5vw;
-  height: 5vw;
-  margin-top: 0.5vw;
+  width:  7vw;
+  height: 7vw;
+  margin-top: 1vw;
+  padding: 0px;
+  @media screen and (max-width: 600px) {
+    width:  10vw;
+    height: 10vw;
+    margin: auto auto;
+  }
 }
 
 .line {
