@@ -7,3 +7,18 @@
     </div>
   </v-content>
 </template>
+<script>
+import { mapMutations } from "vuex";
+export default {
+  created() {
+    // console.log('routeView created');
+    this.clearState();
+  },
+  destroyed() {
+    // console.log('routeView destroyed');
+  },
+  methods: {
+    ...mapMutations("data", ["clearState"]),
+  }
+}
+</script>

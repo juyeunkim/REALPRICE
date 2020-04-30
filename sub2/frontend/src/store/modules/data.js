@@ -239,8 +239,9 @@ const mutations = {
         state.realPriceStores = data.stores;
         state.realPriceTags = data.tags;
     },
-    clearRealPrice(state) {
-        state.realPriceList = [];
+    clearState(state) {
+        state.realPriceStores = [];
+        state.realPriceTags = [];
     },
 };
 
