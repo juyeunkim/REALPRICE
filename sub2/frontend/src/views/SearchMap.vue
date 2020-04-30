@@ -301,6 +301,9 @@ export default {
   width: 25%;
   margin: auto;
   border-radius: 10rem;
+  @media screen and (max-width: 600px) {
+    width: 60vw;
+  }
 }
 
 .map-frame {
@@ -312,11 +315,21 @@ export default {
   border: 8px solid #0f4c82;
   display: flex;
   padding: 5px;
+  @media screen and (max-width: 600px) {
+    padding: 0px;
+    width: 100vw;
+    border: 0px;
+    position: relative;
+  }
 }
 
 .map-col1 {
   float: left;
   width: 80%;
+  @media screen and (max-width: 600px) {
+    position: absolute;
+    width: 100%;
+  }
 }
 
 .map-col2 {
@@ -324,6 +337,10 @@ export default {
   width: 20%;
   margin-left: 10px;
   overflow: scroll;
+  @media screen and (max-width: 600px) {
+    width: 80vw;
+    position: absolute;
+  }
 }
 
 .store-card {
