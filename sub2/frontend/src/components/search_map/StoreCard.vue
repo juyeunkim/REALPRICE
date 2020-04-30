@@ -160,6 +160,7 @@ export default {
 
 .food-img {
   width: 5vw;
+  height: 5vw;
   margin-top: 0.5vw;
 }
 
