@@ -7,8 +7,8 @@
       @clickItem="selectItem"
     />
     <div class="emptyText" v-if="isSearched && !(this.stores.length > 0)">
-      <!-- <img class="no-result" alt="logo" src="@/assets/crying.png"> -->
-      <p class="no-result-font">😱해당 금액으로 먹을 수 있는 메뉴가 없습니다.</p>
+      <img class="no-result" alt="logo" src="@/assets/crying.png">
+      <p class="no-result-font">해당 금액으로 먹을 수 있는 메뉴가 없습니다.</p>
     </div>
   </div>
 </template>
@@ -52,9 +52,14 @@ export default {
     margin: auto;
   }
 }
+.no-result{
+  width: 2vw;
+  margin: 0.3vw;
+}
 .no-result-font{
   color: white;
   font-size:2vw;
+  margin: 1vw;
 }
 .emptyText{
   margin: auto;
