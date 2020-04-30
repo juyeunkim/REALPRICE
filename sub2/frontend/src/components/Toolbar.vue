@@ -153,7 +153,7 @@ export default {
 }
 .linkBtn{
   @media screen and (max-width: 600px){
-    display: none;
+    // display: none;
   }
 }
 </style>
