@@ -1,51 +1,28 @@
 <template>
   <div>
-    <div v-if="!(stores.length > 0)">
       <v-skeleton-loader
         ref="skeleton"
         :boilerplate="false"
         type="list-item-avatar-three-line"
         :tile="false"
         height="20vh"
+        :loading="loading"
+        transition="fade-transition"
         class="mx-auto"
-      ></v-skeleton-loader>
-      <v-skeleton-loader
-        ref="skeleton"
-        :boilerplate="false"
-        type="list-item-avatar-three-line"
-        :tile="false"
-        height="20vh"
-        class="mx-auto"
-      ></v-skeleton-loader>
-      <v-skeleton-loader
-        ref="skeleton"
-        :boilerplate="false"
-        type="list-item-avatar-three-line"
-        :tile="false"
-        height="20vh"
-        class="mx-auto"
-      ></v-skeleton-loader>
-      <v-skeleton-loader
-        ref="skeleton"
-        :boilerplate="false"
-        type="list-item-avatar-three-line"
-        :tile="false"
-        height="20vh"
-        class="mx-auto"
-      ></v-skeleton-loader>
-    </div>
-    <div v-if="(stores.length > 0)">
-      <StoreCard v-for="store in stores" :key="store.id" :store="store" @clickItem="selectItem"/>
-      <!-- <v-btn depressed large color="normal" @click="$emit('next')">More...</v-btn> -->
-      <!-- <v-btn
-      class="mx-2"
-      fab dark color="#0F4C82"
-      > -->
-      <v-btn block color="#0F4C82" dark
-      @click="$emit('next')" v-if="(stores.length < total)">
-        <v-icon dark>mdi-plus</v-icon>
-      </v-btn>
-    </div>
+      >
+        <div>
+          <StoreCard v-for="store in stores" :key="store.id" :store="store" @clickItem="selectItem"/>
+          <!-- <v-btn depressed large color="normal" @click="$emit('next')">More...</v-btn> -->
+          <!-- <v-btn
+          class="mx-2"
+          fab dark color="#0F4C82"
+          > -->
+          <v-btn block color="#0F4C82" dark
+          @click="$emit('next')" v-if="(stores.length < total)">
+            <v-icon dark>mdi-plus</v-icon>
+          </v-btn>
+        </div>
+      </v-skeleton-loader>
   </div>
 </template>
 
@@ -70,6 +47,13 @@ export default {
     }
   },
   computed: {
+    loading(){
+      if(this.stores.length > 0){
+        return false;
+      } else{
+        return true;
+      }
+    },
     storeList() {
         return this.stores;
     }
