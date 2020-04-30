@@ -228,13 +228,22 @@ def getStores(request):
     dic_tags = {}
 
     for menu in menu_infos:
+        store_distCost = 0
+        if haversine(user_position, (menu.store.latitude, menu.store.longitude)) > 1:
+            store_distCost = int(cal_fee(haversine(user_position, (menu.store.latitude, menu.store.longitude)))["bus_fee"])
+
         if menu.store.id in dic_price:
             store = dic_price.get(menu.store.id)
             if menu.price > store.get("price"):
-                store["price"] = menu.price
-                dic_price[menu.store.id] = store
+                if menu.price + store_distCost <= body["price"]:
+                    store["price"] = menu.price
+                    dic_price[menu.store.id] = store
         else:
             tags = menu.store.category.strip().split("|")
+
+            if menu.price + store_distCost > body["price"]:
+                continue
+
             for tag in tags:
                 if tag == "": continue
                 cnt = dic_tags.get(tag, 1)
@@ -249,7 +258,7 @@ def getStores(request):
                     "storeName": menu.store.store_name,
                     "menu" : menu.menu_name,
                     "price": menu.price,
-                    "distanceCost" : distance_cost,
+                    "distanceCost" : store_distCost,
                     "score": 0,
                     "tags": tags
             }
