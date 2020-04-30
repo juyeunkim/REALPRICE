@@ -131,7 +131,8 @@ export default {
   font-size: 4vw;
   color: white;
   @media screen and (max-width: 600px) {
-    display: none;
+  font-size: 7vw;
+    width: 90vw;
   }
 }
 </style>
