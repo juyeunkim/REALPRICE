@@ -12,8 +12,10 @@
         v-model="inputPrice"
         class="size-20per"
         solo
-        label="가격을 찾아보세요."
         append-icon="search"
+        label="금액을 입력하세요."
+        suffix="원"
+        :rules="[() => !!num || '숫자만 입력하세요.']"
         @keyup.enter="searchSubmit"
       />
       <div v-if="isLoading">
@@ -53,10 +55,18 @@ export default {
   computed: {
     ...mapState({
       RealPriceList: state => state.data.realPriceList.stores,
-    })
+    }),
+    // num(inputPrice) {
+    // }
+  },
+  watch: {
+    inputPrice() {
+      this.num = (!isNaN(this.inputPrice))?true:false;
+    },
   },
   data(){
     return {
+      num: false,
       selectedStore: null,
       dialog: false,
       inputPrice: '',

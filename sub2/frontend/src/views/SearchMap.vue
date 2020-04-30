@@ -5,8 +5,10 @@
       v-model="inputPrice"
       class="size-20per"
       solo
-      label="가격을 찾아보세요."
       append-icon="search"
+      label="금액을 입력하세요."
+      suffix="원"
+      :rules="[() => !!num || '숫자만 입력하세요.']"
       @keyup.enter="searchSubmit"
     />
     <div v-if="isLoading">
@@ -23,10 +25,11 @@
     >
       <STOREDETAIL :store="selectedStore" @close="closeDetail" />
     </v-dialog>
-    
+    <div v-if="(tagList.length > 0) && !isLoading">
     원하는 태그를 선택하세요
+    </div>
     <!-- 태그창 -->
-    <div class="tags">
+    <div class="tags" v-if="(tagList.length > 0) && !isLoading">
       <mdb-badge pill color='blue' class="tag" v-show="!(tagList===null)" @click.native="allTag">All</mdb-badge>
       <mdb-badge v-for="tag in tagList"
       :key="tag.id"
@@ -36,8 +39,9 @@
       v-show="(tag.id < 61)" 
       @click.native="selectTag(tag.name)"># {{tag.name}}</mdb-badge>
     </div>
-    범위를 조정하고 싶다면?
-    지도를 움직여서 다시 검색하세요
+    <div v-if="(RealPriceList.length > 0) && !isLoading">
+    지도를 움직여서 다시 검색해보세요
+    </div>
     <!-- 지도창 -->
     <div class="map-frame">
       <div class="map-col1">
@@ -73,6 +77,7 @@ export default {
   },
   data() {
     return {
+      num: false,
       selectedTags: [],
       inputPrice: '',
       selectedStore: null,
@@ -90,10 +95,16 @@ export default {
       isLoading: false
     }
   },
+  watch: {
+    inputPrice() {
+      console.log('check');
+      this.num = (!isNaN(this.inputPrice))?true:false;
+    },
+  },
   computed: {
     ...mapState({
-      RealPriceList: state => state.data.realPriceList.stores,
-      tagList: state => state.data.realPriceList.tags,
+      RealPriceList: state => state.data.realPriceStores,
+      tagList: state => state.data.realPriceTags,
     }),
     userLocation() {
         return this.geoLocation;
@@ -237,6 +248,9 @@ export default {
     // margin-left: 0.1vw;
     margin-right: 0.8vw;
     // font-size: 0.8vw;
+  }
+  .hover{
+    font-size: 1vw;
   }
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

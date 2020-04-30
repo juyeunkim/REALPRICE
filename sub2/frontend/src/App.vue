@@ -1,11 +1,12 @@
 <template>
   <v-app id="app">
-    <toolbar />
-    <img class="logo" alt="logo" src="@/assets/logo_white.png">
+    <!-- <img class="logo" alt="logo" src="@/assets/logo_white.png"> -->
+    <toolbar class="compo" :class="{show: !nowLanding}"/>
+    <Landing :class="{notShow: !nowLanding}" v-if="nowLanding2"/>
     <!-- <drawer /> -->
-    <route-view />
+    <route-view class="compo" :class="{show: !nowLanding2}"/>
     <!-- <go-top /> -->
-    <Footer />
+    <Footer class="compo" :class="{show: !nowLanding}"/>
   </v-app>
 </template>
 
@@ -15,18 +16,43 @@ import Toolbar from "@/components/Toolbar";
 import RouteView from "@/components/RouteView";
 import GoTop from "@/components/GoTop";
 import Footer from "@/components/Footer"
+import Landing from "@/views/Landing"
+import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
   components: {
     // Drawer,
+    Landing,
     Toolbar,
     RouteView,
     GoTop,
     Footer
   },
-  data: (()=>{
-    landing: true;
-  }),
+  computed: {
+    ...mapState({
+      colorWhite: state => state.data.menuWhite
+    })
+  },
+  data(){
+    return {
+      nowLanding: true,
+      nowLanding2: true,
+    }
+  },
+  mounted(){
+    this.landing();
+  },
+  methods: {
+    landing: function(){
+      var vm = this;
+      setTimeout(function(){
+         vm.nowLanding = false;
+         setTimeout(function(){
+          vm.nowLanding2 = false;
+        }, 500);
+      }, 4500);
+    }
+  }
 };
 </script>
 
@@ -41,5 +67,19 @@ export default {
   color: #2c3e50;
   /* height: 100%; */
   background-color: #0F4C82;
+}
+.bgWhite{
+  background-color: white;
+}
+.compo{
+  opacity: 0;
+}
+.show{
+  opacity: 1;
+  transition:opacity 0.5s;
+}
+.notShow{
+  opacity: 0;
+  transition:opacity 0.5s;
 }
 </style>
