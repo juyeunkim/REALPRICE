@@ -7,13 +7,16 @@
       <STOREDETAIL :store="selectedStore" @close="closeDetail" />
     </v-dialog>
     <v-card-text class="text-center">
-      <img class="logo" alt="logo" src="../assets/logo_white.png">
+      <img class="logo" alt="logo" src="@/assets/logo_white.png">
       <v-text-field
         v-model="inputPrice"
         class="size-20per"
         solo
-        label="가격을 찾아보세요."
         append-icon="search"
+        label="금액을 입력하세요."
+        suffix="원"
+        :rules="[() => !!num || '숫자만 입력하세요.']"
+        @click:append="searchSubmit"
         @keyup.enter="searchSubmit"
       />
       <div v-if="isLoading">
@@ -41,7 +44,7 @@ import api from '@/api/index.js'
 import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
-  name: 'Landing',
+  name: 'Home',
   components: {
     STOREDETAIL,
     Cards
@@ -53,10 +56,18 @@ export default {
   computed: {
     ...mapState({
       RealPriceList: state => state.data.realPriceList.stores,
-    })
+    }),
+    // num(inputPrice) {
+    // }
+  },
+  watch: {
+    inputPrice() {
+      this.num = (!isNaN(this.inputPrice))?true:false;
+    },
   },
   data(){
     return {
+      num: false,
       selectedStore: null,
       dialog: false,
       inputPrice: '',

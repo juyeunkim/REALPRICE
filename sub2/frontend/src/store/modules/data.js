@@ -2,7 +2,8 @@ import api from "../../api";
 // initial state
 const state = {
     menuWhite: false,
-    realPriceList: [],
+    realPriceStores: [],
+    realPriceTags: [],
     // {
     //     "id": 161602,
     //     "store_name": "Vuex디폴트",
@@ -179,7 +180,6 @@ const actions = {
         console.log('postRealPrice')
         console.log(params);
         const resp = await api.getStores(params);
-        console.log(resp.data.stores);
         commit("setRealPrice", resp.data);
     },
 
@@ -236,7 +236,8 @@ const mutations = {
         console.log(state.qnaList);
     },
     setRealPrice(state, data) {
-        state.realPriceList = data;
+        state.realPriceStores = data.stores;
+        state.realPriceTags = data.tags;
     },
     clearRealPrice(state) {
         state.realPriceList = [];

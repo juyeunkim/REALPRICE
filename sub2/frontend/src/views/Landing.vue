@@ -1,10 +1,19 @@
 <template>
-  <div id="landing">
-    <img class="logo" alt="logo" src="@/assets/logo_white.png">
-    <input v-model="inputPrice" class="form-control size-20per" type="text" placeholder="가격을 찾아보세요." aria-label="Search" @keyup.enter="search">
-    <Cards :stores="searchResult" />
-    <!-- <Card v-for="store in searchResult" :key="store.id" :store="store" /> -->
-  </div>
+<v-content>
+    <div id="app-view" style="height: 100%;" v-if="landing2">
+        <div id="app">
+          <!-- <Card v-for="store in searchResult" :key="store.id" :store="store" /> -->
+          <v-card-text class="text-center">
+            <img class="start logo" :class="{show:!landing0, land: !landing1}" alt="logo" src="@/assets/logo_white.png">
+            <div class="start say" :class="{show:!landing0, notShow: !landing1}">
+              진짜 가격, Real Price.
+            </div>
+            
+            <!-- <Cards :stores="RealPriceList" @clickItem="selectItem"/> -->
+          </v-card-text>
+        </div>
+    </div>
+  </v-content>
 </template>
 
 
@@ -22,31 +31,42 @@ export default {
     Cards
   },
   created() {
-    this.setMenuWhite(false);
+    // this.setMenuWhite(false);
+    this.landing();
   },
   data(){
     return {
       inputPrice: '',
-      searchResult: []
+      searchResult: [],
+      landing0: true,
+      landing1: true,
+      landing2: true,
     }
   },
+  computed: {
+    ...mapState({
+      colorWhite: state => state.data.menuWhite
+    })
+  },
   methods: {
-    ...mapMutations("data", ["setMenuWhite"]),
-    search:  function () {
-      var data = {
-        price : parseInt(this.inputPrice),
-        ulatitude : 37.272618,
-        ulongitude:127.038970,
-        mlatitude : 37.501235,
-        mlongitude : 127.039511,
-        radius:1000
-      }
-
-      api.getStores(data)
-      .then(response => {
-        console.log(response.data.stores)
-        this.searchResult = response.data.stores
-        })
+    // ...mapMutations("data", ["setMenuWhite"]),
+    landing: function(){
+      var vm = this;
+      setTimeout(function(){
+        vm.landing0 = false;
+        setTimeout(function(){
+          vm.landing1 = false;
+          setTimeout(function(){
+            vm.landing2 = false;
+            setTimeout(function(){
+              // vm.landing0 = true;
+              // vm.landing1 = true;
+              // vm.landing2 = true;
+            }, 1000);
+          }, 2000);
+        }, 1500);
+      }, 1000);
+      
     }
   }
 }
@@ -56,7 +76,7 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
 
 
-#landing {
+#app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -64,16 +84,48 @@ export default {
   color: #2c3e50;
   height: 100%;
   background-color: #0F4C82;
+  // padding-top: 64px;
+}
+.bgWhite{
+  background-color: white;
+}
+.start{
+  opacity: 0;
+}
+.show{
+  opacity: 1;
+  transition:opacity 0.3s;
 }
 
 .logo{
+  width: 600px;
+  // margin: auto;
+}
+
+.land{
   width: 300px;
-  margin: auto;
+  transition:width 1.5s;
+}
+.notShow{
+  opacity: 0;
+  transition:opacity 0.5s;
 }
 
 .size-20per {
-  width: 25%;
+  width: 50%;
   margin: auto;
   border-radius: 10rem;
+  @media screen and (max-width: 600px) {
+    width: 80vw;
+  }
+}
+
+.say{
+  font-family: 'TmonMonsori';
+  font-size: 4vw;
+  color: white;
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
 }
 </style>
