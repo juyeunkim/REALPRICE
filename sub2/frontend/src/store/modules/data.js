@@ -177,8 +177,8 @@ const actions = {
         commit("addQnaList", p)
     },
     async postRealPrice({ commit }, params) {
-        console.log('postRealPrice')
-        console.log(params);
+        // console.log('postRealPrice')
+        // console.log(params);
         const resp = await api.getStores(params);
         commit("setRealPrice", resp.data);
     },

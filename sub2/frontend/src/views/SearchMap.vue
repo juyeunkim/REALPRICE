@@ -49,7 +49,7 @@
         <Map :restaurants="selectedStores" :user="geoLocation" :map="center" :zoom="zoom" @clickItem="selectItem" @drawCircle="selectCircle"/>
       </div>
       <div class="map-col2 scrollbar scrollbar-blue bordered-blue">
-        <StoreCards :stores="selectedStores" @clickItem="selectItem" />
+        <StoreCards :stores="selectedStores" :total="RealPriceList.length" @clickItem="selectItem" @next="nextStores"/>
         <!-- <StoreCard v-for="store in RealPriceList" :key="store.id" :store="store" @clickItem="selectItem" /> -->
       </div>
     </div>
@@ -78,6 +78,7 @@ export default {
   },
   data() {
     return {
+      numsOfStore: 50,
       num: false,
       selectedTags: [],
       inputPrice: '',
@@ -114,7 +115,7 @@ export default {
       var vm = this;
       let arr = [];
       if(this.selectedTags.length < 1){
-        return this.RealPriceList;
+        return this.RealPriceList.slice(0, (this.RealPriceList.length>this.numsOfStore)?this.numsOfStore:this.RealPriceList.length);
       } else {
         this.RealPriceList.forEach(el => {
           var isIn = false;
@@ -212,18 +213,25 @@ export default {
       }else{
         this.isLoading = true;
         this.postRealPrice({
-          "price": parseInt(vm.inputPrice), 
-          "ulatitude": parseFloat(vm.geoLocation.latitude),
-          "ulongitude": parseFloat(vm.geoLocation.longitude),
-          "mlatitude": parseFloat(vm.center.Ha), 
-          "mlongitude": parseFloat(vm.center.Ga),
-          "radius":parseFloat(vm.radius)
-       }).then(()=>{
-        this.isLoading = false;
+            "price": parseInt(vm.inputPrice), 
+            "ulatitude": parseFloat(vm.geoLocation.latitude),
+            "ulongitude": parseFloat(vm.geoLocation.longitude),
+            "mlatitude": parseFloat(vm.center.Ha), 
+            "mlongitude": parseFloat(vm.center.Ga),
+            "radius":parseFloat(vm.radius)
+        }).then(()=>{
+          this.isLoading = false;
+          this.numsOfStore = 50;
+        });
       }
-      );
+    },
+    nextStores: function() {
+      // console.log('next!');
+      if(this.RealPriceList.length >= this.numsOfStore + 30){
+        this.numsOfStore += 30;
+      } else {
+        this.numsOfStore = this.RealPriceList.length;
       }
-      
     }
   },
 }
