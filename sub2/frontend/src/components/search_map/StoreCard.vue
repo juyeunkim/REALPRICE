@@ -81,6 +81,14 @@ export default {
   methods: {
     selectItem() {
       this.$emit("clickItem", this.store.id);
+    },
+    hoverItem(id){
+      console.log("hover"+id);
+      // this.$emit("hover", id);
+    },
+    outItem(){
+      console.log("out");
+      // this.$emit("out");
     }
   }
 };
