@@ -234,6 +234,7 @@ export default {
 .app {
   background-color: white;
   // height: calc(200px + 50vw + 120px);
+  padding-top: 10px;
   padding-bottom: 10px;
   text-align: center;
 }
