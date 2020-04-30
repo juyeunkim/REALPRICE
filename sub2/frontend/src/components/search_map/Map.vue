@@ -29,7 +29,7 @@ export default {
 
 <style lang="scss">
 #map {
-    height: calc(60vw - 20.5vw);
+    height: calc(60vw - 19.5vw);
     width: 100%;
     // height: calc(60vw - 260px);
     // width: calc(100vw - 260px);

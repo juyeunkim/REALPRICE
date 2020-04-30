@@ -269,7 +269,7 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
 @font-face { font-family: 'TmonMonsori'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/TmonMonsori.woff') format('woff'); font-weight: normal; font-style: normal; }
 #map {
-    height: calc(60vw - 20.5vw);
+    height: calc(60vw - 19.5vw);
     width: 100%;
     // height: calc(60vw - 260px);
     // width: calc(100vw - 260px);
