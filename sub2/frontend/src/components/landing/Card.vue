@@ -50,7 +50,7 @@ export default {
   width: 16vw;
   height: 27vw;
   margin: 1vw;
-  position: static;
+//   display: flex;
   /* width: 18rem;
   margin: 2rem; */
   /* max-width: 18rem; */

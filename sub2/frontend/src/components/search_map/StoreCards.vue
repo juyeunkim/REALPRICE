@@ -52,7 +52,7 @@ export default {
     },
     isSearched: {
         type: Boolean,
-        default: 0,
+        default: false,
     }
   },
   computed: {

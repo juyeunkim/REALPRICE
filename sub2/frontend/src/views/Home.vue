@@ -31,7 +31,7 @@
         왼쪽 상단 지도 아이콘을 클릭하세요
       </div>
       
-      <Cards :stores="RealPriceList" @clickItem="selectItem"/>
+      <Cards :stores="RealPriceList" :isSearched="isSearched" @clickItem="selectItem"/>
     </v-card-text>
   </div>
 </template>
@@ -67,6 +67,7 @@ export default {
   },
   data(){
     return {
+      isSearched: false,
       num: false,
       selectedStore: null,
       dialog: false,
@@ -110,6 +111,7 @@ export default {
           "radius":500
       }).then(()=>{
         this.isLoading = false;
+        this.isSearched = true;
       }
       );
       }

@@ -6,6 +6,10 @@
       :store="store"
       @clickItem="selectItem"
     />
+    <div class="emptyText" v-if="isSearched && !(this.stores.length > 0)">
+      <!-- <img class="no-result" alt="logo" src="@/assets/crying.png"> -->
+      <p class="no-result-font">😱해당 금액으로 먹을 수 있는 메뉴가 없습니다.</p>
+    </div>
   </div>
 </template>
 
@@ -22,7 +26,11 @@ export default {
       type: Array,
       default: function(){
           return []
-      },
+      }
+    },
+    isSearched: {
+      type: Boolean,
+      default: false,
     }
   },
   methods: {
@@ -35,12 +43,22 @@ export default {
 
 <style lang="scss" scoped>
 .row{
-  margin-left: 1vw;
-  margin-right: 1vw;
+  text-align: center;
+  margin-left: calc(4vw - 20px);
+  // margin-right: calc(5vw - 20px);
+  // margin-left: calc(5vw - 4px);
+  // margin-right: calc(5vw - 4px);
   @media screen and (max-width: 600px) {
-    margin-left: 0.5vw;
-    margin-right: 0.5vw;
+    margin: auto;
   }
+}
+.no-result-font{
+  color: white;
+  font-size:2vw;
+}
+.emptyText{
+  margin: auto;
+  text-align: center;
 }
 </style>
 
