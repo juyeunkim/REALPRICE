@@ -253,6 +253,9 @@ export default {
   padding-top: 10px;
   padding-bottom: 10px;
   text-align: center;
+  @media screen and (max-width: 600px) {
+    height: 100vh;
+  }
 }
 
 .tags{
@@ -317,7 +320,6 @@ export default {
   padding: 5px;
   @media screen and (max-width: 600px) {
     padding: 0px;
-    height: 200vw;
     border: 0px;
     position: relative;
   }
