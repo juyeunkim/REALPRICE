@@ -25,7 +25,8 @@
         </div>
       </v-skeleton-loader>
       <div v-if="isSearched && !(this.stores.length > 0)">
-        검색 결과가 없습니다.
+        <img class="no-result" alt="logo" src="@/assets/crying.png">
+        <p class="no-result-font">해당 금액으로 먹을 수 있는 메뉴가 없습니다.</p>
       </div>
   </div>
 </template>
@@ -80,4 +81,12 @@ export default {
 }
 </script>
 
-
+<style scoped>
+.no-result{
+  width: 2vw;
+  margin: 0.3vw;
+}
+.no-result-font{
+  font-size:0.7vw;
+}
+</style>
