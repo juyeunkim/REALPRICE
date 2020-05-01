@@ -1,6 +1,24 @@
 import api from "../../api";
 // initial state
 const state = {
+    menuWhite: false,
+    realPriceStores: [],
+    realPriceTags: [],
+    // {
+    //     "id": 161602,
+    //     "store_name": "Vuex디폴트",
+    //     "branch": "",
+    //     "area": "역삼",
+    //     "tel": "02-566-8070",
+    //     "address": "서울특별시 강남구 역삼동 669-16 2층",
+    //     "latitude": 37.502589,
+    //     "longitude": 127.037222,
+    //     "category": "즉석떡볶이|수제튀김\r",
+    //     "avg_score": 4.5,
+    //     "cnt_review": 2,
+    //     "distance": 0.143,
+    //     "avg_price": 5400.0
+    // }, 
     storeSearchList: [],
     storeSearchPage: "1",
     faqList: [],
@@ -18,17 +36,10 @@ const state = {
         categories: []
     },
 
-    // session 정보
-    Session: {
-        token: "",
-        user: {
-            pk: "",
-            email: "",
-            username: "",
-            first_name: "",
-            last_name: ""
-        }
-    },
+    // 음식점 리뷰
+    storeReview: [],
+    storeMenu: [],
+
 
     // user정보
     userInfo: {
@@ -38,13 +49,16 @@ const state = {
         profile: {
             gender: "",
             born_year: "",
-            name: "",
+            name: "", // 이름이 여기에 들어가있음
             address: "",
             phone: "",
             tag: "",
             photo: null
         }
     },
+    // 전체 유저 정보
+    userList: [],
+    selectedUser: [],
 
     // RealPrice
     RealPrice: {
@@ -54,7 +68,8 @@ const state = {
     },
 
     // Meeting
-    meetings: []
+    meetings: [],
+
 
 
 
@@ -63,19 +78,33 @@ const state = {
 
 // actions
 const actions = {
-    // LOGIN, LOGOUT
-    logout({ commit }) {
-        commit('logout')
-    },
-    login({ commit }, payload) {
-        commit('login', payload)
-    },
+
 
     // 마이페이지
-    async userInfo({ commit }, payload) {
-        const res = await api.getUserInfo(payload);
-        console.log(res)
-        commit('userInfo', res)
+    userInfo({ commit }, payload) {
+        api.getUserInfo(payload).then(res => {
+            commit('userInfo', res.data)
+        })
+    },
+
+    getUsers({ commit }) {
+        api.getUsers().then(res => {
+            console.log('actions')
+            console.log(res.data.results)
+            commit('getUsers', res.data.results)
+        })
+    },
+
+    selectedUser({ commit }, payload) {
+        commit('selectedUser', payload)
+    },
+
+    // 음식점 정보
+    getStoreInfo({ commit }, payload) {
+        api.detailStore(payload).then(res => {
+            commit('getReviews', res.data.received_data.review)
+            commit('getMenus', res.data.received_data.menu)
+        })
     },
 
 
@@ -126,45 +155,64 @@ const actions = {
             answer: d.qna_content,
             writer: d.qna_writer,
             write_date: d.qna_write_date,
-            count: d.qna_count,
             lock: d.qna_lock > 0 ? true : false,
         }));
         commit("setQnaList", qnas);
     },
+    async postQuestion({ commit }, p) {
+        console.log('postQuestion')
+            // console.log(p)
+        const resp = await api.postQna({
+            qna_title: p.title,
+            qna_writer: p.writer,
+            qna_content: p.question,
+            // lock: this.lock
+            // 임시로 값넣어놈 ----start
+            qna_write_date: p.write_date,
+            qna_group_no: p.qna_group_no,
+            qna_group_order: p.qna_group_order,
+            qna_depth: p.qna_depth,
+        });
+        console.log(resp);
+        commit("addQnaList", p)
+    },
+    async postRealPrice({ commit }, params) {
+        // console.log('postRealPrice')
+        // console.log(params);
+        const resp = await api.getStores(params);
+        commit("setRealPrice", resp.data);
+    },
 
-    postQuestion({ commit }, params) {
-        const question = params;
-        commit("addQnaList", question)
-    }
 };
 
 // mutations
 const mutations = {
-    // LOGIN, LOGOUT
-    logout(state) {
-
-        state.Session.token = null
-        state.Session.user.email = null
-        state.Session.user.username = null
-        state.Session.user.pk = null
-
-        sessionStorage.clear()
-    },
-    login(state, payload) {
-        state.Session.token = payload.token
-        state.Session.user.email = payload.user.email
-        state.Session.user.username = payload.user.username
-        state.Session.user.pk = payload.user.token
-        state.Session = payload
+    setMenuWhite(state, payload) {
+        state.menuWhite = payload;
     },
 
     // 마이페이지
     userInfo(state, payload) {
-        console.log(payload)
         state.userInfo = payload
     },
 
+    // 모든 유저 불러오기
+    getUsers(state, payload) {
+        console.log(payload)
+        state.userList = payload
+    },
 
+    selectedUser(state, payload) {
+        state.selectedUser = payload
+    },
+
+    getReviews(state, payload) {
+        state.storeReview = payload
+    },
+
+    getMenus(state, payload) {
+        state.storeMenu = payload
+    },
 
     setStoreSearchList(state, stores) {
         state.storeSearchList = stores.map(s => s);
@@ -185,20 +233,42 @@ const mutations = {
 
     addQnaList(state, question) {
         state.qnaList = state.qnaList.concat(question);
+        console.log(state.qnaList);
+    },
+    setRealPrice(state, data) {
+        state.realPriceStores = data.stores;
+        state.realPriceTags = data.tags;
+    },
+    clearState(state) {
+        state.realPriceStores = [];
+        state.realPriceTags = [];
     },
 };
 
 // getters
 const getters = {
-    userStatus: (state) => {
-        return state.Session.user.pk
-    },
+
     userInfo: (state) => {
         return state.userInfo
     },
     RealPrice: (state) => {
         return state.RealPrice
-    }
+    },
+    users: (state) => {
+        return state.userList
+    },
+    selectedUser: (state) => {
+        return state.selectedUser
+    },
+    qnaList: (state) => {
+        return state.qnaList
+    },
+    reviews: (state) => {
+        return state.storeReview
+    },
+    menus: (state) => {
+        return state.storeMenu
+    },
 };
 
 export default {

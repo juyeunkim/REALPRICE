@@ -1,8 +1,7 @@
 <template>
   <v-container class="mt-5">
     <v-card>
-      <USER />
-      <USER />
+      <USER v-for="user in selectedUser" :key="user.email" :user="user" />
       <UserSearch />
     </v-card>/// 입력받은 유저들의 점수를 평균을 내서 결과를 반영할 예정
     <v-btn large color="blue lighten-1 white--text ma-5" rounded>검색하기</v-btn>
@@ -18,13 +17,12 @@ export default {
     USER,
     UserSearch
   },
-  
-  methods: {
-    addUser() {
-      // 버튼 눌렀을때 유저 추가 화면 나와야함
-      // modal?
+  computed: {
+    selectedUser: function() {
+      return this.$store.getters["data/selectedUser"];
     }
-  }
+  },
+  methods: {}
 };
 </script>
 

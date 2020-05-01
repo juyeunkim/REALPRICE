@@ -42,14 +42,19 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_auth', 
     'rest_framework_swagger',
+    'corsheaders'
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_PARSER_CLASSES': ['rest_framework.parsers.JSONParser',],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    # "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 10,
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
+        # 'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
@@ -68,6 +73,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware"
 ]
 
 if DEBUG:
@@ -109,7 +115,8 @@ DATABASES = {
     }
 }
 
-
+# "PASSWORD": "root",#"ssafy",
+# "HOST": "127.0.0.1",#"13.125.68.33",
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -162,3 +169,7 @@ PASSWORD_HASHERS = (
     "django.contrib.auth.hashers.CryptPasswordHasher",
 )
 #yes
+
+# CORS
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True

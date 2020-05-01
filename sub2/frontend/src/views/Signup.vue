@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container fluid>
-      <v-layout row wrap>
+      <v-layout row>
         <v-flex xs12 md6 offset-md3>
           <v-card>
             <v-toolbar color="indigo" dark>
@@ -17,7 +17,9 @@
                 label="Email을 입력하세요"
                 class="mt-5"
                 required
+                @keyup.enter="submit"
               />
+              <v-btn color="primary" @click="checkEmail">이메일 중복체크</v-btn>
 
               <!-- 비밀번호 -->
               <v-text-field
@@ -27,6 +29,7 @@
                 class="mt-5"
                 required
                 type="password"
+                @keyup.enter="submit"
               />
 
               <!-- 비밀번호 다시 -->
@@ -46,17 +49,18 @@
                 label="Name을 입력하세요"
                 class="mt-5"
                 required
+                @keyup.enter="submit"
               />
 
               <!-- 성별 -->
               성별
               <v-radio-group v-model="gender" row>
-                <v-radio label="남자" value="남" />
+                <v-radio label="남자" value="남" @keyup.enter="submit" />
                 <v-radio label="여자" value="여" />
               </v-radio-group>
 
               <!-- 태어난날 -->
-              <v-select v-model="born_year" :items="years" label="출생년도" />
+              <v-select v-model="born_year" :items="years" label="출생년도" @keyup.enter="submit" />
 
               <!-- 휴대폰 번호 -->
               <v-text-field
@@ -65,6 +69,7 @@
                 label="010-0000-0000"
                 class="mt-5"
                 required
+                @keyup.enter="submit"
               />
 
               <!-- 주소 -->
@@ -74,40 +79,32 @@
                 label="주소를 입력하세요"
                 class="mt-5"
                 required
+                @keyup.enter="submit"
               />
 
               <!-- 취향 -->
-              <!-- TODO : 추가로 입력받을수 있도록 -->
-              <!-- 미완성 -->
-              <!-- <v-select
-                v-model="chips"
-                label="Your favorite hobbies"
-                chips
-                tags
-                solo
-                prepend-icon="filter_list"
-                append-icon
-                clearable
-              >
-                <template slot="selection" slot-scope="data">
-                  <v-chip :selected="data.selected" close @input="remove(data.item)">
-                    <strong>{{ data.item }}</strong>&nbsp;
-                    <span>(interest)</span>
-                  </v-chip>
-                </template>
-              </v-select> -->
-
-              <v-select
+              <v-combobox
                 v-model="tags"
                 :items="items"
+                hide-selected
+                hint="리스트에 없다면 추가해주세요"
                 label="싫어하는 음식(재료)를 선택해주세요"
-                chips
                 multiple
-                tags
-                clearable
-              />
+                persistent-hint
+                small-chips
+              >
+                <template v-slot:no-data>
+                  <v-list-item>
+                    <v-list-item-content>
+                      <v-list-item-title>
+                        음식을 추가하고
+                        <kbd>enter</kbd> 를 눌러주세요
+                      </v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                </template>
+              </v-combobox>
 
-              <!-- </v-select> -->
             </v-card-text>
 
             <v-divider class="mt-5" />
@@ -124,16 +121,15 @@
 </template>
 
 <script>
-import Axios from "axios";
+import api from "../api/index";
 export default {
   data: () => {
     return {
       // 기본 정보
-      years: ["1989", "1990", "1991", "1992", "1993", "1994", "1995"],
-      items: ["오이", "고수"],
+      years: ["1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997"],
+      items: ["오이", "고수", "민트"],
       tags: [], // 선택한 취향
-      chips: ['Programming', 'Playing video games', 'Watching', 'Sleeping'],
-
+      
       // 유효성 검사
       nameRules: [
         v => !!v || "Name is required",
@@ -186,7 +182,7 @@ export default {
     },
     submit() {
       // 회원가입으로 넘어감
-
+      this.tag = this.tags.toString();
       if (
         this.email != "" &&
         this.password != "" &&
@@ -210,24 +206,33 @@ export default {
         };
 
         console.log(data);
-        // Axios
-        Axios.post("/api/users/", data)
+
+        api
+          .signup(data)
           .then(res => {
             console.log(res);
             this.$alert("회원가입 성공", "Success", "success");
             this.$router.push("/");
           })
           .catch(exp => {
-            console.log("실패");
+            console.log(exp);
             this.$alert("회원가입 실패", "Warning", "warning");
           });
       } else {
         this.$alert("항목을 모두 입력해주세요", "Warning", "warning");
       }
     },
-    remove(item) {
-      this.chips.splice(this.chips.indexOf(item), 1);
-      this.chips = [...this.chips];
+    checkEmail(){
+      api.checkUsedEmail(this.email)
+        .then(res=>{
+          if(res.data.status=='204')
+            this.$alert("사용가능한 이메일입니다", "Success", "success");
+          else if(res.data.status=='200')
+            this.$alert("이미 사용중인 이메일입니다", "Warning", "warning");
+        })
+        .catch(exp=>{
+          this.$alert("올바른 이메일을 작성해주세요", "Warning", "warning");
+        })
     }
   }
 };

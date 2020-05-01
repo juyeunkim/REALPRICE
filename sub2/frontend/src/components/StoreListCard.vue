@@ -34,7 +34,15 @@ export default {
     tel: {
       type: String,
       default: ""
-    }
+    },
+    percent: {
+      type: Number,
+      default: 0,
+    },
+    realprice: {
+      type: Number,
+      default: 0,
+    },
   },
   computed: {
     tags: function() {

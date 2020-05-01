@@ -1,8 +1,5 @@
-from .models import Store
-from .models import Faq
-from .models import Qna
 from rest_framework import serializers
-
+from .models import *
 
 class StoreSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,21 +16,28 @@ class StoreSerializer(serializers.ModelSerializer):
             "category_list",
         ]
 
-        
-        
+class StoreDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StoreDetail
+        fields = [
+            "id",
+            "store",
+            "store_name",
+            "address",
+            "img_src",
+            "tag",
+            "char",
+        ]       
 class FaqSerializer(serializers.ModelSerializer):
     class Meta:
         model = Faq
         fields = [
             "faq_no",
-            # "faq_group_no",
-            # "faq_group_order",
-            # "faq_depth",
+            "faq_category",
             "faq_title",
             "faq_content",
             "faq_writer",
             "faq_write_date",
-            "faq_count",
         ]
         
         
@@ -49,10 +53,43 @@ class QnaSerializer(serializers.ModelSerializer):
             "qna_content",
             "qna_writer",
             "qna_write_date",
-            "qna_count",
         ]
-# from rest_framework import serializers
-from .models import User, UserProfile
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = [
+            "id",      
+            "store",   
+            "user",    
+            "score",   
+            "content", 
+            "reg_time",
+        ]
+
+class HistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = History
+        fields = [
+            "history_no",
+            "time",
+            "expenditure",
+            "user",
+            "store"
+        ]
+
+class MenuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Menu
+        fields = [
+            "id",      
+            "store",   
+            "menu_name",    
+            "price"
+        ]
+
+
+from rest_framework import serializers
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -61,10 +98,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = ('gender', 'born_year', 'name', 'address', 'phone', 'tag','photo')
 
-
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     profile = UserProfileSerializer(required=True)
-
+    # url = serializers.HyperlinkedIdentityField(view_name="api:user-detail") 안먹힘
     class Meta:
         model = User
         fields = ('url', 'email', 'first_name', 'last_name', 'password', 'profile')
