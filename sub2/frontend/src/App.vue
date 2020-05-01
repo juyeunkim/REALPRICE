@@ -14,7 +14,6 @@
 // import Drawer from "@/components/Drawer";
 import Toolbar from "@/components/Toolbar";
 import RouteView from "@/components/RouteView";
-import GoTop from "@/components/GoTop";
 import Footer from "@/components/Footer"
 import Landing from "@/views/Landing"
 import { mapState, mapActions, mapMutations } from "vuex";
@@ -25,19 +24,18 @@ export default {
     Landing,
     Toolbar,
     RouteView,
-    GoTop,
     Footer
-  },
-  computed: {
-    ...mapState({
-      colorWhite: state => state.data.menuWhite
-    })
   },
   data(){
     return {
       nowLanding: true,
       nowLanding2: true,
     }
+  },
+  computed: {
+    ...mapState({
+      colorWhite: state => state.data.menuWhite
+    })
   },
   mounted(){
     this.landing();
