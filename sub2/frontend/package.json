@@ -14,7 +14,7 @@
         "core-js": "^2.6.5",
         "cors": "^2.8.5",
         "mdbvue": "^6.7.0",
-        "node-sass": "^4.13.0",
+        "node-sass": "^7.0.0",
         "vue": "^2.6.10",
         "vue-daum-map": "^1.0.15",
         "vue-infinite-scroll": "^2.0.2",
